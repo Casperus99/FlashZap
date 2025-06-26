@@ -1,0 +1,150 @@
+---
+trigger: manual
+---
+
+# Guidelines for Generating a Product Backlog (User Stories)
+
+## Goal
+
+Your task is to generate a Product Backlog composed of User Stories based on the provided Product Requirements Document (`PRD.md`). The Product Backlog translates the "What" from the PRD into smaller, actionable, and testable items that will guide development.
+
+## General Instructions for Generating User Stories
+
+1.  **Source of Truth:** The `PRD.md` is your primary source. All User Stories must clearly map back to a Key Feature/Epic or Goal within the PRD.
+2.  **Atomicity:** Each User Story should represent the smallest valuable increment of functionality that can be delivered and tested independently. Avoid creating overly large or compound stories.
+3.  **User-Centricity:** Frame stories from the perspective of the end-user using generic user types. Use the standard "As a [user type], I want to [action], so that [benefit]" format. Example user types include 'New User', 'Registered User', 'Guest User', etc. Do not use specific persona names in the user stories.
+4.  **Clarity and Unambiguity:** Stories and their Acceptance Criteria (ACs) must be clear, concise, and unambiguous to avoid misinterpretation during development.
+5.  **Testability (via ACs):** Every User Story MUST have specific, testable Acceptance Criteria written in Gherkin format (Given/When/Then). These ACs define "done" for the story.
+6.  **INVEST Principles:** Strive to make User Stories adhere to the INVEST mnemonic (Independent, Negotiable, Valuable, Estimable, Small, Testable).
+7.  **Consistency:** Use consistent terminology for user types, features, and actions, aligning with the PRD and `docs\README.md`.
+8.  **Decomposition:** Your primary task is to decompose the "Key Features / Epics" section of the PRD into User Stories. Also, consider if any specific "Goals and Objectives" or "Release Criteria" from the PRD imply necessary User Stories.
+9.  **File Structure and Naming (Target Output):**
+    *   **Directory Structure:** User Stories should be organized into a main `/docs/user-stories/` directory. Within this, create subdirectories based on the PRD Epics or major feature areas, using kebab-case for directory names. *Example: `/docs/user-stories/core-learning-engine/`, `/docs/user-stories/ai-flashcard-creation/`, `/docs/user-stories/user-accounts/`.*
+    *   **File Naming Convention:** Each User Story will reside in its own Markdown file. Name files using the pattern: `USXXX_[name-in-kebab-case].md`. The `[XXX]` is a zero-padded three-digit number (e.g., 001, 042). *Example: `US001_new-user-registration.md` or `US042_ai-generates-flashcard-from-text.md`.* This user story file naming convention is an explicit exception to the global kebab-case rule for files.
+    *   For this initial generation task, you can list stories sequentially, but structure each as if it were a standalone file, including its intended filename and frontmatter.
+
+## User Story Structure and Instructions (for each Markdown file)
+
+### 1. User Story Title / ID (Displayed in Body)
+
+*   **Purpose:** To clearly display the story's identifier and title within the readable content of the file, complementing the frontmatter.
+*   **What it should consist of:** A Markdown heading (e.g., H1 or H2) that includes the ID and title.
+*   **Why it's important:** Human readability within the document.
+*   **Example (Instruction to AI):**
+    *   "Immediately after the YAML frontmatter, add a main heading.    *   *Example: `# US001: New User Registration via Email`*."
+
+### 2. User Story Statement
+
+*   **Purpose:** To describe the functionality from a user's perspective, including their goal and motivation.
+*   **What it should consist of:** The standard format:
+    *   `**As a:** [User Type from PRD Personas]`
+    *   `**I want to:** [Perform an action or achieve a goal related to a PRD feature/epic]`
+    *   `**So that:** [I can achieve a benefit or solve a problem outlined for that persona or feature]`
+*   **Why it's important:** Ensures development stays focused on user value and context.
+*   **Example (Instruction to AI):**
+    *   "Strictly adhere to the 'As a, I want to, So that' format using Markdown bold for the labels. Ensure the [User Type] directly corresponds to a Persona in the `PRD.md`. The 'I want to' should clearly relate to a feature described in the 'Key Features / Epics' section of the PRD. The 'So that' should reflect a benefit mentioned in the PRD or logically derived from the feature's value proposition.
+    *   *Example based on PRD's 'Core Learning Engine (SRS & Quizzing)':*
+        ```
+        As a: Registered User
+        I want to: Be presented with flashcards scheduled for review by the Spaced Repetition System (SRS)
+        So that: I can efficiently reinforce my learning and improve long-term memory retention.
+        ```
+    *   *Example based on PRD's 'Intelligent Flashcard Management & Creation':*
+        ```
+        As a: Registered User
+        I want to: Manually create a new flashcard with a front (question) and a back (answer)
+        So that: I can capture and organize the information I want to memorize.
+        ```
+
+### 3. Acceptance Criteria (AC)
+
+*   **Purpose:** To define the specific conditions that must be met for the User Story to be considered "done" and working correctly.
+*   **What it should consist of:**
+    *   A Markdown subheading (e.g., `## Acceptance Criteria`).
+    *   A list of criteria in Gherkin format: `Given [context/precondition], When [action], Then [observable outcome]`, enclosed in a Gherkin code block.
+    *   Each AC should be testable and unambiguous.
+*   **Why it's important:** Forms the basis for testing, removes ambiguity, and ensures everyone has a shared understanding of completeness. CRITICAL for AI-driven code generation.
+*   **Example (Instruction to AI):**
+    *   "For every User Story, generate multiple, specific Gherkin-formatted ACs. These must be detailed enough for another AI to generate code and tests.
+    *   *Example ACs for `US001_new-user-registration.md` (derived from PRD's 'User Account & Progression Tracking' Epic and general expectations):*
+        ```gherkin
+        Feature: User Account Management
+
+        Scenario: Successful new user registration with valid email and password
+            Given I am on the registration page
+            And I have entered a unique, valid email address "test@example.com"
+            And I have entered a password "ValidPassword123!"
+            And I have confirmed the password "ValidPassword123!"
+            When I click the "Register" button
+            Then my user account should be created in the system
+            And I should be redirected to the login page (or dashboard)
+            And I should see a success message "Registration successful. Please log in."
+
+        Scenario: Attempt registration with an already existing email
+            Given I am on the registration page
+            And a user with the email "existing@example.com" already exists
+            And I have entered the email address "existing@example.com"
+            And I have entered a password "ValidPassword123!"
+            And I have confirmed the password "ValidPassword123!"
+            When I click the "Register" button
+            Then my user account should not be created
+            And I should remain on the registration page
+            And I should see an error message "An account with this email already exists."
+        ```
+
+### 4. Details & Notes (Optional but Recommended)
+
+*   **Purpose:** To capture any additional context, clarifications, UI considerations, or dependencies.
+*   **What it should consist of:**
+    *   A Markdown subheading (e.g., `## Details & Notes`).
+    *   Bullet points for:
+        *   `**Related PRD Epic:** [Name of Epic from PRD.md]`
+        *   `**Related PRD Goal(s):** [e.g., P1, B2 from PRD.md]`
+        *   `**Dependencies:** [e.g., "USXXX: Other Story Title"]` (if any)
+        *   Any other relevant notes or assumptions specific to this story.
+
+    ---
+    **Optional, but highly recommended for completeness:**
+    - Add bullet points for any of the following, if relevant:
+        *   `**UI/UX Considerations:** [e.g., wireframes, accessibility, user flows]`
+        *   `**Security Considerations:** [e.g., authentication, input validation, privacy]`
+        *   `**Performance/Scalability:** [e.g., load expectations, response times]`
+        *   `**Localization:** [e.g., language support, formatting]`
+        *   `**Testing & QA:** [e.g., special test cases, test data]`
+        *   `**Analytics & Tracking:** [e.g., events to log, metrics]`
+        *   `**Legal/Compliance:** [e.g., GDPR, copyright]`
+        *   `**Integration:** [e.g., APIs, external systems]`
+        *   `**Rollout/Feature Flags:** [e.g., feature flag, A/B test]`
+*   **Why it's important:** Provides further context for development and testing, and reinforces traceability.
+*   **Example (Instruction to AI):**
+    *   "Under a `## Details & Notes` heading, list relevant context.
+    *   *Example:*
+        ```markdown
+        ## Details & Notes
+
+        *   **Related PRD Epic:** Core Learning Engine (SRS & Quizzing)
+        *   **Related PRD Goal(s):** P1: Core Learning Habit Formation
+        *   **Note:** The SRS algorithm details are out of scope for this story; assume the algorithm provides the list of due cards. This story focuses on presentation.
+        *   **Dependencies:** US002: User Login via Email
+        ```
+        "
+
+## The `/docs/user-stories/README.md` File
+
+The `/docs/user-stories/` directory must always contain a `README.md` file that lists all user stories and their directories. This file should also maintain an up-to-date list of all tags currently used in the user stories.
+
+## Process for AI Agent
+
+1.  **Thoroughly Read `PRD.md` and `docs\README.md`.**
+2.  **Focus on "Key Features / Epics" in `PRD.md`.** For each Epic, identify the core functionalities that can be broken down into User Stories. Determine the appropriate subdirectory name for stories related to this epic (e.g., `core-learning-engine` for the "Core Learning Engine (SRS & Quizzing)" epic).
+3.  **Iterate through Epics:**
+    *   For an Epic, generate a set of User Stories. For each story:
+        *   Determine its filename based on the convention.
+        *   Generate the YAML frontmatter.
+        *   Generate the story body (title, statement, ACs, notes) according to the structure above.
+    *   Pay close attention to PRD sections like "MVP AI Feature Scope" (under Constraints) or "Release Criteria" as these will heavily influence the scope, priority, and release metadata of initial stories.
+4.  **Prioritize MVP First:** The `PRD.md` clearly defines an MVP. Generate stories for "Milestone 1: Minimum Viable Product (MVP) Release" first, ensuring their `priority` is "High" and `release` is "MVP" in the frontmatter.
+5.  **Sequential ID Generation:** Maintain a counter for User Story IDs (US001, US002, etc.) as you generate them.
+6.  **Maintain the `/docs/user-stories/README.md` File:** After every update to the user stories (addition, removal, or modification), always check if the `README.md` in `/docs/user-stories/` needs updating. If so, update it accordingly to ensure it remains a reliable reference for the backlog structure, categories, and tag usage.
+
+By following these guidelines, you will generate a high-quality, well-structured Product Backlog where each story is primed for individual file creation and AI processing.
