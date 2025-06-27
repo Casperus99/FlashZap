@@ -2,26 +2,21 @@
 trigger: manual
 ---
 
-# Guidelines for Generating a Product Backlog (User Stories)
-
-## Goal
-
-Your task is to generate a Product Backlog composed of User Stories based on the provided Product Requirements Document (`PRD.md`). The Product Backlog translates the "What" from the PRD into smaller, actionable, and testable items that will guide development.
+# Guidelines for Generating a User Stories
 
 ## General Instructions for Generating User Stories
 
 1.  **Source of Truth:** The `PRD.md` is your primary source. All User Stories must clearly map back to a Key Feature/Epic or Goal within the PRD.
 2.  **Atomicity:** Each User Story should represent the smallest valuable increment of functionality that can be delivered and tested independently. Avoid creating overly large or compound stories.
-3.  **User-Centricity:** Frame stories from the perspective of the end-user using generic user types. Use the standard "As a [user type], I want to [action], so that [benefit]" format. Example user types include 'New User', 'Registered User', 'Guest User', etc. Do not use specific persona names in the user stories.
-4.  **Clarity and Unambiguity:** Stories and their Acceptance Criteria (ACs) must be clear, concise, and unambiguous to avoid misinterpretation during development.
+3.  **User-Centricity:** Frame stories from the perspective of the end-user. Use the standard "As a User, I want to [action], so that [benefit]" format.
+4.  **Clarity and Unambiguity:** Stories and their Acceptance Criteria (ACs) must be clear, concise, and unambiguous to avoid misinterpretation during development. Write them as if they were made for junior developer.
 5.  **Testability (via ACs):** Every User Story MUST have specific, testable Acceptance Criteria written in Gherkin format (Given/When/Then). These ACs define "done" for the story.
 6.  **INVEST Principles:** Strive to make User Stories adhere to the INVEST mnemonic (Independent, Negotiable, Valuable, Estimable, Small, Testable).
-7.  **Consistency:** Use consistent terminology for user types, features, and actions, aligning with the PRD and `docs\README.md`.
-8.  **Decomposition:** Your primary task is to decompose the "Key Features / Epics" section of the PRD into User Stories. Also, consider if any specific "Goals and Objectives" or "Release Criteria" from the PRD imply necessary User Stories.
+7.  **Consistency:** Use consistent terminology for user types, features, and actions, aligning with the PRD.
+8.  **Decomposition:** Your primary task is to decompose the "Key Features / Epics" section of the PRD into User Stories. Also, consider if any specific "Additional Functional Requirements" or "Non-functional Requirements" from the PRD imply necessary User Stories.
 9.  **File Structure and Naming (Target Output):**
     *   **Directory Structure:** User Stories should be organized into a main `/docs/user-stories/` directory. Within this, create subdirectories based on the PRD Epics or major feature areas, using kebab-case for directory names. *Example: `/docs/user-stories/core-learning-engine/`, `/docs/user-stories/ai-flashcard-creation/`, `/docs/user-stories/user-accounts/`.*
-    *   **File Naming Convention:** Each User Story will reside in its own Markdown file. Name files using the pattern: `USXXX_[name-in-kebab-case].md`. The `[XXX]` is a zero-padded three-digit number (e.g., 001, 042). *Example: `US001_new-user-registration.md` or `US042_ai-generates-flashcard-from-text.md`.* This user story file naming convention is an explicit exception to the global kebab-case rule for files.
-    *   For this initial generation task, you can list stories sequentially, but structure each as if it were a standalone file, including its intended filename and frontmatter.
+    *   **File Naming Convention:** Each User Story will reside in its own Markdown file. Name files using the pattern: `USXXX_[name-in-kebab-case].md`. The `[XXX]` is a zero-padded three-digit number (e.g., 001, 042). *Example: `US001_new-user-registration.md` or `US042_ai-generates-flashcard-from-text.md`.*
 
 ## User Story Structure and Instructions (for each Markdown file)
 
@@ -45,13 +40,13 @@ Your task is to generate a Product Backlog composed of User Stories based on the
     *   "Strictly adhere to the 'As a, I want to, So that' format using Markdown bold for the labels. Ensure the [User Type] directly corresponds to a Persona in the `PRD.md`. The 'I want to' should clearly relate to a feature described in the 'Key Features / Epics' section of the PRD. The 'So that' should reflect a benefit mentioned in the PRD or logically derived from the feature's value proposition.
     *   *Example based on PRD's 'Core Learning Engine (SRS & Quizzing)':*
         ```
-        As a: Registered User
+        As a: User
         I want to: Be presented with flashcards scheduled for review by the Spaced Repetition System (SRS)
         So that: I can efficiently reinforce my learning and improve long-term memory retention.
         ```
     *   *Example based on PRD's 'Intelligent Flashcard Management & Creation':*
         ```
-        As a: Registered User
+        As a: User
         I want to: Manually create a new flashcard with a front (question) and a back (answer)
         So that: I can capture and organize the information I want to memorize.
         ```
@@ -129,22 +124,16 @@ Your task is to generate a Product Backlog composed of User Stories based on the
         ```
         "
 
-## The `/docs/user-stories/README.md` File
-
-The `/docs/user-stories/` directory must always contain a `README.md` file that lists all user stories and their directories. This file should also maintain an up-to-date list of all tags currently used in the user stories.
-
 ## Process for AI Agent
 
-1.  **Thoroughly Read `PRD.md` and `docs\README.md`.**
+1.  **Thoroughly Read `PRD.md`.**
 2.  **Focus on "Key Features / Epics" in `PRD.md`.** For each Epic, identify the core functionalities that can be broken down into User Stories. Determine the appropriate subdirectory name for stories related to this epic (e.g., `core-learning-engine` for the "Core Learning Engine (SRS & Quizzing)" epic).
 3.  **Iterate through Epics:**
     *   For an Epic, generate a set of User Stories. For each story:
         *   Determine its filename based on the convention.
-        *   Generate the YAML frontmatter.
         *   Generate the story body (title, statement, ACs, notes) according to the structure above.
-    *   Pay close attention to PRD sections like "MVP AI Feature Scope" (under Constraints) or "Release Criteria" as these will heavily influence the scope, priority, and release metadata of initial stories.
-4.  **Prioritize MVP First:** The `PRD.md` clearly defines an MVP. Generate stories for "Milestone 1: Minimum Viable Product (MVP) Release" first, ensuring their `priority` is "High" and `release` is "MVP" in the frontmatter.
-5.  **Sequential ID Generation:** Maintain a counter for User Story IDs (US001, US002, etc.) as you generate them.
-6.  **Maintain the `/docs/user-stories/README.md` File:** After every update to the user stories (addition, removal, or modification), always check if the `README.md` in `/docs/user-stories/` needs updating. If so, update it accordingly to ensure it remains a reliable reference for the backlog structure, categories, and tag usage.
+        *   Give strong attention to ACs and Additional Notes. Their thoroughness define a good user story.
+4.  **Sequential ID Generation:** Maintain a counter for User Story IDs (US001, US002, etc.) as you generate them.
+5.  **Maintain the `/docs/user-stories/README.md` File:** After every update to the user stories (addition, removal, or modification), always check if the `README.md` in `/docs/user-stories/` needs updating. If so, update it accordingly to ensure it remains a reliable reference for the backlog structure, categories, and tag usage.
 
 By following these guidelines, you will generate a high-quality, well-structured Product Backlog where each story is primed for individual file creation and AI processing.

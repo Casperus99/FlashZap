@@ -1,0 +1,64 @@
+---
+trigger: manual
+---
+
+# Guidelines for Python Source Code Layout (`src` Layout)
+
+## General Principles
+
+1.  **Source Code Centralization:** All importable Python source code for the application **must** reside within the `src` directory. This creates a clear and unambiguous root for the application's source.
+2.  **Single Installable Package:** The `src` directory should contain a single top-level directory which is the main application package. This package name is what you use for imports (e.g., `from my_project import ...`).
+3.  **Separation of Concerns:** The `src` layout cleanly separates the application's core code from other project artifacts like tests, documentation, scripts, and configuration files, which must remain outside `src`.
+4.  **Installability:** The structure must naturally support standard Python packaging and installation tools (like `pip`, `setuptools`, `poetry`). The tools will know to look for the package inside `src`.
+5.  **Modularity:** The code within the main package must be organized into logical sub-packages (directories) based on functionality. This is crucial for maintainability and scalability.
+
+## `src` Directory Structure and Instructions
+
+Below is the standard structure that the AI agent must implement.
+
+1. The `src` Directory
+2. The Main Application Package (`src/<package_name>/`)
+3. Sub-Packages (Internal Organization)
+    *   `core/`: For the main business logic and core functionality of the application. This is the heart of the product.
+    *   `models/`: For data structure definitions. This includes Pydantic models, SQLAlchemy ORM classes, dataclasses, or other data-centric objects.
+    *   `cli/`: For Command-Line Interface logic. If the app has a CLI front-end, the code (e.g., using `Typer`, `Click`, `argparse`) goes here.
+    *   `utils/`: For small, reusable utility functions that don't belong to any specific domain (e.g., date formatters, string manipulators, file readers).
+    *   `services/`: For logic that communicates with external systems (e.g., database connectors, third-party API clients, message queue producers/consumers).
+    *   `config.py` (file): A module for loading and managing application configuration (e.g., from environment variables or config files).
+4. Essential Files
+    *   `__init__.py`: Ensure every package and sub-package directory contains an `__init__.py` file. It can be empty, or it can be used to define the package's public API (e.g., by importing specific classes/functions from submodules).
+    *   `main.py`: This file should serve as the primary entry point for the application's execution logic. It ties together the different components (e.g., initializes the web server, starts the main processing loop).
+    *   `__main__.py` (optional but recommended): If the application is intended to be run as a package (e.g., `python -m <package_name>`), this file must exist inside the main package directory. It should contain minimal code, typically just importing and calling the main function from `main.py`.
+
+## Example Structure
+
+The AI agent should aim to produce and maintain a structure that follows this example template.
+
+```
+FlashZap/
+├── src/
+│   └── FlashZap/
+│       ├── __init__.py         # Makes 'project_scribe' a package
+│       ├── __main__.py         # Allows running with 'python -m project_scribe'
+│       ├── main.py             # Main application entry point logic
+│       │
+│       ├── core/               # Core business logic
+│       │   ├── __init__.py
+│       │   └── ...
+│       │
+│       ├── models/             # Data models (e.g., Pydantic)
+│       │   ├── __init__.py
+│       │   └── ...
+│       │
+│       ├── utils/              # Helper functions
+│       │   ├── __init__.py
+│       │   └── ...
+│       │
+│       ├── services/           # Service funtions
+│       │   ├── __init__.py
+│       │   └── ...
+│       │
+│       ├── .../                # Other directories
+│       │
+│       └── config.py           # Application configuration
+```

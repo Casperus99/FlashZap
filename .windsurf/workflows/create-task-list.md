@@ -1,0 +1,34 @@
+---
+description: Creation of a task list
+---
+
+# Workflow Steps
+
+1. Read PRD.
+2. Read chosen user story.
+
+
+## Example
+
+```
+# Curent Job's Task List
+
+## Tytuł Implementowanej storki
+
+1. Functional happy-path test for whole user story.
+  a. Prepare stuff for implementing functional test.
+  b. Implement functional test.
+  c. Run functional test to see if it doesn't pass.
+2. First big aspect
+  a. Think about integration or unit test. Implement it. See if it doesn't pass. (Red)
+  b. Implement the tested functionality with minimal code. Make the test pass.(Green)
+  c. Refactor the code. (Refactor)
+  d. Repeat until all functionalities are implemented and covered
+3. Second big aspect
+  ...
+...
+  ...
+4. Finishing happy-path
+  a. Run the functional test once again. Fix errors if they still appear.
+5. Maybe other functional tests?
+```
