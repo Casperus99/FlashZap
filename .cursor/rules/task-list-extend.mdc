@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Workflow: Extend Task List from User Story
+
+You are going to extend already created task list with proposed high-level files addition and modifications.
+
+## Step 1: Analyze User Story
+Read and analyze the provided user story file, including its acceptance criteria, and notes.
+
+## Step 2: Read the Task List
+Read the task list in the `/current-job/` directory.
+
+## Step 3: Read the `src` rules
+Read these rules: [project-structure-src.mdc](mdc:.cursor/rules/src/project-structure-src.mdc).
+
+## Step 4: Analyze Required Files
+After gathering all the context your job is to create a short note for every parent task. This note should specify which and where files should be created/modified to implement the task. And the note should specify method names which should be created/modified. It should also have short, high-level explaination what should the new function do or what should be changed. You musn't propose code here.
+
+## Step 5: Add the Notes
+
+Write the notes for every parent task and save the file.

@@ -1,0 +1,2 @@
+[console_scripts]
+flash_zap = flash_zap.main:main

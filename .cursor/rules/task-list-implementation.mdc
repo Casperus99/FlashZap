@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Workflow: Implement Sub-Task From Task List
+
+You are going to implement sub-task from the current task list. Sub-tasks are written like test cases.
+
+## Step 1: Analyze Task List
+Read and analyze the provided task list.
+Focus on the current sub-task and task.
+
+## Step 2: Analyze User Story
+Read and analyze the provided user story file, including its acceptance criteria, and notes.
+If user haven't provided user story, you should find it in the task list.
+
+## Step 3: TDD Feature Development
+
+### **Step 3.1: Define the Goal & Select the Test Type**
+- **First, state the goal.** Clearly articulate the feature or behavior to be implemented. (e.g., "Implement a service to calculate shipping costs based on weight and destination.") You probably can adhere to the specific user story provided in context.
+- **Next, choose the entry-point test type.**
+    - **Is this a new user-facing feature (e.g., a new API endpoint)?** Start with a high-level **Integration Test**. This test will define the feature's contract with the outside world.
+    - **Is this a purely internal logic component (e.g., a utility function, a complex calculation service)?** Start with a **Unit Test**.
+    - **Is this a bug fix?** Start with a test (either Unit or Integration) that **reproduces the bug**. The test should fail in the same way the bug appears.
+- **Announce your plan:** State the chosen test type and what the first test will verify. (e.g., "I will start by writing an integration test to confirm that a POST request to `/shipping/calculate` with valid data returns a 200 OK status and the calculated cost.")
+
+### **Step 3.2: RED - Write the Failing Test**
+- Create the necessary test file if it doesn't exist (e.g., `tests/integration/test_shipping_api.py` or `tests/unit/test_shipping_calculator.py`).
+- Write a single, focused test function.
+
+### **Step 3.3: RED - Confirm the Failure**
+- Run `pytest`, targeting the new test.
+- **Verify that the test fails for the expected reason.** An `AssertionError` is a good failure. A `NameError` or `ModuleNotFoundError` is also an expected failure at the very beginning. A `SyntaxError` is not—fix that first.
+- Announce the specific, expected failure to the user.
+
+### **Step 3.4: GREEN - Make the Test Pass (Minimal Code)**
+- Write the absolute minimum amount of implementation code necessary to make the test pass.
+- **Resist the urge to add any extra logic.** If the test only expects a return value, then `return` a hardcoded value that satisfies the test. If it expects a database record, create it and nothing more. The goal is to get from Red to Green as quickly as possible.
+
+### **Step 3.5: GREEN - Confirm the Pass**
+- Run the test again.
+- Confirm it now passes. Announce the successful pass.
+
+### **Step 3.6: REFACTOR - Improve the Code**
+- Now that you have a passing test as a safety net, improve the implementation code.
+- **Refactor for clarity:** Make variable names clearer, simplify logic.
+- **Remove duplication:** Abstract repeated code into functions or classes.
+- **Address "real" logic:** Replace hardcoded values from Step 4 with actual business logic.
+- **Crucially:** If this refactoring introduces new, complex logic (e.g., a helper function), you may need to pause and write a new set of **unit tests** for that specific piece of logic, following this same TDD workflow in a "mini-cycle".
+- After every significant change during refactoring, run the test(s) again to ensure you haven't broken anything.
+
+## Step 4: Update Task List
+- Update task list to mark the sub-task as complete.
+- Announce that you are finished.
+- Absolutely wait for user next instructions.
+- Do not start the next task.

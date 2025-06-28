@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: flash_zap
+Version: 0.0.1
+Summary: A simple flashcard application for the terminal.
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: readchar
+
+# FlashZap v0.1
+
+## **1. Introduction / Overview**
+
+FlashZap is a personal, terminal-based flashcard application designed for developers and lifelong learners. It addresses the primary limitation of traditional study tools—the subjective and inconsistent self-grading of open-ended questions. By leveraging an AI-powered grading system, FlashZap provides objective feedback on user answers, eliminating cognitive burden and ensuring a more effective learning process. Its core value is enabling deeper, long-term knowledge retention through an efficient, responsive, and objective study experience.
+
+## **2. Epics**
+
+### **2.1 Epic: Card Lifecycle Management**
+
+*   **Priority:** Must-Have
+*   **Description:** This epic covers the entire process of populating the application with learning material. The core functionality is the ability to import flashcards into the local PostgreSQL database. From the main terminal menu, the user will select an "Import Flashcards" option. The application will then prompt for a file path. The user provides the path to a JSON file containing an array of card objects. The system will parse this file and persist the new cards in the database.
+
+### **2.2 Epic: AI-Powered Learning Session**
+
+*   **Priority:** Must-Have
+*   **Description:** This epic represents the primary user activity: the interactive study session. The user will initiate a session by selecting a "Review" option from the main menu. The application will then present the front of a card that is due for review according to the SRS schedule. The user types their answer in the terminal. This answer, along with the correct answer from the card's back, is sent to an external AI service for evaluation. The AI's grade and feedback are displayed to the user before the application proceeds to the next due card.
+
+### **2.3 Epic: Spaced Repetition System (SRS) Engine**
+
+*   **Priority:** Must-Have
+*   **Description:** This epic encompasses the underlying logic that powers the learning schedule. The system will implement an SRS algorithm to track the user's performance on each card and calculate the optimal date for the next review. A crucial part of this epic is configurability. The user must be able to easily modify the SRS parameters, specifically the sequence of time intervals (e.g., 1 day, 3 days, 7 days, etc.) that determine a card's review schedule.

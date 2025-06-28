@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flash_zap"
+version = "0.0.1"
+description = "A simple flashcard application for the terminal."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "readchar",
+]
+
+[project.scripts]
+flash_zap = "flash_zap.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"] 

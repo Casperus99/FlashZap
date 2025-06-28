@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Workflow: Create Task List from User Story
+
+You are going to create task list that will guide AI developer through implementing one specific user story.
+
+## Step 1: Analyze User Story
+Read and analyze the provided user story file, including its acceptance criteria, and notes.
+
+## Step 2: Generate Parent Tasks
+Generate and present the high-level parent tasks.
+
+## Step 3: Generate Sub-Tasks
+- Break down each parent task into detailed test cases.
+- Each test is one sub-task.
+
+## Step 4: Generate Final output
+Generate the final Markdown output in the specified output format below.
+
+### Output Format
+
+The generated task list **must** follow this structure:
+
+```markdown
+## Description
+
+This task list is generated based on the user story: [user story title].
+
+### Notes
+
+- First additional note.
+- Second additional note.
+
+## Tasks
+
+- [ ] 1.0 Parent Task Title
+  - [ ] 1.1 [Sub-task test case description 1.1]
+  - [ ] 1.2 [Sub-task test case description 1.2]
+- [ ] 2.0 Parent Task Title
+  - [ ] 2.1 [Sub-task test case description 2.1]
+- [ ] 3.0 Parent Task Title (may not require sub-tasks if purely structural or configuration)
+```
+
+## Step 5: Save Task List
+
+
+Save the generated document to the `/current-job/` directory with the filename `task-[user-story-file-name].md`.
