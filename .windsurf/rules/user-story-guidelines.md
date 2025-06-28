@@ -131,6 +131,3 @@ trigger: manual
         *   Generate the story body (title, statement, ACs, notes) according to the structure above.
         *   Give strong attention to ACs and Additional Notes. Their thoroughness define a good user story.
 4.  **Sequential ID Generation:** Maintain a counter for User Story IDs (US001, US002, etc.) as you generate them.
-5.  **Maintain the `/docs/user-stories/README.md` File:** After every update to the user stories (addition, removal, or modification), always check if the `README.md` in `/docs/user-stories/` needs updating. If so, update it accordingly to ensure it remains a reliable reference for the backlog structure, categories, and tag usage.
-
-By following these guidelines, you will generate a high-quality, well-structured Product Backlog where each story is primed for individual file creation and AI processing.
