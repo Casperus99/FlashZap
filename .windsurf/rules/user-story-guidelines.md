@@ -25,8 +25,6 @@ trigger: manual
 *   **Purpose:** To clearly display the story's identifier and title within the readable content of the file, complementing the frontmatter.
 *   **What it should consist of:** A Markdown heading (e.g., H1 or H2) that includes the ID and title.
 *   **Why it's important:** Human readability within the document.
-*   **Example (Instruction to AI):**
-    *   "Immediately after the YAML frontmatter, add a main heading.    *   *Example: `# US001: New User Registration via Email`*."
 
 ### 2. User Story Statement
 
@@ -94,7 +92,6 @@ trigger: manual
     *   A Markdown subheading (e.g., `## Details & Notes`).
     *   Bullet points for:
         *   `**Related PRD Epic:** [Name of Epic from PRD.md]`
-        *   `**Related PRD Goal(s):** [e.g., P1, B2 from PRD.md]`
         *   `**Dependencies:** [e.g., "USXXX: Other Story Title"]` (if any)
         *   Any other relevant notes or assumptions specific to this story.
 
