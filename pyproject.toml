@@ -10,6 +10,10 @@ readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "readchar",
+    "rich",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "pydantic-settings",
 ]
 
 [project.scripts]

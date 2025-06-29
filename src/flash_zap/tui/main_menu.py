@@ -1,6 +1,10 @@
 import os
 import readchar
 
+from flash_zap.config import SessionLocal, engine
+from flash_zap.models.base import Base
+from flash_zap.services.import_service import import_cards_from_json
+
 
 def display_main_menu():
     """Displays the main menu."""
@@ -18,9 +22,15 @@ def navigate_to_review_session():
     pass
 
 
-def navigate_to_import_flow():
-    """Placeholder function for the 'Import' flow."""
-    pass
+def _handle_import_json():
+    """Handles the JSON import flow."""
+    db_session = SessionLocal()
+    try:
+        import_cards_from_json(db_session)
+    finally:
+        db_session.close()
+    
+    input("\\nPress Enter to return to the main menu...")
 
 
 def handle_menu_input(key):
@@ -29,7 +39,7 @@ def handle_menu_input(key):
         navigate_to_review_session()
         return "continue"
     elif key == '2':
-        navigate_to_import_flow()
+        _handle_import_json()
         return "continue"
     elif key == '3':
         return "exit"
@@ -39,6 +49,7 @@ def handle_menu_input(key):
 
 def run_main_menu_loop():
     """Displays the main menu and handles user input."""
+    Base.metadata.create_all(bind=engine)
     while True:
         # Clear the screen
         os.system('cls' if os.name == 'nt' else 'clear')

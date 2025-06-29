@@ -54,4 +54,4 @@ If user haven't provided user story, you should find it in the task list.
 - Update task list to mark the sub-task as complete.
 - Announce that you are finished.
 - Absolutely wait for user next instructions.
-- Do not start the next task.
+- **Do not start the next task or subtask**.
