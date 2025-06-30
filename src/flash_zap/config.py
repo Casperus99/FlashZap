@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     APP_NAME: str = "FlashZap"
     DEBUG: bool = False
     DATABASE_URL: str = "sqlite:///./flashzap.db"
+    GEMINI_API_KEY: str
+    AI_GRADER_MODEL_NAME: str = "gemini-1.5-flash-latest"
 
     model_config = SettingsConfigDict(env_file=".env")
 

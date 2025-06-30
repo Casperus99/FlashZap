@@ -14,6 +14,8 @@ dependencies = [
     "sqlalchemy",
     "psycopg2-binary",
     "pydantic-settings",
+    "google-generativeai",
+    "python-dotenv",
 ]
 
 [project.scripts]

@@ -6,4 +6,8 @@ class InvalidFileError(Exception):
 
 class ValidationError(Exception):
     """Raised when data validation fails."""
+    pass
+
+class AIGraderError(Exception):
+    """Raised when the AI grader service encounters an error."""
     pass 

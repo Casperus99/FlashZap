@@ -4,6 +4,7 @@ import readchar
 from flash_zap.config import SessionLocal, engine
 from flash_zap.models.base import Base
 from flash_zap.services.import_service import import_cards_from_json
+from flash_zap.tui import review_view
 
 
 def display_main_menu():
@@ -18,8 +19,12 @@ def display_main_menu():
 
 
 def navigate_to_review_session():
-    """Placeholder function for the 'Review Session' flow."""
-    pass
+    """Starts the review session flow."""
+    db_session = SessionLocal()
+    try:
+        review_view.start_review_session(db_session)
+    finally:
+        db_session.close()
 
 
 def _handle_import_json():

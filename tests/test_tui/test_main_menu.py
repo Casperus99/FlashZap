@@ -22,25 +22,24 @@ def test_display_main_menu_structure_and_content():
     assert actual_output == expected_output
 
 
-@patch('flash_zap.tui.main_menu.navigate_to_review_session')
-def test_handle_menu_input_navigates_to_review_on_1(mock_navigate_review):
+@patch('flash_zap.tui.review_view.start_review_session')
+def test_main_menu_review_option_starts_review_session(mock_start_review):
     """
-    Tests if handle_menu_input calls the correct placeholder function when '1' is pressed.
-    This test covers sub-task 2.1.
+    Tests if handle_menu_input calls the correct function when '1' is pressed.
     """
     action = handle_menu_input('1')
-    mock_navigate_review.assert_called_once()
+    mock_start_review.assert_called_once()
     assert action == "continue"
 
 
-@patch('flash_zap.tui.main_menu.navigate_to_import_flow')
-def test_handle_menu_input_navigates_to_import_on_2(mock_navigate_import):
+@patch('flash_zap.tui.main_menu._handle_import_json')
+def test_handle_menu_input_navigates_to_import_on_2(mock_handle_import):
     """
     Tests if handle_menu_input calls the correct placeholder function when '2' is pressed.
     This test covers sub-task 2.2.
     """
     action = handle_menu_input('2')
-    mock_navigate_import.assert_called_once()
+    mock_handle_import.assert_called_once()
     assert action == "continue"
 
 
