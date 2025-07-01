@@ -8,6 +8,7 @@ Application configuration loading and management.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import List
 
 class Settings(BaseSettings):
     """
@@ -16,8 +17,9 @@ class Settings(BaseSettings):
     APP_NAME: str = "FlashZap"
     DEBUG: bool = False
     DATABASE_URL: str = "sqlite:///./flashzap.db"
-    GEMINI_API_KEY: str
+    GEMINI_API_KEY: str = "YOUR_API_KEY_HERE"
     AI_GRADER_MODEL_NAME: str = "gemini-1.5-flash-latest"
+    SRS_INTERVALS: List[int] = [1, 3, 7, 14, 30] # in days
 
     model_config = SettingsConfigDict(env_file=".env")
 

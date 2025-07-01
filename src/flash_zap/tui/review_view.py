@@ -26,8 +26,8 @@ def start_review_session(db_session: Session) -> None:
 
         display_loading_indicator(console)
         try:
-            grade, feedback = session.process_answer(card, user_answer)
-            display_grade_and_feedback(grade, feedback, console)
+            grade, feedback = session.grade_and_update_card(card, user_answer)
+            display_grade_and_feedback(grade, feedback, card, console)
         except AIGraderError:
             display_service_error_message(console)
 
@@ -44,15 +44,17 @@ def display_card_front(card: Card, console: Console) -> None:
 
 def display_loading_indicator(console: Console) -> None:
     """Displays a loading indicator."""
-    console.print("Grading...")
+    console.print("[yellow]Grading...[/yellow]", justify="center")
 
 
 def display_grade_and_feedback(
-    grade: str, feedback: str, console: Console
+    grade: str, feedback: str, card: Card, console: Console
 ) -> None:
     """Displays the grade and feedback."""
-    console.print(f"Result: {grade}")
-    console.print(f"Feedback: {feedback}")
+    grade_color = "green" if grade == "Correct" else "red"
+    console.print(f"────── [bold {grade_color}]{grade}[/bold {grade_color}] ──────", justify="center")
+    console.print(f"[bold]Feedback:[/bold] {feedback}")
+    console.print(f"[dim]Mastery level updated to: {card.mastery_level}[/dim]")
 
 
 def display_no_cards_due_message(console: Console) -> None:
