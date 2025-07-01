@@ -10,6 +10,14 @@ from sqlalchemy.orm import sessionmaker
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
+class LoggingSettings(BaseSettings):
+    """
+    Logging configuration settings.
+    """
+    log_level: str = "INFO"
+    log_file: str = "flash_zap.log"
+    log_format: str = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+
 class Settings(BaseSettings):
     """
     Application settings, loaded from .env file.
@@ -20,6 +28,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = "YOUR_API_KEY_HERE"
     AI_GRADER_MODEL_NAME: str = "gemini-1.5-flash-latest"
     SRS_INTERVALS: List[int] = [1, 3, 7, 14, 30] # in days
+    logging: LoggingSettings = LoggingSettings()
 
     model_config = SettingsConfigDict(env_file=".env")
 

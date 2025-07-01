@@ -1,6 +1,7 @@
 """
 This module provides an AI-powered grading service using the Gemini API.
 """
+import logging
 import google.generativeai as genai
 from flash_zap.config import settings
 from flash_zap.core.exceptions import AIGraderError
@@ -44,7 +45,11 @@ def grade_answer(user_answer: str, correct_answer: str) -> tuple[str, str]:
     """
 
     try:
+        logging.info("Sending prompt to AI for grading.")
+        logging.debug(f"AI Grader Prompt: {prompt}")
         response = model.generate_content(prompt)
+        logging.info("Received response from AI.")
+        logging.debug(f"AI Grader Response Text: {response.text}")
         
         lines = response.text.strip().split('\n')
         if len(lines) < 2 or not lines[0].startswith("Result:") or not lines[1].startswith("Feedback:"):
@@ -58,4 +63,5 @@ def grade_answer(user_answer: str, correct_answer: str) -> tuple[str, str]:
 
         return result, feedback
     except Exception as e:
+        logging.error("Error communicating with the AI grader.", exc_info=True)
         raise AIGraderError(f"An error occurred while grading the answer: {e}") 

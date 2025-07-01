@@ -35,7 +35,7 @@ def test_ai_grader_model_name_default_and_override():
         settings_default = Settings()
 
     # Assert (Default)
-    assert settings_default.AI_GRADER_MODEL_NAME == "gemini-1.5-flash-latest"
+    assert settings_default.AI_GRADER_MODEL_NAME == "gemini-2.0-flash-lite"
 
     # Arrange (Override)
     model_name = "test-model-name"

@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta, timezone
 from typing import List
 
@@ -24,6 +25,7 @@ class SRSEngine:
         If the card is already at the maximum level, it remains at the maximum
         level, but the review date is still pushed out.
         """
+        logging.info(f"Promoting card id {card.id}. Current mastery level: {card.mastery_level}")
         current_level = card.mastery_level
         max_level = len(self._srs_intervals)
 
@@ -33,7 +35,8 @@ class SRSEngine:
         interval_index = min(current_level, max_level - 1)
         interval_days = self._srs_intervals[interval_index]
 
-        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days) 
+        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days)
+        logging.info(f"Card id {card.id} promoted to mastery level {card.mastery_level}. Next review in {interval_days} days.")
 
     def demote_card(self, card: Card):
         """
@@ -43,6 +46,7 @@ class SRSEngine:
         level 0, it remains at its current level, but the review date is reset
         based on the first interval.
         """
+        logging.info(f"Demoting card id {card.id}. Current mastery level: {card.mastery_level}")
         current_level = card.mastery_level
 
         if current_level > 0:
@@ -52,4 +56,5 @@ class SRSEngine:
         # We use max(0, ...) to prevent a negative index for level 0.
         interval_index = max(0, card.mastery_level - 1)
         interval_days = self._srs_intervals[interval_index]
-        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days) 
+        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days)
+        logging.info(f"Card id {card.id} demoted to mastery level {card.mastery_level}. Next review in {interval_days} days.") 

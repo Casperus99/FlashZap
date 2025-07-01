@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from typing import Set, Tuple, List
+import logging
 
 from flash_zap.models.card import Card
 from flash_zap.services import ai_grader
@@ -37,6 +38,7 @@ class ReviewSession:
 
     def grade_and_update_card(self, card: Card, user_answer: str) -> Tuple[str, str]:
         grade, feedback = self.process_answer(card, user_answer)
+        logging.info(f"AI graded card id {card.id} as '{grade}'.")
 
         if grade == "Correct":
             self._srs_engine.promote_card(card)

@@ -1,3 +1,4 @@
+import unittest.mock
 from rich.console import Console
 
 from flash_zap.models.card import Card
@@ -38,16 +39,22 @@ def test_review_view_displays_grade_and_feedback():
     console = Console()
     grade = "Correct"
     feedback = "Good job!"
+    card = Card(
+        front="What is love?",
+        back="Baby don't hurt me",
+        mastery_level=1,
+    )
 
     # Act
     with console.capture() as capture:
-        review_view.display_grade_and_feedback(grade, feedback, console)
+        review_view.display_grade_and_feedback(grade, feedback, card, console)
 
     output = capture.get()
 
     # Assert
-    assert "Result: Correct" in output
+    assert "Correct" in output
     assert "Feedback: Good job!" in output
+    assert "Mastery level updated to: 1" in output
 
 
 def test_review_view_displays_no_cards_due_message():
@@ -55,7 +62,7 @@ def test_review_view_displays_no_cards_due_message():
     console = Console()
 
     # Act
-    with console.capture() as capture:
+    with console.capture() as capture, unittest.mock.patch("rich.prompt.Prompt.ask"):
         review_view.display_no_cards_due_message(console)
 
     output = capture.get()

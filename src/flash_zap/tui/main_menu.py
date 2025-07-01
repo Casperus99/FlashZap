@@ -1,5 +1,6 @@
 import os
 import readchar
+import logging
 
 from flash_zap.config import SessionLocal, engine
 from flash_zap.models.base import Base
@@ -20,20 +21,24 @@ def display_main_menu():
 
 def navigate_to_review_session():
     """Starts the review session flow."""
+    logging.info("Creating DB session for review session.")
     db_session = SessionLocal()
     try:
         review_view.start_review_session(db_session)
     finally:
         db_session.close()
+        logging.info("DB session for review session closed.")
 
 
 def _handle_import_json():
     """Handles the JSON import flow."""
+    logging.info("Creating DB session for JSON import.")
     db_session = SessionLocal()
     try:
         import_cards_from_json(db_session)
     finally:
         db_session.close()
+        logging.info("DB session for JSON import closed.")
     
     input("\\nPress Enter to return to the main menu...")
 
@@ -41,12 +46,15 @@ def _handle_import_json():
 def handle_menu_input(key):
     """Handles user input for the main menu."""
     if key == '1':
+        logging.info("User selected 'Review Due Cards' option.")
         navigate_to_review_session()
         return "continue"
     elif key == '2':
+        logging.info("User selected 'Import Flashcards from JSON' option.")
         _handle_import_json()
         return "continue"
     elif key == '3':
+        logging.info("User selected 'Exit' option.")
         return "exit"
     else:
         return None

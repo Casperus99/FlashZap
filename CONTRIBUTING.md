@@ -11,6 +11,7 @@ FlashZap follows a standard Python application structure. Understanding the key 
 *   **Core Logic**: Business logic is encapsulated in services located in `src/flash_zap/services/` and core session management in `src/flash_zap/core/`.
 *   **User Interface**: This is a Terminal User Interface (TUI) application. The views and TUI-specific logic are located in `src/flash_zap/tui/`.
 *   **Configuration**: Application settings are managed using `pydantic-settings` and are defined in `src/flash_zap/config.py`. Local environment variables can be used to override the defaults.
+*   **Logging**: The application uses Python's built-in `logging` module. The main setup is handled by the `setup_logging()` function in `src/flash_zap/logger.py`, which is called once when the application starts in `src/flash_zap/main.py`. Configuration, such as the log level and log file path (`flash_zap.log` by default), is managed in `src/flash_zap/config.py`. To add logging to a module, simply `import logging` and use the module-level logger (e.g., `logging.info("My log message")`).
 
 ## Development Workflow
 
