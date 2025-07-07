@@ -13,8 +13,9 @@ def test_display_main_menu_structure_and_content():
         "--- FlashZap Main Menu ---\n"
         "1. Review Due Cards\n"
         "2. Import Flashcards from JSON\n"
-        "3. Exit\n"
-        "Select an option (1-3)"
+        "3. Browse Cards\n"
+        "4. Exit\n"
+        "Select an option (1-4)"
     )
 
     actual_output = display_main_menu()
@@ -43,12 +44,22 @@ def test_handle_menu_input_navigates_to_import_on_2(mock_handle_import):
     assert action == "continue"
 
 
-def test_handle_menu_input_returns_exit_on_3():
+@patch('flash_zap.tui.main_menu.navigate_to_browse_view')
+def test_handle_menu_input_navigates_to_browse_on_3(mock_navigate_to_browse):
     """
-    Tests if handle_menu_input returns 'exit' when '3' is pressed.
-    This test covers sub-task 3.1.
+    Tests if handle_menu_input calls the correct function when '3' is pressed.
     """
     action = handle_menu_input('3')
+    mock_navigate_to_browse.assert_called_once()
+    assert action == "continue"
+
+
+def test_handle_menu_input_returns_exit_on_4():
+    """
+    Tests if handle_menu_input returns 'exit' when '4' is pressed.
+    This test covers sub-task 3.1.
+    """
+    action = handle_menu_input('4')
     assert action == "exit"
 
 

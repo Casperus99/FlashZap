@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Excellent. Now that we've finished implementing the new feature, I need you to summarize it for the user manual.
+
+Your summary will be used by another AI agent to update the `USER_MANUAL.md` file, so the structure and clarity of your response are critical.
+
+Based on the changes we just made, please provide the summary in the following format. If a section is not applicable, simply write "None".
+
+---
+
+**1. Feature Name:**
+A concise, user-facing name for the feature.
+
+**2. Manual Section: How to Use the Application**
+Provide a step-by-step guide explaining how a user would access and use this new feature. Start from the main menu or the relevant starting point.
+
+**3. Manual Section: Getting Started -> Configuration**
+List any new configuration variables added to `.env` or other config files that are required for this feature. For each variable, describe its purpose and provide an example.
+
+**4. Manual Section: Advanced Topics / Customization**
+List any optional or advanced configuration settings a user could tweak for this feature.
+
+**5. Manual Section: Troubleshooting / FAQ**
+Describe any potential errors, common issues, or questions a user might have about this feature and how to resolve them.
+
+
+---

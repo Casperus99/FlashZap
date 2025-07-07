@@ -27,34 +27,25 @@ class SRSEngine:
         """
         logging.info(f"Promoting card id {card.id}. Current mastery level: {card.mastery_level}")
         current_level = card.mastery_level
-        max_level = len(self._srs_intervals)
+        max_level = len(self._srs_intervals) - 1
 
         if current_level < max_level:
             card.mastery_level += 1
 
-        interval_index = min(current_level, max_level - 1)
-        interval_days = self._srs_intervals[interval_index]
-
-        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days)
+        interval_days = self._srs_intervals[card.mastery_level]
+        card.next_review_date = (datetime.now(timezone.utc) + timedelta(days=interval_days)).date()
         logging.info(f"Card id {card.id} promoted to mastery level {card.mastery_level}. Next review in {interval_days} days.")
 
     def demote_card(self, card: Card):
         """
         Demotes a card to the previous mastery level and sets the next review date.
 
-        A card's mastery level will not be demoted below level 0. If a card is at
-        level 0, it remains at its current level, but the review date is reset
-        based on the first interval.
+        A card's mastery level will not be demoted below level 0.
         """
         logging.info(f"Demoting card id {card.id}. Current mastery level: {card.mastery_level}")
-        current_level = card.mastery_level
-
-        if current_level > 0:
+        if card.mastery_level > 0:
             card.mastery_level -= 1
 
-        # The interval for the *new* level. Level 1's interval is at index 0.
-        # We use max(0, ...) to prevent a negative index for level 0.
-        interval_index = max(0, card.mastery_level - 1)
-        interval_days = self._srs_intervals[interval_index]
-        card.next_review_date = datetime.now(timezone.utc) + timedelta(days=interval_days)
+        interval_days = self._srs_intervals[card.mastery_level]
+        card.next_review_date = (datetime.now(timezone.utc) + timedelta(days=interval_days)).date()
         logging.info(f"Card id {card.id} demoted to mastery level {card.mastery_level}. Next review in {interval_days} days.") 

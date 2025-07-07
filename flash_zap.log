@@ -1,21 +1,10 @@
-2025-07-01 21:24:19,848 - INFO - root - Logging has been configured.
-2025-07-01 21:24:19,848 - INFO - root - FlashZap application starting.
-2025-07-01 21:24:25,428 - INFO - root - User selected 'Review Due Cards' option.
-2025-07-01 21:24:25,428 - INFO - root - Creating DB session for review session.
-2025-07-01 21:24:25,428 - INFO - root - Starting a new review session.
-2025-07-01 21:24:25,434 - INFO - root - No cards due for review. Ending session.
-2025-07-01 21:24:34,507 - INFO - root - DB session for review session closed.
-2025-07-01 21:24:44,382 - INFO - root - User selected 'Import Flashcards from JSON' option.
-2025-07-01 21:24:44,382 - INFO - root - Creating DB session for JSON import.
-2025-07-01 21:24:44,382 - INFO - root - Starting flashcard import process.
-2025-07-01 21:24:46,023 - INFO - root - Attempting to import from file: adwad
-2025-07-01 21:24:46,023 - ERROR - root - File not found at path: adwad
-Traceback (most recent call last):
-  File "D:\GiT\FlashZap\src\flash_zap\services\import_service.py", line 13, in _parse_and_validate_file
-    with open(file_path, 'r', encoding='utf-8') as f:
-         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'adwad'
-2025-07-01 21:24:46,024 - WARNING - root - Import failed because file was not found.
-2025-07-01 21:24:46,024 - INFO - root - DB session for JSON import closed.
-2025-07-01 21:25:08,907 - INFO - root - User selected 'Exit' option.
-2025-07-01 21:25:08,907 - INFO - root - FlashZap application shutting down.
+2025-07-07 22:50:34,759 - INFO - root - Logging has been configured.
+2025-07-07 22:50:34,760 - INFO - root - FlashZap application starting.
+2025-07-07 22:50:35,562 - INFO - root - User selected 'Browse Cards' option.
+2025-07-07 22:50:35,562 - INFO - root - Creating DB session for browse view.
+2025-07-07 22:50:41,593 - INFO - root - DB session for browse view closed.
+2025-07-07 22:50:43,894 - INFO - root - User selected 'Browse Cards' option.
+2025-07-07 22:50:43,894 - INFO - root - Creating DB session for browse view.
+2025-07-07 22:51:53,415 - INFO - root - DB session for browse view closed.
+2025-07-07 22:51:55,661 - INFO - root - User selected 'Exit' option.
+2025-07-07 22:51:55,661 - INFO - root - FlashZap application shutting down.

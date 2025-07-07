@@ -10,11 +10,12 @@ from flash_zap.core.exceptions import AIGraderError
 # from the GEMINI_API_KEY environment variable loaded by the settings.
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
-def grade_answer(user_answer: str, correct_answer: str) -> tuple[str, str]:
+def grade_answer(question: str, user_answer: str, correct_answer: str) -> tuple[str, str]:
     """
     Grades a user's answer against a correct answer using an AI model.
 
     Args:
+        question: The question that was asked.
         user_answer: The answer provided by the user.
         correct_answer: The correct answer for the flashcard.
 
@@ -26,28 +27,17 @@ def grade_answer(user_answer: str, correct_answer: str) -> tuple[str, str]:
     """
     model = genai.GenerativeModel(settings.AI_GRADER_MODEL_NAME)
 
-    prompt = f"""
-    You are an AI assistant for a flashcard application. Your task is to evaluate a user's answer to a flashcard question.
-
-    The user was given the front of a flashcard and provided an answer. You need to compare their answer to the correct answer (the back of the flashcard) and determine if it is "Correct" or "Incorrect".
-
-    - **Correct**: The user's answer is semantically equivalent to the correct answer. Minor differences in phrasing are acceptable.
-    - **Incorrect**: The user's answer is wrong.
-
-    Provide a brief, encouraging, and helpful feedback message.
-
-    **Correct Answer:** "{correct_answer}"
-    **User's Answer:** "{user_answer}"
-
-    **Output format:**
-    Result: [Correct/Incorrect]
-    Feedback: [Your feedback here]
-    """
+    prompt = settings.AI_GRADER_PROMPT_TEMPLATE.format(
+        question=question,
+        correct_answer=correct_answer,
+        user_answer=user_answer,
+    )
 
     try:
         logging.info("Sending prompt to AI for grading.")
         logging.debug(f"AI Grader Prompt: {prompt}")
-        response = model.generate_content(prompt)
+        generation_config = genai.GenerationConfig(temperature=0.1)
+        response = model.generate_content(prompt, generation_config=generation_config)
         logging.info("Received response from AI.")
         logging.debug(f"AI Grader Response Text: {response.text}")
         

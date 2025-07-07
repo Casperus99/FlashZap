@@ -1,0 +1,95 @@
+---
+description: 
+globs: docs/USER_MANUAL.md
+alwaysApply: false
+---
+# Guidelines for Creating a `USER_MANUAL.md`
+
+## 0. Preamble
+
+This document provides a universal set of rules and guidelines for creating a comprehensive and effective `USER_MANUAL.md` file. It is designed to be understood and utilized by human developers and AI agents alike. The primary goal is to ensure consistency, clarity, and completeness across all user manuals.
+
+## 1. Core Principles
+
+*   **Clarity:** Use simple, direct language. Avoid jargon where possible, or explain it clearly if necessary.
+*   **User-Centricity:** Write from the user's perspective. Focus on what the user needs to achieve their goals with the application.
+*   **Completeness:** Cover all essential aspects of the application, from installation to advanced use cases.
+*   **Readability:** Structure the document logically with headings, lists, and code blocks to make information easy to find and digest.
+
+## 2. Standard Structure
+
+Every `USER_MANUAL.md` file MUST adhere to the following structure. Sections should be presented in this order. If a section is not applicable, it may be omitted, but this should be rare for standard applications.
+
+### **Section 1: Introduction**
+
+*   **Purpose:** To give the user a high-level overview of the application.
+*   **Content:**
+    *   Start with a welcoming sentence.
+    *   Briefly explain what the application is and what it does.
+    *   State the core problem the application solves or its primary benefit.
+    *   Keep it concise (2-3 paragraphs).
+
+### **Section 2: Getting Started**
+
+*   **Purpose:** To guide a new user through the initial setup process.
+*   **Content:**
+    *   **2.1. Prerequisites (Optional):** List any software, tools, or accounts the user needs before installation (e.g., `Node.js`, `Python 3.9+`, a GitHub account).
+    *   **2.2. Installation:** Provide clear, step-by-step installation instructions. Include the exact commands to be run.
+    *   **2.3. Configuration:** Detail any required post-installation configuration steps. This is the place to explain how to set up `config` or `.env` files, and how to acquire and set API keys. **Always include a security note about not committing secret keys to version control.**
+
+### **Section 3: How to Use the Application**
+
+*   **Purpose:** To explain the core features and workflows of the application. This is the main body of the manual.
+*   **Content:**
+    *   **3.1. Running the Application:** Explain how to start the application after installation.
+    *   **3.2+ (Feature-by-Feature):** Dedicate a subsection to each major feature.
+        *   Use descriptive headings (e.g., "3.2. Importing Data", "3.3. The Review Process").
+        *   Explain the feature's purpose.
+        *   Provide step-by-step instructions on how to use it.
+        *   Use screenshots or code blocks to illustrate the process.
+
+### **Section 4: Advanced Topics / Customization (Optional)**
+
+*   **Purpose:** To provide information for power users who want to customize or extend the application.
+*   **Content:**
+    *   Details on how to change default settings (e.g., modifying a `config.py` file).
+    *   Information on using different database backends.
+    *   How to tweak advanced parameters (e.g., AI model names, prompt templates).
+
+### **Section 5: Troubleshooting / FAQ**
+
+*   **Purpose:** To provide quick solutions to common problems.
+*   **Content:**
+    *   List common error messages and their solutions.
+    *   Answer frequently asked questions.
+    *   Format as a list of questions and answers or problems and solutions.
+
+### **Section 6: API Reference (Optional)**
+
+*   **Purpose:** To document the application's API, if it has one.
+*   **Content:**
+    *   List available endpoints.
+    *   For each endpoint, specify the HTTP method, URL, required parameters, and an example request and response.
+
+## 3. Writing and Formatting Style
+
+*   **Headings:** Use Markdown headings (`#`, `##`, `###`) to create a clear hierarchy. Follow the section numbering outlined above.
+*   **Commands and Code:** Use backticks for inline code (`code`) and triple-backtick code blocks for multi-line snippets or commands.
+    ```bash
+    # Example command
+    ./run-application --verbose
+    ```
+*   **Lists:** Use numbered lists for sequential steps and bulleted lists for non-sequential items.
+*   **Emphasis:** Use **bold** for UI elements, important terms, and file names. Use *italics* for emphasis or to introduce new concepts.
+
+## 4. Instructions for AI Agents
+
+When tasked with creating or updating a `USER_MANUAL.md`, you MUST adhere to the following process:
+
+1.  **Analyze Source Materials:** Thoroughly review all available project documentation, including (but not limited to) the `PRD.md`, user stories, and architectural diagrams.
+2.  **Inspect the Code:** Scan the source code to understand the application's entry points (`main`), configuration (`config`), core logic (`services`, `core`), and user interface (`tui`, `api`). Pay special attention to configuration files (`.env`, `config.py`, `settings.json`) to document all user-configurable options.
+3.  **Adhere to Structure:** Generate the manual following the **Standard Structure** defined in Section 2 of this document, precisely.
+4.  **Populate Sections:** Fill each section with the information gathered during analysis.
+5.  **Handle Missing Information:** If information for a mandatory section cannot be found in the source materials, you MUST create the section with a `(TODO: ...)` placeholder explaining what is missing. For example: `(TODO: Add installation instructions based on the setup script.)`.
+
+6.  **Apply Formatting:** Use the specified **Writing and Formatting Style**. 

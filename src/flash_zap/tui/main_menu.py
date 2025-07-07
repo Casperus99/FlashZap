@@ -5,7 +5,7 @@ import logging
 from flash_zap.config import SessionLocal, engine
 from flash_zap.models.base import Base
 from flash_zap.services.import_service import import_cards_from_json
-from flash_zap.tui import review_view
+from flash_zap.tui import review_view, browse_view
 
 
 def display_main_menu():
@@ -14,8 +14,9 @@ def display_main_menu():
         "--- FlashZap Main Menu ---\n"
         "1. Review Due Cards\n"
         "2. Import Flashcards from JSON\n"
-        "3. Exit\n"
-        "Select an option (1-3)"
+        "3. Browse Cards\n"
+        "4. Exit\n"
+        "Select an option (1-4)"
     )
 
 
@@ -28,6 +29,17 @@ def navigate_to_review_session():
     finally:
         db_session.close()
         logging.info("DB session for review session closed.")
+
+
+def navigate_to_browse_view():
+    """Starts the browse card view flow."""
+    logging.info("Creating DB session for browse view.")
+    db_session = SessionLocal()
+    try:
+        browse_view.show_card_view(db_session)
+    finally:
+        db_session.close()
+        logging.info("DB session for browse view closed.")
 
 
 def _handle_import_json():
@@ -54,6 +66,10 @@ def handle_menu_input(key):
         _handle_import_json()
         return "continue"
     elif key == '3':
+        logging.info("User selected 'Browse Cards' option.")
+        navigate_to_browse_view()
+        return "continue"
+    elif key == '4':
         logging.info("User selected 'Exit' option.")
         return "exit"
     else:
