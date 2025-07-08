@@ -116,18 +116,12 @@ After a card's details are shown, you can choose one of the following options by
 After performing an edit, a confirmation message will be displayed. Press any key to return to the edit menu to make other changes if needed.
 
 If you enter an ID for a card that does not exist, a "Card not found" message will be displayed. If you enter a non-numeric value for the ID, an "Invalid ID. Please enter a number." message will be shown. After either message, press any key to return to the main menu.
+
 ## 4. Advanced Topics / Customization
 
 You can customize FlashZap's behavior by editing your **.env** file or the **src/flash_zap/config.py** file.
 
-### 4.1. Customizing SRS Intervals
-
-The Spaced Repetition System (SRS) uses a list of intervals (in days) to schedule your reviews. You can change this schedule in **src/flash_zap/config.py** by modifying the `SRS_MASTERY_LEVEL_INTERVALS_DAYS` list.
-
-**Default Configuration:**
-`[0, 1, 2, 3, 4]` (Level 0 is reviewed in the same session, Level 1 in 1 day, etc.)
-
-### 4.2. Changing the Database
+### 4.1. Changing the Database
 
 To use a different database like PostgreSQL, update the `DATABASE_URL` in your **.env** file. Make sure you have the appropriate database driver installed (e.g., `psycopg2-binary` for PostgreSQL).
 
@@ -136,7 +130,7 @@ To use a different database like PostgreSQL, update the `DATABASE_URL` in your *
 DATABASE_URL="postgresql://user:password@localhost/flashzap_db"
 ```
 
-### 4.3. Customizing the AI
+### 4.2. Customizing the AI
 
 The AI's behavior can be tweaked in **config.py**:
 *   `AI_GRADER_MODEL_NAME`: Experiment with different Gemini models.

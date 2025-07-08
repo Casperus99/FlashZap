@@ -53,9 +53,6 @@ Reply in the polish language.
 Result: [Correct/Incorrect]
 Feedback: [Your feedback here]
 """
-    # Intervals in days. The index corresponds to the mastery level.
-    # e.g., level 1 maps to 1 day, level 3 to 3 days, etc.
-    SRS_MASTERY_LEVEL_INTERVALS_DAYS: List[int] = [0, 1, 2, 3, 4, 5, 6, 7]
     logging: LoggingSettings = LoggingSettings()
 
     model_config = SettingsConfigDict(env_file=".env")

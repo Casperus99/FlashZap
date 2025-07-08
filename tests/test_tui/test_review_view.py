@@ -42,19 +42,20 @@ def test_review_view_displays_grade_and_feedback():
     card = Card(
         front="What is love?",
         back="Baby don't hurt me",
-        mastery_level=1,
+        mastery_level=2,
     )
+    old_mastery_level = 1
 
     # Act
     with console.capture() as capture:
-        review_view.display_grade_and_feedback(grade, feedback, card, console)
+        review_view.display_grade_and_feedback(grade, feedback, card, old_mastery_level, console)
 
     output = capture.get()
 
     # Assert
     assert "Correct" in output
     assert "Feedback: Good job!" in output
-    assert "Mastery level updated to: 1" in output
+    assert "Mastery level updated from 1 to: 2" in output
 
 
 def test_review_view_displays_no_cards_due_message():

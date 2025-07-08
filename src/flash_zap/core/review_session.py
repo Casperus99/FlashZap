@@ -12,17 +12,18 @@ from flash_zap import config
 
 
 class ReviewSession:
-    def __init__(self, db_session: Session):
+    def __init__(self, db_session: Session, shuffle: bool = True):
         self._db = db_session
-        self._srs_engine = SRSEngine(config.settings.SRS_MASTERY_LEVEL_INTERVALS_DAYS)
-        self._review_deck: List[Card] = self._get_due_cards()
+        self._srs_engine = SRSEngine()
+        self._review_deck: List[Card] = self._get_due_cards(shuffle)
 
-    def _get_due_cards(self) -> List[Card]:
+    def _get_due_cards(self, shuffle: bool = True) -> List[Card]:
         today = datetime.now(timezone.utc).date()
         due_cards = self._db.query(Card).filter(
             or_(Card.next_review_date <= today, Card.next_review_date == None)
         ).all()
-        random.shuffle(due_cards)
+        if shuffle:
+            random.shuffle(due_cards)
         return due_cards
 
     @property

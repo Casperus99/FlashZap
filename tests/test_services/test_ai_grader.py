@@ -16,11 +16,12 @@ def test_grade_answer_returns_correct_for_positive_ai_response(mock_generative_m
     mock_model_instance.generate_content.return_value = mock_response
     mock_generative_model.return_value = mock_model_instance
 
+    question = "What is the capital of France?"
     user_answer = "The capital of France is Paris."
     correct_answer = "Paris is the capital of France."
 
     # Act
-    result, feedback = grade_answer(user_answer, correct_answer)
+    result, feedback = grade_answer(question, user_answer, correct_answer)
 
     # Assert
     assert result == "Correct"
@@ -39,11 +40,12 @@ def test_grade_answer_returns_incorrect_for_negative_ai_response(mock_generative
     mock_model_instance.generate_content.return_value = mock_response
     mock_generative_model.return_value = mock_model_instance
 
+    question = "What is the capital of France?"
     user_answer = "The capital of France is Lyon."
     correct_answer = "Paris is the capital of France."
 
     # Act
-    result, feedback = grade_answer(user_answer, correct_answer)
+    result, feedback = grade_answer(question, user_answer, correct_answer)
 
     # Assert
     assert result == "Incorrect"
@@ -60,11 +62,12 @@ def test_grade_answer_raises_custom_exception_on_api_failure(mock_generative_mod
     mock_model_instance.generate_content.side_effect = Exception("API is down")
     mock_generative_model.return_value = mock_model_instance
 
+    question = "Any question"
     user_answer = "any answer"
     correct_answer = "any correct answer"
 
     # Act & Assert
     with pytest.raises(AIGraderError, match="An error occurred while grading the answer: API is down"):
-        grade_answer(user_answer, correct_answer)
+        grade_answer(question, user_answer, correct_answer)
 
     mock_model_instance.generate_content.assert_called_once() 

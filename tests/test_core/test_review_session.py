@@ -18,13 +18,17 @@ def test_get_next_card_returns_unseen_card(test_db_session: Session):
     test_db_session.commit()
 
     # Act
-    session = ReviewSession(test_db_session)
+    session = ReviewSession(test_db_session, shuffle=False)
 
     # Assert: First call returns the first card
     next_card_1 = session.get_next_card()
     assert next_card_1 is not None
     assert next_card_1.id == card1.id
     assert next_card_1.front == "Question 1"
+    # To simulate the card being "seen", we need to process it.
+    # We can mock the grading to simplify this.
+    with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
+        session.grade_and_update_card(next_card_1, "Answer 1")
 
     # Assert: Second call returns the second card
     next_card_2 = session.get_next_card()
@@ -43,12 +47,15 @@ def test_get_next_card_returns_none_when_all_cards_are_seen(test_db_session: Ses
     test_db_session.commit()
 
     # Act
-    session = ReviewSession(test_db_session)
+    session = ReviewSession(test_db_session, shuffle=False)
 
     # Assert: First call returns the card
     first_call = session.get_next_card()
     assert first_call is not None
     assert first_call.id == card1.id
+    # Simulate seeing the card
+    with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
+        session.grade_and_update_card(first_call, "Answer 1")
 
     # Assert: Second call returns None
     second_call = session.get_next_card()
@@ -69,17 +76,21 @@ def test_get_next_card_returns_only_due_cards(test_db_session: Session):
     test_db_session.commit()
 
     # Act
-    session = ReviewSession(test_db_session)
+    session = ReviewSession(test_db_session, shuffle=False)
 
     # Assert: First call should return the due card
     next_card_1 = session.get_next_card()
     assert next_card_1 is not None
     assert next_card_1.front == "Due"
+    with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
+        session.grade_and_update_card(next_card_1, "A")
 
     # Assert: Second call should return the legacy card
     next_card_2 = session.get_next_card()
     assert next_card_2 is not None
     assert next_card_2.front == "Legacy"
+    with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
+        session.grade_and_update_card(next_card_2, "C")
     
     # Assert: Third call should return None, as the 'Not Due' card shouldn't be selected
     next_card_3 = session.get_next_card()
@@ -102,6 +113,7 @@ def test_review_session_calls_ai_grader_service(mock_grade_answer, test_db_sessi
 
     # Assert
     mock_grade_answer.assert_called_once_with(
+        question=card.front,
         user_answer=user_answer,
         correct_answer=card.back,
     )
@@ -158,6 +170,7 @@ def test_grade_and_update_card_calls_srs_engine(
     session = ReviewSession(test_db_session)
     card = Card(front="Q", back="A")
     user_answer = "A"
+    session._review_deck = [card] # Manually set the deck
 
     # Act
     session.grade_and_update_card(card, user_answer)
