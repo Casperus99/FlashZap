@@ -102,10 +102,20 @@ A new "Browse Cards" option has been added to the main menu, allowing you to loo
     *   Back (the answer or information)
     *   Mastery Level
     *   Next Review Date
-4.  **Return to Menu**: After you are finished viewing the card, simply press any key to return to the main menu.
 
-If you enter an ID for a card that does not exist, a "Card not found" message will be displayed. If you enter a non-numeric value for the ID, an "Invalid ID. Please enter a number." message will be shown. After any error message, you can press any key to go back to the main menu.
+Once the card's details are displayed, an "Edit Options" menu will appear below them. This menu allows you to modify the card directly.
 
+**Editing a Card:**
+After a card's details are shown, you can choose one of the following options by pressing the corresponding number key:
+
+1.  **Edit front**: Displays the current front text and then prompts you to enter the new text.
+2.  **Edit back**: Displays the current back text and then prompts you to enter the new text.
+3.  **Lower mastery level**: Shows the current mastery level and then allows you to manually reduce it. You will be prompted for a new level, which must be a number and cannot be higher than the card's current level. This is useful if you feel you don't know a card as well as its current level suggests.
+4.  **Cancel**: Exits the edit menu and returns you to the main menu.
+
+After performing an edit, a confirmation message will be displayed. Press any key to return to the edit menu to make other changes if needed.
+
+If you enter an ID for a card that does not exist, a "Card not found" message will be displayed. If you enter a non-numeric value for the ID, an "Invalid ID. Please enter a number." message will be shown. After either message, press any key to return to the main menu.
 ## 4. Advanced Topics / Customization
 
 You can customize FlashZap's behavior by editing your **.env** file or the **src/flash_zap/config.py** file.

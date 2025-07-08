@@ -1,10 +1,148 @@
-2025-07-07 22:50:34,759 - INFO - root - Logging has been configured.
-2025-07-07 22:50:34,760 - INFO - root - FlashZap application starting.
-2025-07-07 22:50:35,562 - INFO - root - User selected 'Browse Cards' option.
-2025-07-07 22:50:35,562 - INFO - root - Creating DB session for browse view.
-2025-07-07 22:50:41,593 - INFO - root - DB session for browse view closed.
-2025-07-07 22:50:43,894 - INFO - root - User selected 'Browse Cards' option.
-2025-07-07 22:50:43,894 - INFO - root - Creating DB session for browse view.
-2025-07-07 22:51:53,415 - INFO - root - DB session for browse view closed.
-2025-07-07 22:51:55,661 - INFO - root - User selected 'Exit' option.
-2025-07-07 22:51:55,661 - INFO - root - FlashZap application shutting down.
+2025-07-08 19:51:15,095 - INFO - root - Logging has been configured.
+2025-07-08 19:51:15,095 - INFO - root - FlashZap application starting.
+2025-07-08 19:51:15,957 - INFO - root - User selected 'Browse Cards' option.
+2025-07-08 19:51:15,957 - INFO - root - Creating DB session for browse view.
+2025-07-08 19:51:28,847 - INFO - root - DB session for browse view closed.
+2025-07-08 19:51:29,681 - INFO - root - User selected 'Browse Cards' option.
+2025-07-08 19:51:29,682 - INFO - root - Creating DB session for browse view.
+2025-07-08 19:51:46,740 - INFO - root - DB session for browse view closed.
+2025-07-08 19:51:47,328 - INFO - root - User selected 'Review Due Cards' option.
+2025-07-08 19:51:47,328 - INFO - root - Creating DB session for review session.
+2025-07-08 19:51:47,329 - INFO - root - Starting a new review session.
+2025-07-08 19:51:47,337 - INFO - root - Presenting card id 237 to the user.
+2025-07-08 19:51:56,578 - INFO - root - User submitted an answer for card id 237.
+2025-07-08 19:51:56,584 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:51:57,254 - INFO - root - Received response from AI.
+2025-07-08 19:51:57,255 - INFO - root - AI graded card id 237 as 'Incorrect'.
+2025-07-08 19:51:57,255 - INFO - root - Demoting card id 237. Current mastery level: 0
+2025-07-08 19:51:57,255 - INFO - root - Card id 237 demoted to mastery level 0. Next review in 0 days.
+2025-07-08 19:51:57,262 - INFO - root - AI feedback for card id 237: Nie poda≥eú daty konferencji. Poprawna odpowiedü to: lipiec - sierpieÒ 1945.
+2025-07-08 19:52:00,912 - INFO - root - Presenting card id 179 to the user.
+2025-07-08 19:52:07,445 - INFO - root - User submitted an answer for card id 179.
+2025-07-08 19:52:07,446 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:07,852 - INFO - root - Received response from AI.
+2025-07-08 19:52:07,853 - INFO - root - AI graded card id 179 as 'Correct'.
+2025-07-08 19:52:07,853 - INFO - root - Promoting card id 179. Current mastery level: 0
+2025-07-08 19:52:07,853 - INFO - root - Card id 179 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:07,857 - INFO - root - AI feedback for card id 179: åwietnie! Odpowiedü jest poprawna.
+2025-07-08 19:52:08,587 - INFO - root - Presenting card id 242 to the user.
+2025-07-08 19:52:12,537 - INFO - root - User submitted an answer for card id 242.
+2025-07-08 19:52:12,538 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:12,833 - INFO - root - Received response from AI.
+2025-07-08 19:52:12,833 - INFO - root - AI graded card id 242 as 'Correct'.
+2025-07-08 19:52:12,834 - INFO - root - Promoting card id 242. Current mastery level: 0
+2025-07-08 19:52:12,834 - INFO - root - Card id 242 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:12,845 - INFO - root - AI feedback for card id 242: Doskonale! Odpowiedü jest poprawna.
+2025-07-08 19:52:13,421 - INFO - root - Presenting card id 233 to the user.
+2025-07-08 19:52:19,068 - INFO - root - User submitted an answer for card id 233.
+2025-07-08 19:52:19,068 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:19,447 - INFO - root - Received response from AI.
+2025-07-08 19:52:19,448 - INFO - root - AI graded card id 233 as 'Correct'.
+2025-07-08 19:52:19,448 - INFO - root - Promoting card id 233. Current mastery level: 0
+2025-07-08 19:52:19,448 - INFO - root - Card id 233 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:19,455 - INFO - root - AI feedback for card id 233: åwietnie! Podano prawid≥owe miesiπce i rok.
+2025-07-08 19:52:20,404 - INFO - root - Presenting card id 250 to the user.
+2025-07-08 19:52:24,230 - INFO - root - User submitted an answer for card id 250.
+2025-07-08 19:52:24,231 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:24,708 - INFO - root - Received response from AI.
+2025-07-08 19:52:24,708 - INFO - root - AI graded card id 250 as 'Correct'.
+2025-07-08 19:52:24,708 - INFO - root - Promoting card id 250. Current mastery level: 0
+2025-07-08 19:52:24,708 - INFO - root - Card id 250 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:24,711 - INFO - root - AI feedback for card id 250: åwietnie! Rok jest poprawny.
+2025-07-08 19:52:25,301 - INFO - root - Presenting card id 118 to the user.
+2025-07-08 19:52:26,823 - INFO - root - User submitted an answer for card id 118.
+2025-07-08 19:52:26,824 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:27,211 - INFO - root - Received response from AI.
+2025-07-08 19:52:27,212 - INFO - root - AI graded card id 118 as 'Correct'.
+2025-07-08 19:52:27,212 - INFO - root - Promoting card id 118. Current mastery level: 0
+2025-07-08 19:52:27,212 - INFO - root - Card id 118 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:27,218 - INFO - root - AI feedback for card id 118: åwietnie! Odpowiedü jest poprawna.
+2025-07-08 19:52:27,755 - INFO - root - Presenting card id 125 to the user.
+2025-07-08 19:52:29,222 - INFO - root - User submitted an answer for card id 125.
+2025-07-08 19:52:29,222 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:29,584 - INFO - root - Received response from AI.
+2025-07-08 19:52:29,584 - INFO - root - AI graded card id 125 as 'Correct'.
+2025-07-08 19:52:29,584 - INFO - root - Promoting card id 125. Current mastery level: 0
+2025-07-08 19:52:29,585 - INFO - root - Card id 125 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:29,590 - INFO - root - AI feedback for card id 125: Doskonale! Odpowiedü jest poprawna.
+2025-07-08 19:52:29,989 - INFO - root - Presenting card id 230 to the user.
+2025-07-08 19:52:38,679 - INFO - root - User submitted an answer for card id 230.
+2025-07-08 19:52:38,679 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:38,980 - INFO - root - Received response from AI.
+2025-07-08 19:52:38,980 - INFO - root - AI graded card id 230 as 'Correct'.
+2025-07-08 19:52:38,980 - INFO - root - Promoting card id 230. Current mastery level: 0
+2025-07-08 19:52:38,981 - INFO - root - Card id 230 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:52:38,986 - INFO - root - AI feedback for card id 230: Doskonale! Podano prawid≥owy zakres dat.
+2025-07-08 19:52:39,493 - INFO - root - Presenting card id 202 to the user.
+2025-07-08 19:52:52,818 - INFO - root - User submitted an answer for card id 202.
+2025-07-08 19:52:52,819 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:52:53,183 - INFO - root - Received response from AI.
+2025-07-08 19:52:53,183 - INFO - root - AI graded card id 202 as 'Incorrect'.
+2025-07-08 19:52:53,183 - INFO - root - Demoting card id 202. Current mastery level: 0
+2025-07-08 19:52:53,183 - INFO - root - Card id 202 demoted to mastery level 0. Next review in 0 days.
+2025-07-08 19:52:53,185 - INFO - root - AI feedback for card id 202: Nieprawid≥owa odpowiedü. Poprawna odpowiedü to Jurata.
+2025-07-08 19:52:56,169 - INFO - root - Presenting card id 222 to the user.
+2025-07-08 19:53:00,986 - INFO - root - User submitted an answer for card id 222.
+2025-07-08 19:53:00,987 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:53:01,394 - INFO - root - Received response from AI.
+2025-07-08 19:53:01,394 - INFO - root - AI graded card id 222 as 'Correct'.
+2025-07-08 19:53:01,395 - INFO - root - Promoting card id 222. Current mastery level: 0
+2025-07-08 19:53:01,395 - INFO - root - Card id 222 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:53:01,398 - INFO - root - AI feedback for card id 222: Doskonale! Data jest poprawna.
+2025-07-08 19:53:02,516 - INFO - root - Presenting card id 225 to the user.
+2025-07-08 19:53:06,820 - INFO - root - User submitted an answer for card id 225.
+2025-07-08 19:53:06,820 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:53:23,336 - INFO - root - Received response from AI.
+2025-07-08 19:53:23,336 - INFO - root - AI graded card id 225 as 'Correct'.
+2025-07-08 19:53:23,337 - INFO - root - Promoting card id 225. Current mastery level: 0
+2025-07-08 19:53:23,337 - INFO - root - Card id 225 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:53:23,342 - INFO - root - AI feedback for card id 225: åwietnie! Odpowiedü jest poprawna.
+2025-07-08 19:53:26,190 - INFO - root - Presenting card id 227 to the user.
+2025-07-08 19:53:38,058 - INFO - root - User submitted an answer for card id 227.
+2025-07-08 19:53:38,059 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:53:38,347 - INFO - root - Received response from AI.
+2025-07-08 19:53:38,347 - INFO - root - AI graded card id 227 as 'Correct'.
+2025-07-08 19:53:38,347 - INFO - root - Promoting card id 227. Current mastery level: 0
+2025-07-08 19:53:38,347 - INFO - root - Card id 227 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:53:38,349 - INFO - root - AI feedback for card id 227: åwietnie! Dok≥adnie tak.
+2025-07-08 19:53:39,582 - INFO - root - Presenting card id 241 to the user.
+2025-07-08 19:53:46,769 - INFO - root - User submitted an answer for card id 241.
+2025-07-08 19:53:46,770 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:53:47,099 - INFO - root - Received response from AI.
+2025-07-08 19:53:47,100 - INFO - root - AI graded card id 241 as 'Correct'.
+2025-07-08 19:53:47,100 - INFO - root - Promoting card id 241. Current mastery level: 0
+2025-07-08 19:53:47,100 - INFO - root - Card id 241 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:53:47,104 - INFO - root - AI feedback for card id 241: åwietnie! Odpowiedü jest poprawna.
+2025-07-08 19:53:47,778 - INFO - root - Presenting card id 237 to the user.
+2025-07-08 19:54:07,135 - INFO - root - User submitted an answer for card id 237.
+2025-07-08 19:54:07,136 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:54:07,485 - INFO - root - Received response from AI.
+2025-07-08 19:54:07,485 - INFO - root - AI graded card id 237 as 'Incorrect'.
+2025-07-08 19:54:07,485 - INFO - root - Demoting card id 237. Current mastery level: 0
+2025-07-08 19:54:07,485 - INFO - root - Card id 237 demoted to mastery level 0. Next review in 0 days.
+2025-07-08 19:54:07,486 - INFO - root - AI feedback for card id 237: Nieprawid≥owa odpowiedü. Konferencja w Poczdamie odby≥a siÍ w lipcu - sierpniu 1945 roku.
+2025-07-08 19:54:10,758 - INFO - root - Presenting card id 202 to the user.
+2025-07-08 19:54:20,062 - INFO - root - User submitted an answer for card id 202.
+2025-07-08 19:54:20,062 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:54:20,374 - INFO - root - Received response from AI.
+2025-07-08 19:54:20,375 - INFO - root - AI graded card id 202 as 'Correct'.
+2025-07-08 19:54:20,375 - INFO - root - Promoting card id 202. Current mastery level: 0
+2025-07-08 19:54:20,375 - INFO - root - Card id 202 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:54:20,382 - INFO - root - AI feedback for card id 202: Doskonale! Jurata to poprawna odpowiedü.
+2025-07-08 19:54:20,884 - INFO - root - Presenting card id 237 to the user.
+2025-07-08 19:54:30,251 - INFO - root - User submitted an answer for card id 237.
+2025-07-08 19:54:30,252 - INFO - root - Sending prompt to AI for grading.
+2025-07-08 19:54:35,759 - INFO - root - Received response from AI.
+2025-07-08 19:54:35,759 - INFO - root - AI graded card id 237 as 'Correct'.
+2025-07-08 19:54:35,759 - INFO - root - Promoting card id 237. Current mastery level: 0
+2025-07-08 19:54:35,759 - INFO - root - Card id 237 promoted to mastery level 1. Next review in 1 days.
+2025-07-08 19:54:35,764 - INFO - root - AI feedback for card id 237: åwietnie! Data jest poprawna.
+2025-07-08 19:54:37,565 - INFO - root - Review session finished.
+2025-07-08 19:54:37,565 - INFO - root - DB session for review session closed.
+2025-07-08 19:54:40,029 - INFO - root - User selected 'Review Due Cards' option.
+2025-07-08 19:54:40,029 - INFO - root - Creating DB session for review session.
+2025-07-08 19:54:40,029 - INFO - root - Starting a new review session.
+2025-07-08 19:54:40,038 - INFO - root - No cards due for review. Ending session.
+2025-07-08 19:54:42,233 - INFO - root - DB session for review session closed.
+2025-07-08 19:54:43,609 - INFO - root - User selected 'Exit' option.
+2025-07-08 19:54:43,610 - INFO - root - FlashZap application shutting down.
