@@ -24,7 +24,18 @@ class Settings(BaseSettings):
     """
     APP_NAME: str = "FlashZap"
     DEBUG: bool = False
-    DATABASE_URL: str = "sqlite:///./flashzap.db"
+    
+    # Database settings
+    DB_CONNECTION_TYPE: str = "cloud" # "local" or "cloud"
+    DATABASE_URL: str = "sqlite:///./flashzap.db" # Used when DB_CONNECTION_TYPE is "local"
+
+    # Cloud database settings (used if DB_CONNECTION_TYPE is "cloud")
+    CLOUD_DB_HOST: str | None = None
+    CLOUD_DB_NAME: str | None = None
+    CLOUD_DB_USER: str | None = None
+    CLOUD_DB_PASSWORD: str | None = None
+
+    # AI settings
     GEMINI_API_KEY: str = "YOUR_API_KEY_HERE"
     AI_GRADER_MODEL_NAME: str = "gemini-2.5-flash-lite-preview-06-17"
     AI_GRADER_PROMPT_TEMPLATE: str = """
@@ -60,8 +71,36 @@ Feedback: [Your feedback here]
 
 settings = Settings()
 
+def get_database_url() -> str:
+    """
+    Determines the database URL based on the connection type in settings.
+    """
+    if settings.DB_CONNECTION_TYPE == "cloud":
+        required_vars = [
+            "CLOUD_DB_HOST",
+            "CLOUD_DB_NAME",
+            "CLOUD_DB_USER",
+            "CLOUD_DB_PASSWORD",
+        ]
+        if not all(getattr(settings, var) for var in required_vars):
+            raise ValueError(
+                "For cloud connection, CLOUD_DB_HOST, CLOUD_DB_NAME, "
+                "CLOUD_DB_USER, and CLOUD_DB_PASSWORD must be set in .env"
+            )
+        
+        # Connection string for Azure PostgreSQL with SSL
+        return (
+            f"postgresql+psycopg2://{settings.CLOUD_DB_USER}:{settings.CLOUD_DB_PASSWORD}"
+            f"@{settings.CLOUD_DB_HOST}/{settings.CLOUD_DB_NAME}"
+            f"?sslmode=require"
+        )
+    
+    # For "local" connection or default
+    return settings.DATABASE_URL
+
+
 engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args={"client_encoding": "utf8"}
+    get_database_url(),
+    connect_args={"client_encoding": "utf8"} if "sqlite" not in get_database_url() else {}
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

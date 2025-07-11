@@ -26,7 +26,7 @@ if config.config_file_name is not None:
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flash_zap.models.base import Base
-from flash_zap.config import settings  # Import your app's settings
+from flash_zap.config import get_database_url # Import the function
 
 target_metadata = Base.metadata
 
@@ -48,7 +48,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = get_database_url() # Use the function to get the correct URL
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -67,13 +67,21 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    # Use the database URL from your application's settings
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-        url=settings.DATABASE_URL  # Override with the URL from your settings
-    )
+    # config.set_main_option('sqlalchemy.url', get_database_url()) # Set the URL for Alembic
+    
+    # configuration = config.get_section(config.config_ini_section)
+    # configuration['sqlalchemy.url'] = get_database_url()
+
+    # connectable = engine_from_config(
+    #     configuration,
+    #     prefix="sqlalchemy.",
+    #     poolclass=pool.NullPool
+    # )
+    
+    # Create an engine with the correct URL
+    from sqlalchemy import create_engine
+    connectable = create_engine(get_database_url())
+
 
     with connectable.connect() as connection:
         context.configure(

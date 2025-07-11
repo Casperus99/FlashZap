@@ -22,19 +22,39 @@ _(TODO: Add installation instructions here. For now, we assume you have the proj
 
 ### 2.3. Configuration
 
-Before you can run the application, you need to configure a few settings.
+Before you can run the application, you need to configure a few settings in a `.env` file.
 
 1.  **Create a `.env` file:** In the root directory of the project, create a file named **.env**.
 
-2.  **Add your API Key:** Open the **.env** file and add the following line, replacing `YOUR_API_KEY_HERE` with your actual Gemini API key:
-
+2.  **Set your API Key:** Add your Gemini API key to the **.env** file:
     ```
     GEMINI_API_KEY="YOUR_API_KEY_HERE"
     ```
+    > **Security Note:** Your API key is a secret. The **.env** file is included in **.gitignore** to prevent accidental commits. Do not share this key.
 
-    > **Security Note:** Your API key is a secret. The **.env** file is included in the project's **.gitignore** to prevent you from accidentally committing it to source control. Do not share this key.
+3.  **Configure the Database:** You can connect FlashZap to a simple local file database (SQLite), a local PostgreSQL server, or a cloud-based PostgreSQL database (like Azure).
 
-3.  **Database:** FlashZap uses a simple **SQLite** database by default, which requires no extra setup. The database file (`flashzap.db`) will be created automatically. If you are an advanced user, you can switch to another database like **PostgreSQL** by setting the `DATABASE_URL` in your **.env** file (see "Advanced Topics / Customization").
+    *   **Option 1: Default SQLite (Easiest)**
+        FlashZap uses a local SQLite database by default. If you don't add any database settings to your `.env` file, a `flashzap.db` file will be created automatically in the project directory. No further setup is needed.
+
+    *   **Option 2: Local PostgreSQL Server**
+        To use a local PostgreSQL database, set the `DB_CONNECTION_TYPE` and `DATABASE_URL` in your `.env` file.
+        ```dotenv
+        DB_CONNECTION_TYPE="local"
+        DATABASE_URL="postgresql://YOUR_LOCAL_USER:YOUR_LOCAL_PASSWORD@localhost/flashzap_db"
+        ```
+
+    *   **Option 3: Cloud PostgreSQL Database (e.g., Azure)**
+        To connect to a cloud database, set `DB_CONNECTION_TYPE` to `cloud` and provide the connection details.
+        ```dotenv
+        DB_CONNECTION_TYPE="cloud"
+        CLOUD_DB_HOST="your-azure-host.postgres.database.azure.com"
+        CLOUD_DB_NAME="your_database_name"
+        CLOUD_DB_USER="your_cloud_user"
+        CLOUD_DB_PASSWORD="your_cloud_password"
+        ```
+
+See the **Advanced Topics / Customization** section for more details.
 
 ## 3. How to Use the Application
 
@@ -85,6 +105,16 @@ This is the core of FlashZap.
     *   **Feedback:** A short explanation from the AI.
     *   **Mastery Level:** Shows how the card's mastery has been updated.
 
+**How Card Reviews are Scheduled: The SRS Engine**
+FlashZap uses a simple but powerful Spaced Repetition System (SRS) to schedule your reviews. The system is designed to show you cards at the perfect time to reinforce your memory.
+
+The logic is straightforward: **a card's mastery level directly determines how many days you will wait until the next review.**
+*   **Mastery Level 0:** The card is due for review immediately. If you get a card wrong and its level drops to 0, you will see it again in the same session.
+*   **Mastery Level 1:** The card will be scheduled for review 1 day from now.
+*   **Mastery Level 5:** The card will be scheduled for review 5 days from now.
+
+Each time you answer a card correctly, its mastery level increases by one, extending the time until you see it again. If you answer incorrectly, the level decreases, shortening the interval. This ensures you spend your time on the material you need to learn most.
+
 **Important Feature: Intelligent Incorrect Card Handling**
 When your answer is graded as `Incorrect`, FlashZap handles it intelligently to optimize your learning.
 *   If the card's mastery level drops to `0`, it will be moved to the back of your current session's deck. This gives you a "second chance" to review it after attempting all other due cards.
@@ -121,14 +151,36 @@ If you enter an ID for a card that does not exist, a "Card not found" message wi
 
 You can customize FlashZap's behavior by editing your **.env** file or the **src/flash_zap/config.py** file.
 
-### 4.1. Changing the Database
+### 4.1. Configuring the Database Connection
 
-To use a different database like PostgreSQL, update the `DATABASE_URL` in your **.env** file. Make sure you have the appropriate database driver installed (e.g., `psycopg2-binary` for PostgreSQL).
+FlashZap offers flexible database configuration through the **.env** file.
 
-**Example for PostgreSQL:**
+#### Connection Types
+You can switch between a local or cloud database using the `DB_CONNECTION_TYPE` variable:
+- `DB_CONNECTION_TYPE="local"` (Default): Connects to a database specified by the `DATABASE_URL` variable.
+- `DB_CONNECTION_TYPE="cloud"`: Connects to a cloud database using the `CLOUD_DB_*` variables.
+
+#### Local Database Examples
+- **SQLite (Default):**
+  If no database variables are set, FlashZap defaults to a local SQLite file (`flashzap.db`).
+
+- **Local PostgreSQL:**
+  Make sure you have the `psycopg2-binary` package installed (`pip install psycopg2-binary`).
+  ```dotenv
+  DB_CONNECTION_TYPE="local"
+  DATABASE_URL="postgresql://user:password@localhost/flashzap_db"
+  ```
+
+#### Cloud Database (PostgreSQL)
+For a cloud provider like Azure, Heroku, or AWS that requires SSL, use the `cloud` connection type.
+```dotenv
+DB_CONNECTION_TYPE="cloud"
+CLOUD_DB_HOST="your-host.postgres.database.azure.com"
+CLOUD_DB_NAME="postgres"
+CLOUD_DB_USER="your_user"
+CLOUD_DB_PASSWORD="your_password"
 ```
-DATABASE_URL="postgresql://user:password@localhost/flashzap_db"
-```
+When using `cloud`, all four `CLOUD_DB_*` variables are required.
 
 ### 4.2. Customizing the AI
 
