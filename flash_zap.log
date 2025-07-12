@@ -1,151 +1,23 @@
-2025-07-11 18:36:30,259 - INFO - root - Logging has been configured.
-2025-07-11 18:36:30,259 - INFO - root - FlashZap application starting.
-2025-07-11 18:36:31,390 - INFO - root - User selected 'Review Due Cards' option.
-2025-07-11 18:36:31,390 - INFO - root - Creating DB session for review session.
-2025-07-11 18:36:31,391 - INFO - root - Starting a new review session.
-2025-07-11 18:36:31,443 - INFO - root - Presenting card id 160 to the user.
-2025-07-11 18:36:33,094 - INFO - root - User submitted an answer for card id 160.
-2025-07-11 18:36:33,101 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:36:33,700 - INFO - root - Received response from AI.
-2025-07-11 18:36:33,701 - INFO - root - AI graded card id 160 as 'Correct'.
-2025-07-11 18:36:33,701 - INFO - root - Promoting card id 160. Current mastery level: 2
-2025-07-11 18:36:33,701 - INFO - root - Card id 160 promoted to mastery level 3. Next review in 3 days.
-2025-07-11 18:36:33,774 - INFO - root - AI feedback for card id 160: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:36:34,406 - INFO - root - Presenting card id 123 to the user.
-2025-07-11 18:36:37,031 - INFO - root - User submitted an answer for card id 123.
-2025-07-11 18:36:37,032 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:36:37,429 - INFO - root - Received response from AI.
-2025-07-11 18:36:37,429 - INFO - root - AI graded card id 123 as 'Correct'.
-2025-07-11 18:36:37,430 - INFO - root - Promoting card id 123. Current mastery level: 1
-2025-07-11 18:36:37,430 - INFO - root - Card id 123 promoted to mastery level 2. Next review in 2 days.
-2025-07-11 18:36:37,499 - INFO - root - AI feedback for card id 123: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:36:38,156 - INFO - root - Presenting card id 108 to the user.
-2025-07-11 18:36:41,539 - INFO - root - User submitted an answer for card id 108.
-2025-07-11 18:36:41,540 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:36:41,889 - INFO - root - Received response from AI.
-2025-07-11 18:36:41,889 - INFO - root - AI graded card id 108 as 'Correct'.
-2025-07-11 18:36:41,889 - INFO - root - Promoting card id 108. Current mastery level: 3
-2025-07-11 18:36:41,889 - INFO - root - Card id 108 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:36:41,962 - INFO - root - AI feedback for card id 108: Doskonale!
-2025-07-11 18:36:42,784 - INFO - root - Presenting card id 181 to the user.
-2025-07-11 18:36:45,532 - INFO - root - User submitted an answer for card id 181.
-2025-07-11 18:36:45,533 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:36:46,745 - INFO - root - Received response from AI.
-2025-07-11 18:36:46,746 - INFO - root - AI graded card id 181 as 'Correct'.
-2025-07-11 18:36:46,746 - INFO - root - Promoting card id 181. Current mastery level: 3
-2025-07-11 18:36:46,746 - INFO - root - Card id 181 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:36:46,817 - INFO - root - AI feedback for card id 181: Zgadza siÍ! Oba terminy odnoszπ siÍ do tej samej dziedziny nauki.
-2025-07-11 18:36:47,333 - INFO - root - Presenting card id 243 to the user.
-2025-07-11 18:36:58,363 - INFO - root - User submitted an answer for card id 243.
-2025-07-11 18:36:58,364 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:36:58,714 - INFO - root - Received response from AI.
-2025-07-11 18:36:58,714 - INFO - root - AI graded card id 243 as 'Correct'.
-2025-07-11 18:36:58,714 - INFO - root - Promoting card id 243. Current mastery level: 2
-2025-07-11 18:36:58,714 - INFO - root - Card id 243 promoted to mastery level 3. Next review in 3 days.
-2025-07-11 18:36:58,790 - INFO - root - AI feedback for card id 243: åwietnie! Rok jest poprawny.
-2025-07-11 18:36:59,685 - INFO - root - Presenting card id 191 to the user.
-2025-07-11 18:37:02,325 - INFO - root - User submitted an answer for card id 191.
-2025-07-11 18:37:02,325 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:02,680 - INFO - root - Received response from AI.
-2025-07-11 18:37:02,680 - INFO - root - AI graded card id 191 as 'Correct'.
-2025-07-11 18:37:02,680 - INFO - root - Promoting card id 191. Current mastery level: 2
-2025-07-11 18:37:02,680 - INFO - root - Card id 191 promoted to mastery level 3. Next review in 3 days.
-2025-07-11 18:37:02,750 - INFO - root - AI feedback for card id 191: Dobrze! Rok koronacji Boles≥awa Chrobrego to 1025.
-2025-07-11 18:37:04,221 - INFO - root - Presenting card id 240 to the user.
-2025-07-11 18:37:08,731 - INFO - root - User submitted an answer for card id 240.
-2025-07-11 18:37:08,732 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:09,093 - INFO - root - Received response from AI.
-2025-07-11 18:37:09,093 - INFO - root - AI graded card id 240 as 'Correct'.
-2025-07-11 18:37:09,093 - INFO - root - Promoting card id 240. Current mastery level: 3
-2025-07-11 18:37:09,093 - INFO - root - Card id 240 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:09,168 - INFO - root - AI feedback for card id 240: åwietnie! Poprawna odpowiedü to capoeira.
-2025-07-11 18:37:09,953 - INFO - root - Presenting card id 183 to the user.
-2025-07-11 18:37:11,573 - INFO - root - User submitted an answer for card id 183.
-2025-07-11 18:37:11,574 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:11,919 - INFO - root - Received response from AI.
-2025-07-11 18:37:11,919 - INFO - root - AI graded card id 183 as 'Correct'.
-2025-07-11 18:37:11,919 - INFO - root - Promoting card id 183. Current mastery level: 3
-2025-07-11 18:37:11,919 - INFO - root - Card id 183 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:11,993 - INFO - root - AI feedback for card id 183: åwietnie! Akord nonowy faktycznie sk≥ada siÍ z piÍciu düwiÍkÛw.
-2025-07-11 18:37:12,803 - INFO - root - Presenting card id 117 to the user.
-2025-07-11 18:37:15,280 - INFO - root - User submitted an answer for card id 117.
-2025-07-11 18:37:15,281 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:15,745 - INFO - root - Received response from AI.
-2025-07-11 18:37:15,746 - INFO - root - AI graded card id 117 as 'Correct'.
-2025-07-11 18:37:15,746 - INFO - root - Promoting card id 117. Current mastery level: 3
-2025-07-11 18:37:15,746 - INFO - root - Card id 117 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:15,816 - INFO - root - AI feedback for card id 117: åwietnie! Poprawna odpowiedü to "Flop".
-2025-07-11 18:37:16,469 - INFO - root - Presenting card id 176 to the user.
-2025-07-11 18:37:18,143 - INFO - root - User submitted an answer for card id 176.
-2025-07-11 18:37:18,144 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:18,495 - INFO - root - Received response from AI.
-2025-07-11 18:37:18,495 - INFO - root - AI graded card id 176 as 'Correct'.
-2025-07-11 18:37:18,495 - INFO - root - Promoting card id 176. Current mastery level: 3
-2025-07-11 18:37:18,495 - INFO - root - Card id 176 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:18,561 - INFO - root - AI feedback for card id 176: Poprawna odpowiedü!
-2025-07-11 18:37:18,918 - INFO - root - Presenting card id 171 to the user.
-2025-07-11 18:37:21,102 - INFO - root - User submitted an answer for card id 171.
-2025-07-11 18:37:21,103 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:21,478 - INFO - root - Received response from AI.
-2025-07-11 18:37:21,479 - INFO - root - AI graded card id 171 as 'Correct'.
-2025-07-11 18:37:21,479 - INFO - root - Promoting card id 171. Current mastery level: 2
-2025-07-11 18:37:21,480 - INFO - root - Card id 171 promoted to mastery level 3. Next review in 3 days.
-2025-07-11 18:37:21,550 - INFO - root - AI feedback for card id 171: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:22,020 - INFO - root - Presenting card id 115 to the user.
-2025-07-11 18:37:23,523 - INFO - root - User submitted an answer for card id 115.
-2025-07-11 18:37:23,524 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:23,867 - INFO - root - Received response from AI.
-2025-07-11 18:37:23,867 - INFO - root - AI graded card id 115 as 'Correct'.
-2025-07-11 18:37:23,867 - INFO - root - Promoting card id 115. Current mastery level: 3
-2025-07-11 18:37:23,868 - INFO - root - Card id 115 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:23,939 - INFO - root - AI feedback for card id 115: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:24,468 - INFO - root - Presenting card id 70 to the user.
-2025-07-11 18:37:26,055 - INFO - root - User submitted an answer for card id 70.
-2025-07-11 18:37:26,056 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:26,433 - INFO - root - Received response from AI.
-2025-07-11 18:37:26,434 - INFO - root - AI graded card id 70 as 'Correct'.
-2025-07-11 18:37:26,434 - INFO - root - Promoting card id 70. Current mastery level: 3
-2025-07-11 18:37:26,434 - INFO - root - Card id 70 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:26,501 - INFO - root - AI feedback for card id 70: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:26,948 - INFO - root - Presenting card id 132 to the user.
-2025-07-11 18:37:30,348 - INFO - root - User submitted an answer for card id 132.
-2025-07-11 18:37:30,349 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:30,726 - INFO - root - Received response from AI.
-2025-07-11 18:37:30,727 - INFO - root - AI graded card id 132 as 'Correct'.
-2025-07-11 18:37:30,727 - INFO - root - Promoting card id 132. Current mastery level: 3
-2025-07-11 18:37:30,727 - INFO - root - Card id 132 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:30,794 - INFO - root - AI feedback for card id 132: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:31,350 - INFO - root - Presenting card id 163 to the user.
-2025-07-11 18:37:34,990 - INFO - root - User submitted an answer for card id 163.
-2025-07-11 18:37:34,991 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:35,312 - INFO - root - Received response from AI.
-2025-07-11 18:37:35,312 - INFO - root - AI graded card id 163 as 'Correct'.
-2025-07-11 18:37:35,312 - INFO - root - Promoting card id 163. Current mastery level: 3
-2025-07-11 18:37:35,312 - INFO - root - Card id 163 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:35,385 - INFO - root - AI feedback for card id 163: Doskonale! Pavarotti by≥ s≥ynnym tenorem.
-2025-07-11 18:37:35,873 - INFO - root - Presenting card id 106 to the user.
-2025-07-11 18:37:38,681 - INFO - root - User submitted an answer for card id 106.
-2025-07-11 18:37:38,681 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:39,059 - INFO - root - Received response from AI.
-2025-07-11 18:37:39,059 - INFO - root - AI graded card id 106 as 'Correct'.
-2025-07-11 18:37:39,059 - INFO - root - Promoting card id 106. Current mastery level: 3
-2025-07-11 18:37:39,059 - INFO - root - Card id 106 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:39,130 - INFO - root - AI feedback for card id 106: Doskonale! Poprawna odpowiedü.
-2025-07-11 18:37:39,663 - INFO - root - Presenting card id 156 to the user.
-2025-07-11 18:37:41,002 - INFO - root - User submitted an answer for card id 156.
-2025-07-11 18:37:41,003 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:41,374 - INFO - root - Received response from AI.
-2025-07-11 18:37:41,374 - INFO - root - AI graded card id 156 as 'Correct'.
-2025-07-11 18:37:41,374 - INFO - root - Promoting card id 156. Current mastery level: 2
-2025-07-11 18:37:41,375 - INFO - root - Card id 156 promoted to mastery level 3. Next review in 3 days.
-2025-07-11 18:37:41,445 - INFO - root - AI feedback for card id 156: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:41,958 - INFO - root - Presenting card id 167 to the user.
-2025-07-11 18:37:44,483 - INFO - root - User submitted an answer for card id 167.
-2025-07-11 18:37:44,484 - INFO - root - Sending prompt to AI for grading.
-2025-07-11 18:37:44,802 - INFO - root - Received response from AI.
-2025-07-11 18:37:44,802 - INFO - root - AI graded card id 167 as 'Correct'.
-2025-07-11 18:37:44,802 - INFO - root - Promoting card id 167. Current mastery level: 3
-2025-07-11 18:37:44,803 - INFO - root - Card id 167 promoted to mastery level 4. Next review in 4 days.
-2025-07-11 18:37:44,869 - INFO - root - AI feedback for card id 167: åwietnie! Odpowiedü jest poprawna.
-2025-07-11 18:37:45,353 - INFO - root - Presenting card id 216 to the user.
-2025-07-11 18:37:46,797 - INFO - root - DB session for review session closed.
+2025-07-12 09:04:32,051 - INFO - root - Logging has been configured.
+2025-07-12 09:04:32,051 - INFO - root - FlashZap application starting.
+2025-07-12 09:04:33,828 - INFO - root - User selected 'Review Due Cards' option.
+2025-07-12 09:04:33,828 - INFO - root - Creating DB session for review session.
+2025-07-12 09:04:33,828 - INFO - root - Starting a new review session.
+2025-07-12 09:04:33,874 - INFO - root - Presenting card id 173 to the user.
+2025-07-12 09:04:39,969 - INFO - root - User submitted an answer for card id 173.
+2025-07-12 09:04:39,975 - INFO - root - Sending prompt to AI for grading.
+2025-07-12 09:04:40,466 - INFO - root - Received response from AI.
+2025-07-12 09:04:40,467 - INFO - root - AI graded card id 173 as 'Correct'.
+2025-07-12 09:04:40,467 - INFO - root - Promoting card id 173. Current mastery level: 3
+2025-07-12 09:04:40,467 - INFO - root - Card id 173 promoted to mastery level 4. Next review in 4 days.
+2025-07-12 09:04:40,547 - INFO - root - AI feedback for card id 173: åwietnie! Odpowiedü jest poprawna.
+2025-07-12 09:04:41,514 - INFO - root - Presenting card id 231 to the user.
+2025-07-12 09:04:53,197 - INFO - root - User submitted an answer for card id 231.
+2025-07-12 09:04:53,198 - INFO - root - Sending prompt to AI for grading.
+2025-07-12 09:04:53,591 - INFO - root - Received response from AI.
+2025-07-12 09:04:53,592 - INFO - root - AI graded card id 231 as 'Correct'.
+2025-07-12 09:04:53,592 - INFO - root - Promoting card id 231. Current mastery level: 3
+2025-07-12 09:04:53,592 - INFO - root - Card id 231 promoted to mastery level 4. Next review in 4 days.
+2025-07-12 09:04:53,675 - INFO - root - AI feedback for card id 231: åwietnie! Twoja odpowiedü zawiera wszystkie kluczowe sk≥adniki odøywcze wymienione w prawid≥owej odpowiedzi.
+2025-07-12 09:04:56,044 - INFO - root - Presenting card id 202 to the user.
+2025-07-12 09:04:58,985 - INFO - root - DB session for review session closed.

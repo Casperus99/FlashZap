@@ -22,39 +22,25 @@ _(TODO: Add installation instructions here. For now, we assume you have the proj
 
 ### 2.3. Configuration
 
-Before you can run the application, you need to configure a few settings in a `.env` file.
+Before you can run the application, you need to configure your database connection and API key.
 
 1.  **Create a `.env` file:** In the root directory of the project, create a file named **.env**.
 
 2.  **Set your API Key:** Add your Gemini API key to the **.env** file:
-    ```
+    ```dotenv
     GEMINI_API_KEY="YOUR_API_KEY_HERE"
     ```
     > **Security Note:** Your API key is a secret. The **.env** file is included in **.gitignore** to prevent accidental commits. Do not share this key.
 
-3.  **Configure the Database:** You can connect FlashZap to a simple local file database (SQLite), a local PostgreSQL server, or a cloud-based PostgreSQL database (like Azure).
+3.  **Configure the Database:** FlashZap requires a cloud-based PostgreSQL database (like Azure, Heroku, or AWS) to store your flashcards. You must provide the following connection details in your **.env** file. The application will not start without them.
 
-    *   **Option 1: Default SQLite (Easiest)**
-        FlashZap uses a local SQLite database by default. If you don't add any database settings to your `.env` file, a `flashzap.db` file will be created automatically in the project directory. No further setup is needed.
-
-    *   **Option 2: Local PostgreSQL Server**
-        To use a local PostgreSQL database, set the `DB_CONNECTION_TYPE` and `DATABASE_URL` in your `.env` file.
-        ```dotenv
-        DB_CONNECTION_TYPE="local"
-        DATABASE_URL="postgresql://YOUR_LOCAL_USER:YOUR_LOCAL_PASSWORD@localhost/flashzap_db"
-        ```
-
-    *   **Option 3: Cloud PostgreSQL Database (e.g., Azure)**
-        To connect to a cloud database, set `DB_CONNECTION_TYPE` to `cloud` and provide the connection details.
-        ```dotenv
-        DB_CONNECTION_TYPE="cloud"
-        CLOUD_DB_HOST="your-azure-host.postgres.database.azure.com"
-        CLOUD_DB_NAME="your_database_name"
-        CLOUD_DB_USER="your_cloud_user"
-        CLOUD_DB_PASSWORD="your_cloud_password"
-        ```
-
-See the **Advanced Topics / Customization** section for more details.
+    ```dotenv
+    # Required PostgreSQL connection details
+    CLOUD_DB_HOST="your-host.postgres.database.azure.com"
+    CLOUD_DB_NAME="your_database_name"
+    CLOUD_DB_USER="your_cloud_user"
+    CLOUD_DB_PASSWORD="your_cloud_password"
+    ```
 
 ## 3. How to Use the Application
 
@@ -151,36 +137,11 @@ If you enter an ID for a card that does not exist, a "Card not found" message wi
 
 You can customize FlashZap's behavior by editing your **.env** file or the **src/flash_zap/config.py** file.
 
-### 4.1. Configuring the Database Connection
+### 4.1. Database Information
 
-FlashZap offers flexible database configuration through the **.env** file.
+FlashZap is designed to connect to a PostgreSQL database hosted in the cloud. All database connection settings are managed in the **.env** file. The application requires these settings to be present to function correctly. This approach ensures your data is persistent and secure.
 
-#### Connection Types
-You can switch between a local or cloud database using the `DB_CONNECTION_TYPE` variable:
-- `DB_CONNECTION_TYPE="local"` (Default): Connects to a database specified by the `DATABASE_URL` variable.
-- `DB_CONNECTION_TYPE="cloud"`: Connects to a cloud database using the `CLOUD_DB_*` variables.
-
-#### Local Database Examples
-- **SQLite (Default):**
-  If no database variables are set, FlashZap defaults to a local SQLite file (`flashzap.db`).
-
-- **Local PostgreSQL:**
-  Make sure you have the `psycopg2-binary` package installed (`pip install psycopg2-binary`).
-  ```dotenv
-  DB_CONNECTION_TYPE="local"
-  DATABASE_URL="postgresql://user:password@localhost/flashzap_db"
-  ```
-
-#### Cloud Database (PostgreSQL)
-For a cloud provider like Azure, Heroku, or AWS that requires SSL, use the `cloud` connection type.
-```dotenv
-DB_CONNECTION_TYPE="cloud"
-CLOUD_DB_HOST="your-host.postgres.database.azure.com"
-CLOUD_DB_NAME="postgres"
-CLOUD_DB_USER="your_user"
-CLOUD_DB_PASSWORD="your_password"
-```
-When using `cloud`, all four `CLOUD_DB_*` variables are required.
+For testing purposes, the application's test suite automatically runs against a separate, in-memory SQLite database to ensure that tests are fast and do not interfere with your production data.
 
 ### 4.2. Customizing the AI
 

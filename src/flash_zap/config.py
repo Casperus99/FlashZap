@@ -25,15 +25,11 @@ class Settings(BaseSettings):
     APP_NAME: str = "FlashZap"
     DEBUG: bool = False
     
-    # Database settings
-    DB_CONNECTION_TYPE: str = "cloud" # "local" or "cloud"
-    DATABASE_URL: str = "sqlite:///./flashzap.db" # Used when DB_CONNECTION_TYPE is "local"
-
-    # Cloud database settings (used if DB_CONNECTION_TYPE is "cloud")
-    CLOUD_DB_HOST: str | None = None
-    CLOUD_DB_NAME: str | None = None
-    CLOUD_DB_USER: str | None = None
-    CLOUD_DB_PASSWORD: str | None = None
+    # Cloud database settings are now the only option
+    CLOUD_DB_HOST: str
+    CLOUD_DB_NAME: str
+    CLOUD_DB_USER: str
+    CLOUD_DB_PASSWORD: str
 
     # AI settings
     GEMINI_API_KEY: str = "YOUR_API_KEY_HERE"
@@ -73,34 +69,21 @@ settings = Settings()
 
 def get_database_url() -> str:
     """
-    Determines the database URL based on the connection type in settings.
+    Constructs the database URL from the required cloud settings.
     """
-    if settings.DB_CONNECTION_TYPE == "cloud":
-        required_vars = [
-            "CLOUD_DB_HOST",
-            "CLOUD_DB_NAME",
-            "CLOUD_DB_USER",
-            "CLOUD_DB_PASSWORD",
-        ]
-        if not all(getattr(settings, var) for var in required_vars):
-            raise ValueError(
-                "For cloud connection, CLOUD_DB_HOST, CLOUD_DB_NAME, "
-                "CLOUD_DB_USER, and CLOUD_DB_PASSWORD must be set in .env"
-            )
-        
-        # Connection string for Azure PostgreSQL with SSL
-        return (
-            f"postgresql+psycopg2://{settings.CLOUD_DB_USER}:{settings.CLOUD_DB_PASSWORD}"
-            f"@{settings.CLOUD_DB_HOST}/{settings.CLOUD_DB_NAME}"
-            f"?sslmode=require"
-        )
-    
-    # For "local" connection or default
-    return settings.DATABASE_URL
+    # This function now assumes a cloud connection is always used.
+    # The settings class will raise an error if these are not set in the .env file.
+    return (
+        f"postgresql+psycopg2://{settings.CLOUD_DB_USER}:{settings.CLOUD_DB_PASSWORD}"
+        f"@{settings.CLOUD_DB_HOST}/{settings.CLOUD_DB_NAME}"
+        f"?sslmode=require"
+    )
 
 
 engine = create_engine(
     get_database_url(),
-    connect_args={"client_encoding": "utf8"} if "sqlite" not in get_database_url() else {}
+    # The 'client_encoding' arg is specific to PostgreSQL and will cause errors with SQLite in tests
+    # We can check the URL scheme to apply it conditionally.
+    connect_args={"client_encoding": "utf8"} if get_database_url().startswith("postgresql") else {}
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
