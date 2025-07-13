@@ -15,3 +15,7 @@ venv/
 # IDE
 .vscode/
 .idea/
+
+# Other
+flash_zap.log
+notatki.txt
