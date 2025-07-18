@@ -1,0 +1,85 @@
+---
+description: For writing tests for the new web interface
+globs: 
+alwaysApply: false
+---
+# TDD Guidelines for Web Interface Testing
+
+This document outlines the rules and best practices for writing tests for the new web interface using a Test-Driven Development (TDD) approach. The goal is to ensure high code quality, maintainability, and confidence in the application's functionality.
+
+## Core TDD Workflow
+
+The development process for every feature should follow the "Red-Green-Refactor" cycle:
+
+1.  **Red**: Write a new test that describes a piece of functionality. This test should fail because the implementation code does not yet exist.
+2.  **Green**: Write the simplest possible implementation code required to make the test pass.
+3.  **Refactor**: Improve the implementation code (and the test code, if necessary) to make it cleaner, more efficient, and more readable, ensuring all tests still pass.
+
+**This cycle should be applied to every new feature, from a simple page rendering to complex form submissions.**
+
+## Technology Stack for Testing
+
+To effectively test our FastAPI-based web application, we will use the following libraries:
+
+1.  **`pytest`**: The primary framework for writing and running our tests. It's already in use in the project.
+2.  **`httpx`**: A modern and fully-featured HTTP client for Python. FastAPI's `TestClient` uses it internally to make requests to the application during tests.
+3.  **`beautifulsoup4`**: A powerful library for parsing HTML and XML documents. We will use it to inspect the HTML content returned by our endpoints and make assertions about its structure and content.
+
+Install the necessary testing dependencies:
+```bash
+pip install pytest httpx beautifulsoup4
+```
+Ensure these are added to your development dependencies in `pyproject.toml`.
+
+## What to Test: A Practical Guide
+
+Tests should cover all aspects of the user interaction with the web interface. Here are examples categorized by functionality:
+
+#### 1. View Rendering and Static Content
+
+For every new page, you should test that it renders correctly.
+
+*   **Test**: Does the endpoint return a successful status code (200 OK)?
+*   **Test**: Does the rendered HTML contain the correct title or main heading (e.g., `<h1>Main Menu</h1>`)?
+*   **Test**: Are all essential static elements present, such as navigation links or footers?
+
+**Example (TDD for the Main Menu):**
+*   **(Red)** Write a test `test_get_main_menu_returns_200()` that makes a `GET` request to `/` and asserts a `200` status code. It will fail as the route doesn't exist.
+*   **(Green)** Create the `/` route in `app.py` that returns a simple template.
+*   **(Red)** Write a new test `test_main_menu_has_correct_title()` that parses the HTML and asserts the `h1` tag contains "FlashZap Menu". It will fail.
+*   **(Green)** Add the `h1` tag to the `main_menu.html` template.
+*   **(Refactor)** Clean up the code if necessary.
+
+#### 2. Data Display from the Database
+
+When a page displays dynamic data, tests must verify that the data is correctly fetched and rendered.
+
+*   **Test**: Does the page correctly display data from the test database?
+*   **Test**: If a list of items is expected (e.g., flashcards), does the HTML contain the correct number of items?
+*   **Test**: Is the content of a specific item (e.g., a card's question and answer) correctly displayed on the page?
+
+#### 3. User Interaction and Form Submissions
+
+This is critical for testing the application's logic.
+
+*   **Test**: When a form is submitted, does the application respond with the correct status code (e.g., a 302/303 redirect for successful POST requests)?
+*   **Test**: Does the application redirect to the correct page after a successful action?
+*   **Test**: If the form submission is meant to change data, does the data in the database actually change?
+*   **Test**: How does the application handle invalid data? Does it re-render the form with an error message?
+
+**Example (TDD for Grading a Card):**
+*   **(Red)** Write a test `test_grade_card_redirects_to_next_card()`. It should simulate a `POST` to `/review/card/1` and assert a redirect status code. It will fail.
+*   **(Green)** Implement the `POST` endpoint that performs a redirect.
+*   **(Red)** Improve the test to assert that the redirect `Location` header points to the URL of the next card in the review session. It will fail.
+*   **(Green)** Add the logic to determine the next card and redirect correctly.
+*   **(Red)** Write a test using mocking (`unittest.mock.patch`) to assert that `srs_engine.update_card()` was called with the correct arguments. It will fail.
+*   **(Green)** Add the call to the `srs_engine`.
+*   **(Refactor)** Clean up.
+
+## Test Structure and Best Practices
+
+*   **Test File Location**: All web-related tests should be placed in a new directory, `tests/web/`, with files like `test_views.py`.
+*   **Test Client**: Use `fastapi.testclient.TestClient`. Create a `pytest` fixture in `tests/conftest.py` to provide a configured client to all tests, ensuring a consistent testing environment.
+*   **Database Isolation**: Tests must be independent and repeatable. Always use a separate, temporary test database for your test runs. The existing `conftest.py` likely has a fixture for a test database session—reuse and adapt it for the web tests.
+
+*   **Readability**: Write clean, descriptive test names (e.g., `test_browse_view_shows_all_cards_from_db`). Add comments to explain the "why" behind complex test setups. 

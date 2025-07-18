@@ -1,0 +1,132 @@
+---
+description: For writing tests regarding new backend
+globs: 
+alwaysApply: false
+---
+# TDD Guidelines for Backend API Testing: The RED-GREEN-REFACTOR Workflow
+
+This document mandates a strict Test-Driven Development (TDD) workflow for building the backend API. Every feature must be developed following the **Red-Green-Refactor** cycle. These tests focus on the API layer (FastAPI routes) in isolation, using mocks to separate it from the business logic layer.
+
+## Core Principle: The Red-Green-Refactor Cycle
+
+This is the only permitted workflow for developing backend endpoints.
+
+1.  **🔴 RED — Write a Failing Test**: Before writing any implementation code, write a test that defines a small piece of desired functionality. This test **must fail** because the feature doesn't exist yet. This proves the test is valid.
+2.  **🟢 GREEN — Make the Test Pass**: Write the **absolute minimum** amount of code required to make the failing test pass. Do not add extra features or refactor at this stage. The goal is simply to get a passing test bar.
+3.  **🔵 REFACTOR — Clean Up the Code**: With a passing test as your safety net, improve the code you just wrote. Enhance readability, remove duplication, and improve performance without changing its external behavior. Rerun tests to ensure they still pass.
+
+Repeat this cycle for the next small piece of functionality.
+
+## Technology Stack
+
+*   **Test Runner**: `pytest`
+*   **HTTP Client**: `fastapi.testclient.TestClient`
+*   **Mocking Library**: `unittest.mock` (especially `patch`)
+
+---
+
+## Applying the Cycle: A Step-by-Step Example
+
+Let's build the `GET /cards` endpoint strictly following the TDD cycle.
+
+### Feature: Display all cards.
+
+#### Cycle 1: Ensure the endpoint exists and returns success.
+
+*   **🔴 RED**: Write a test that expects a `200 OK` response from `GET /cards`.
+    ```python
+    # in tests/web/test_api_views.py
+    def test_get_cards_returns_200_ok(client):
+        response = client.get("/cards")
+        assert response.status_code == 200
+    ```
+    **Result**: This fails with a `404 Not Found` because the route does not exist.
+
+*   **🟢 GREEN**: Write the minimum code to make it pass.
+    ```python
+    # in src/flash_zap/web/routes.py
+    from fastapi import APIRouter
+    router = APIRouter()
+
+    @router.get("/cards")
+    def get_cards():
+        return [] # Return anything to satisfy the endpoint contract
+    ```
+    **Result**: The test now passes. The endpoint exists.
+
+*   **🔵 REFACTOR**: The code is minimal and clean. No refactoring is needed yet.
+
+#### Cycle 2: Ensure the endpoint calls the correct service.
+
+*   **🔴 RED**: Write a test to verify that `card_manager.get_all_cards()` is called. We **mock** the service layer to isolate the API layer.
+    ```python
+    # in tests/web/test_api_views.py
+    from unittest.mock import patch
+
+    @patch("src.flash_zap.web.routes.card_manager")
+    def test_get_cards_calls_card_manager(mock_card_manager, client):
+        client.get("/cards")
+        mock_card_manager.get_all_cards.assert_called_once()
+    ```
+    **Result**: This fails with `AssertionError: Expected 'get_all_cards' to be called once. Called 0 times.`
+
+*   **🟢 GREEN**: Update the endpoint to call the service.
+    ```python
+    # in src/flash_zap/web/routes.py
+    # ... imports
+    from flash_zap.core import card_manager
+
+    @router.get("/cards")
+    def get_cards():
+        card_manager.get_all_cards()
+        # The template rendering part is not yet tested, so we keep it minimal.
+        return []
+    ```
+    **Result**: The test now passes.
+
+*   **🔵 REFACTOR**: The code is still simple. No refactoring needed.
+
+#### Cycle 3: Ensure the endpoint passes data to the template.
+
+*   **🔴 RED**: Write a test to ensure that the data returned by the service is passed to the template context.
+    ```python
+    # in tests/web/test_api_views.py
+    from unittest.mock import patch, MagicMock
+
+    @patch("src/flash_zap.web.routes.templates") # Mock the templates object
+    @patch("src.flash_zap.web.routes.card_manager")
+    def test_get_cards_passes_cards_to_template(mock_card_manager, mock_templates, client):
+        # Arrange: Make the mocked manager return some fake data
+        fake_cards = [MagicMock(), MagicMock()]
+        mock_card_manager.get_all_cards.return_value = fake_cards
+
+        # Act
+        client.get("/cards")
+
+        # Assert
+        mock_templates.TemplateResponse.assert_called_once()
+        call_args = mock_templates.TemplateResponse.call_args[0]
+        assert call_args[0] == "browse_view.html" # Check template name
+        assert "cards" in call_args[1]["request"].context
+        assert call_args[1]["request"].context["cards"] == fake_cards
+    ```
+    **Result**: This will fail in multiple ways because we are not yet calling `TemplateResponse` correctly.
+
+*   **🟢 GREEN**: Implement the template rendering logic.
+    ```python
+    # in src/flash_zap/web/routes.py
+    # ... imports
+    from fastapi import Request
+    from flash_zap.web.app import templates
+
+    @router.get("/cards")
+    def get_cards(request: Request):
+        cards = card_manager.get_all_cards()
+        return templates.TemplateResponse("browse_view.html", {"request": request, "cards": cards})
+    ```
+    **Result**: The test now passes.
+
+*   **🔵 REFACTOR**: The code is now functional. We can review for clarity and style. The imports might need organizing. The logic is clean and directly follows the requirements.
+
+
+This strict, iterative process ensures that every line of implementation code is directly justified by a test. 
