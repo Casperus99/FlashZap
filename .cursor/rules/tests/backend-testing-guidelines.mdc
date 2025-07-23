@@ -128,8 +128,8 @@ Let's build the `GET /cards` endpoint strictly following the TDD cycle.
 
 *   **🔵 REFACTOR**: The code is now functional. We can review for clarity and style. The imports might need organizing. The logic is clean and directly follows the requirements.
 
+This strict, iterative process ensures that every line of implementation code is directly justified by a test.
 
-This strict, iterative process ensures that every line of implementation code is directly justified by a test. 
-
+## Summary
 
 By choosing the appropriate strategy, you can write backend tests that are both effective and maintainable. Remember to prefer unit tests with mocks for speed and isolation, and use the in-memory database for testing database-specific interactions. 

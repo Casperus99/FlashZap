@@ -1,5 +1,5 @@
 ---
-description: When writing tests that require database
+description: When writing a test that require database
 globs: 
 alwaysApply: false
 ---

@@ -1,0 +1,41 @@
+---
+description: Always when writing or refactoring a test
+globs: 
+alwaysApply: false
+---
+# Testing guidelines
+
+These rules always apply.
+
+## Comments
+
+Always try to group the code in a test function, using "GIVEN", "WHEN" and "THEN" labels. Give a little summary about the groups just below function name using gherkin's format. Don't hesitate to add additional comments inside the groups.
+
+**Example**
+
+```python
+def test_save_cards_to_database(test_db_session):
+    """
+    GIVEN: A list of dictionaries with valid card data.
+    WHEN: The _save_cards_to_db function is called.
+    THEN: The new cards are correctly saved to the database.
+    """
+    # GIVEN
+    cards_data = [
+        {"front": "Q1", "back": "A1"},
+        {"front": "Q2", "back": "A2"},
+    ]
+    session = test_db_session
+
+    # WHEN
+    _save_cards_to_db(cards_data, session)
+
+    # THEN
+    saved_cards = session.query(Card).all()
+    assert len(saved_cards) == 2
+    assert saved_cards[0].front == "Q1"
+    assert saved_cards[0].back == "A1"
+    assert saved_cards[1].front == "Q2"
+    assert saved_cards[1].back == "A2"
+```
+
