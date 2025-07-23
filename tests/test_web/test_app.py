@@ -1,17 +1,19 @@
 
 from fastapi.testclient import TestClient
-import pytest
 
 
-def test_root_returns_200_and_welcome_message(client: TestClient):
+def test_main_menu_renders_correctly(client: TestClient):
     """
     GIVEN: The FastAPI application is running.
     WHEN: A GET request is made to the root ('/') endpoint.
-    THEN: The response should have a 200 OK status code and contain the welcome message.
+    THEN: The response should be a 200 OK HTML response with the main menu content.
     """
     # WHEN
     response = client.get("/")
 
     # THEN
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to FlashZap Web UI!"} 
+    assert "text/html" in response.headers["content-type"]
+    content = response.text
+    assert "Browse all flashcards" in content
+    assert "Start a review session" in content 

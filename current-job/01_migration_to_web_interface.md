@@ -75,18 +75,18 @@ We need a simple way to launch our new web application.
 
 In this phase, we will implement the API endpoints and their corresponding HTML views to replicate the functionality of the existing TUI.
 
-### [ ] Task 2.1: Implement the Main Menu View
+### [x] Task 2.1: Implement the Main Menu View
 
 We will create a home page that corresponds to the menu from `main_menu.py`.
 
-1.  [ ] In the `src/flash_zap/web/app.py` file, modify the `/` endpoint:
-    *   [ ] Remove the test `root` endpoint.
-    *   [ ] Create a new `GET /` endpoint that will render the `main_menu.html` template.
-    *   [ ] Use `Request` from FastAPI and the `templates` object to return a `TemplateResponse`.
-2.  [ ] In the `src/flash_zap/web/templates/` directory, create a `main_menu.html` file.
-3.  [ ] Fill `main_menu.html` with a basic HTML structure and add two links (for now, they can point to `#`):
-    *   [ ] "Browse all flashcards"
-    *   [ ] "Start a review session"
+1.  [x] In the `src/flash_zap/web/app.py` file, modify the `/` endpoint:
+    *   [x] Remove the test `root` endpoint.
+    *   [x] Create a new `GET /` endpoint that will render the `main_menu.html` template.
+    *   [x] Use `Request` from FastAPI and the `templates` object to return a `TemplateResponse`.
+2.  [x] In the `src/flash_zap/web/templates/` directory, create a `main_menu.html` file.
+3.  [x] Fill `main_menu.html` with a basic HTML structure and add two links (for now, they can point to `#`):
+    *   [x] "Browse all flashcards"
+    *   [x] "Start a review session"
 
 ### [ ] Task 2.2: Implement the Flashcard Browsing View
 

@@ -32,7 +32,10 @@ def test_run_web_script_starts_server():
             response = client.get("http://127.0.0.1:8000/")
         
         assert response.status_code == 200
-        assert response.json() == {"message": "Welcome to FlashZap Web UI!"}
+        assert "text/html" in response.headers["content-type"]
+        content = response.text
+        assert "Browse all flashcards" in content
+        assert "Start a review session" in content
 
     finally:
         # Clean up the server process
