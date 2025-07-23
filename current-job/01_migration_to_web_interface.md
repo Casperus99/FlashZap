@@ -17,15 +17,15 @@ The necessary libraries to run the web application must be added to the project.
     ```
 3.  [x] Update the `pyproject.toml` file (or `requirements.txt`, if it exists) to reflect the new dependencies.
 
-### [ ] Task 1.2: Create Directory Structure for the Web Application
+### [x] Task 1.2: Create Directory Structure for the Web Application
 
 File organization is key. We will create a new directory structure dedicated to the web interface.
 
-1.  [ ] Inside the `src/flash_zap/` directory, create a new directory named `web`.
-2.  [ ] Inside `src/flash_zap/web/`, create the following subdirectories:
-    *   [ ] `templates`: This is where HTML (Jinja2) templates will be stored.
-    *   [ ] `static`: This is for static files, such as CSS or JavaScript.
-3.  [ ] Inside `src/flash_zap/web/`, create an empty `__init__.py` file.
+1.  [x] Inside the `src/flash_zap/` directory, create a new directory named `web`.
+2.  [x] Inside `src/flash_zap/web/`, create the following subdirectories:
+    *   [x] `templates`: This is where HTML (Jinja2) templates will be stored.
+    *   [x] `static`: This is for static files, such as CSS or JavaScript.
+3.  [x] Inside `src/flash_zap/web/`, create an empty `__init__.py` file.
 
 ### [ ] Task 1.3: Configure the Basic FastAPI Application
 
