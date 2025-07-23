@@ -9,29 +9,33 @@ from flash_zap.core.review_session import ReviewSession
 
 def test_get_next_card_returns_unseen_card(test_db_session: Session):
     """
-    Tests that get_next_card returns unseen cards sequentially from the database.
+    GIVEN: A database with multiple cards.
+    WHEN: Retrieving cards sequentially from a review session.
+    THEN: Each call to get_next_card returns the next unseen card.
     """
-    # Arrange: Seed the database with cards
+    # GIVEN: Seed the database with cards and create a review session
     card1 = Card(front="Question 1", back="Answer 1")
     card2 = Card(front="Question 2", back="Answer 2")
     test_db_session.add_all([card1, card2])
     test_db_session.commit()
-
-    # Act
     session = ReviewSession(test_db_session, shuffle=False)
 
-    # Assert: First call returns the first card
+    # WHEN: The first card is retrieved
     next_card_1 = session.get_next_card()
+
+    # THEN: It is the first card from the database
     assert next_card_1 is not None
     assert next_card_1.id == card1.id
     assert next_card_1.front == "Question 1"
-    # To simulate the card being "seen", we need to process it.
-    # We can mock the grading to simplify this.
+
+    # WHEN: The first card is processed and marked as seen
     with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
         session.grade_and_update_card(next_card_1, "Answer 1")
-
-    # Assert: Second call returns the second card
+    
+    # WHEN: The next card is retrieved
     next_card_2 = session.get_next_card()
+    
+    # THEN: It is the second card from the database
     assert next_card_2 is not None
     assert next_card_2.id == card2.id
     assert next_card_2.front == "Question 2"
@@ -39,79 +43,84 @@ def test_get_next_card_returns_unseen_card(test_db_session: Session):
 
 def test_get_next_card_returns_none_when_all_cards_are_seen(test_db_session: Session):
     """
-    Tests that get_next_card returns None after all cards have been seen.
+    GIVEN: A review session where all cards have been seen.
+    WHEN: get_next_card is called.
+    THEN: It returns None.
     """
-    # Arrange: Seed the database with one card
+    # GIVEN: A database with one card, and a review session
     card1 = Card(front="Question 1", back="Answer 1")
     test_db_session.add(card1)
     test_db_session.commit()
-
-    # Act
     session = ReviewSession(test_db_session, shuffle=False)
-
-    # Assert: First call returns the card
+    
+    # WHEN: The only card is retrieved and processed
     first_call = session.get_next_card()
-    assert first_call is not None
-    assert first_call.id == card1.id
-    # Simulate seeing the card
+    assert first_call is not None # Sanity check
     with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
         session.grade_and_update_card(first_call, "Answer 1")
 
-    # Assert: Second call returns None
+    # THEN: The next call to get_next_card returns None
     second_call = session.get_next_card()
     assert second_call is None
 
 
 def test_get_next_card_returns_only_due_cards(test_db_session: Session):
     """
-    Tests that get_next_card only returns cards that are due for review.
+    GIVEN: A database with cards that are due, not due, and legacy (no date).
+    WHEN: get_next_card is called.
+    THEN: Only the due and legacy cards are returned in order.
     """
-    # Arrange: Seed the database with cards in various states
+    # GIVEN: Cards with different due dates
     now = datetime.now(timezone.utc)
     card_due = Card(front="Due", back="A", next_review_date=now - timedelta(days=1))
     card_not_due = Card(front="Not Due", back="B", next_review_date=now + timedelta(days=1))
-    card_legacy = Card(front="Legacy", back="C", next_review_date=None) # Old card, no review date
-    
+    card_legacy = Card(front="Legacy", back="C", next_review_date=None)
     test_db_session.add_all([card_due, card_not_due, card_legacy])
     test_db_session.commit()
-
-    # Act
     session = ReviewSession(test_db_session, shuffle=False)
 
-    # Assert: First call should return the due card
+    # WHEN: The first card is retrieved and processed
     next_card_1 = session.get_next_card()
+
+    # THEN: It is the due card
     assert next_card_1 is not None
     assert next_card_1.front == "Due"
     with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
         session.grade_and_update_card(next_card_1, "A")
 
-    # Assert: Second call should return the legacy card
+    # WHEN: The second card is retrieved and processed
     next_card_2 = session.get_next_card()
+    
+    # THEN: It is the legacy card
     assert next_card_2 is not None
     assert next_card_2.front == "Legacy"
     with patch("flash_zap.core.review_session.ReviewSession.process_answer", return_value=("Correct", "")):
         session.grade_and_update_card(next_card_2, "C")
-    
-    # Assert: Third call should return None, as the 'Not Due' card shouldn't be selected
+
+    # WHEN: The third card is retrieved
     next_card_3 = session.get_next_card()
+
+    # THEN: No card is returned, as the remaining one is not due
     assert next_card_3 is None
 
 
 @patch("flash_zap.core.review_session.ai_grader.grade_answer")
 def test_review_session_calls_ai_grader_service(mock_grade_answer, test_db_session: Session):
     """
-    Tests that ReviewSession.process_answer calls the ai_grader service.
+    GIVEN: A review session.
+    WHEN: The process_answer method is called.
+    THEN: The ai_grader service is called with the correct parameters.
     """
-    # Arrange
+    # GIVEN: A mock AI grader, a card, and a review session
     mock_grade_answer.return_value = ("Correct", "Good job!")
     card = Card(front="Question", back="Answer")
     user_answer = "Answer"
     session = ReviewSession(test_db_session)
 
-    # Act
+    # WHEN: The answer is processed
     result, feedback = session.process_answer(card, user_answer)
 
-    # Assert
+    # THEN: The AI grader is called correctly and returns the mocked response
     mock_grade_answer.assert_called_once_with(
         question=card.front,
         user_answer=user_answer,
@@ -124,32 +133,25 @@ def test_review_session_calls_ai_grader_service(mock_grade_answer, test_db_sessi
 @patch("flash_zap.core.review_session.ai_grader.grade_answer")
 def test_grade_and_update_card_persists_changes(mock_grade_answer, test_db_session: Session):
     """
-    Tests that grade_and_update_card correctly calls the SRS engine
-    and persists the changes to the database.
+    GIVEN: A card in the database.
+    WHEN: The card is answered correctly and grade_and_update_card is called.
+    THEN: The card's mastery level is increased and the change is persisted to the database.
     """
-    # Arrange
-    # We want a real SRSEngine, so we don't mock it.
-    # We only mock the AI grader to control the outcome.
+    # GIVEN: A card with an initial mastery level in the database
+    # and a mock AI grader that returns "Correct"
     mock_grade_answer.return_value = ("Correct", "Feedback")
-    
-    # Create a card and save it to the DB
     card = Card(front="Q", back="A", mastery_level=1)
     test_db_session.add(card)
     test_db_session.commit()
-    
     initial_level = card.mastery_level
-    
     session = ReviewSession(test_db_session)
     user_answer = "A"
 
-    # Act
+    # WHEN: The card is graded and updated
     session.grade_and_update_card(card, user_answer)
 
-    # Assert
-    # Verify the AI grader was called
+    # THEN: The AI grader was called and the card's mastery level is updated in the DB
     mock_grade_answer.assert_called_once()
-
-    # Verify the change was persisted in the database
     test_db_session.refresh(card)
     assert card.mastery_level == initial_level + 1
 
@@ -163,24 +165,27 @@ def test_grade_and_update_card_persists_changes(mock_grade_answer, test_db_sessi
 def test_grade_and_update_card_calls_srs_engine(
     mock_grade_answer, mock_srs_engine_cls, grade, expected_call, test_db_session: Session
 ):
-    # Arrange
+    """
+    GIVEN: A review session with a mock SRS Engine.
+    WHEN: A card is graded.
+    THEN: The correct method on the SRS Engine is called based on the grade.
+    """
+    # GIVEN: A mock AI grader returning a specific grade, and a mock SRS engine
     mock_grade_answer.return_value = (grade, "Feedback")
     mock_srs_engine_instance = mock_srs_engine_cls.return_value
-    
     session = ReviewSession(test_db_session)
     card = Card(front="Q", back="A")
     user_answer = "A"
-    session._review_deck = [card] # Manually set the deck
+    # The card must be in the review deck to be processed
+    session._review_deck = [card]
 
-    # Act
+    # WHEN: The card is graded and updated
     session.grade_and_update_card(card, user_answer)
 
-    # Assert
-    # Verify that the correct method on the SRSEngine instance was called
+    # THEN: The appropriate SRS Engine method is called
     method_to_check = getattr(mock_srs_engine_instance, expected_call)
     method_to_check.assert_called_once_with(card)
 
-    # Verify the other method was not called
     unexpected_call = "demote_card" if expected_call == "promote_card" else "promote_card"
     unexpected_method = getattr(mock_srs_engine_instance, unexpected_call)
     unexpected_method.assert_not_called() 
