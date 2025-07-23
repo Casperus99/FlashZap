@@ -1,58 +1,63 @@
-from unittest.mock import Mock
-import pytest
-
 from flash_zap.core.card_manager import get_card_by_id
 from flash_zap.models.card import Card
 
-def test_get_card_by_id_returns_card_when_found():
+def test_get_card_by_id_returns_card_when_found(test_db_session):
     """
-    Tests that get_card_by_id returns the correct card object when found.
+    GIVEN: A card is present in the database.
+    WHEN: The get_card_by_id function is called with the card's ID.
+    THEN: The function returns the correct card object.
     """
-    mock_session = Mock()
+    # GIVEN
+    session = test_db_session
     expected_card = Card(front="Front", back="Back")
-    expected_card.id = 1
+    session.add(expected_card)
+    session.commit()
 
-    # Mock the query chain
-    mock_session.query.return_value.filter_by.return_value.first.return_value = expected_card
+    # WHEN
+    card = get_card_by_id(session, expected_card.id)
 
-    card = get_card_by_id(mock_session, 1)
+    # THEN
+    assert card is not None
+    assert card.id == expected_card.id
+    assert card.front == "Front"
+    assert card.back == "Back"
 
-    mock_session.query.assert_called_once_with(Card)
-    mock_session.query.return_value.filter_by.assert_called_once_with(id=1)
-    assert card == expected_card
 
-def test_get_card_by_id_returns_none_when_not_found():
+def test_get_card_by_id_returns_none_when_not_found(test_db_session):
     """
-    Tests that get_card_by_id returns None when a card is not found.
+    GIVEN: A card ID that does not exist in the database.
+    WHEN: The get_card_by_id function is called with the non-existent ID.
+    THEN: The function returns None.
     """
-    mock_session = Mock()
+    # GIVEN
+    session = test_db_session
 
-    # Mock the query chain to return None
-    mock_session.query.return_value.filter_by.return_value.first.return_value = None
+    # WHEN
+    card = get_card_by_id(session, 999)
 
-    card = get_card_by_id(mock_session, 999)
-
-    mock_session.query.assert_called_once_with(Card)
-    mock_session.query.return_value.filter_by.assert_called_once_with(id=999)
+    # THEN
     assert card is None
 
 def test_update_card_front(test_db_session):
     """
-    Tests that update_card_front correctly changes the front of a card.
+    GIVEN: An existing card in the database.
+    WHEN: The update_card_front function is called with a new front content.
+    THEN: The card's front content is successfully updated.
     """
-    # Arrange
+    # GIVEN
     from flash_zap.core.card_manager import update_card_front
+    session = test_db_session
     original_front = "Original Front"
     new_front = "New Front"
     card = Card(front=original_front, back="Back")
-    test_db_session.add(card)
-    test_db_session.commit()
+    session.add(card)
+    session.commit()
 
-    # Act
-    updated_card = update_card_front(test_db_session, card.id, new_front)
-    test_db_session.refresh(card)
+    # WHEN
+    updated_card = update_card_front(session, card.id, new_front)
+    session.refresh(card)
 
-    # Assert
+    # THEN
     assert updated_card is not None
     assert updated_card.id == card.id
     assert updated_card.front == new_front
@@ -60,21 +65,24 @@ def test_update_card_front(test_db_session):
 
 def test_update_card_back(test_db_session):
     """
-    Tests that update_card_back correctly changes the back of a card.
+    GIVEN: An existing card in the database.
+    WHEN: The update_card_back function is called with a new back content.
+    THEN: The card's back content is successfully updated.
     """
-    # Arrange
+    # GIVEN
     from flash_zap.core.card_manager import update_card_back
+    session = test_db_session
     original_back = "Original Back"
     new_back = "New Back"
     card = Card(front="Front", back=original_back)
-    test_db_session.add(card)
-    test_db_session.commit()
+    session.add(card)
+    session.commit()
 
-    # Act
-    updated_card = update_card_back(test_db_session, card.id, new_back)
-    test_db_session.refresh(card)
+    # WHEN
+    updated_card = update_card_back(session, card.id, new_back)
+    session.refresh(card)
 
-    # Assert
+    # THEN
     assert updated_card is not None
     assert updated_card.id == card.id
     assert updated_card.back == new_back
@@ -82,38 +90,44 @@ def test_update_card_back(test_db_session):
 
 def test_update_card_mastery_level_success(test_db_session):
     """
-    Tests that update_card_mastery correctly lowers the mastery level.
+    GIVEN: An existing card with a certain mastery level.
+    WHEN: The update_card_mastery function is called to lower the mastery level.
+    THEN: The card's mastery level is successfully updated.
     """
-    # Arrange
+    # GIVEN
     from flash_zap.core.card_manager import update_card_mastery
+    session = test_db_session
     card = Card(front="Front", back="Back", mastery_level=3)
-    test_db_session.add(card)
-    test_db_session.commit()
+    session.add(card)
+    session.commit()
 
-    # Act
-    updated_card, success = update_card_mastery(test_db_session, card.id, 1)
-    test_db_session.refresh(card)
+    # WHEN
+    updated_card, success = update_card_mastery(session, card.id, 1)
+    session.refresh(card)
 
-    # Assert
+    # THEN
     assert success is True
     assert updated_card.mastery_level == 1
     assert card.mastery_level == 1
 
 def test_update_card_mastery_level_fail_on_increase(test_db_session):
     """
-    Tests that update_card_mastery fails if the new level is higher.
+    GIVEN: An existing card with a certain mastery level.
+    WHEN: The update_card_mastery function is called to increase the mastery level.
+    THEN: The card's mastery level remains unchanged and the operation fails.
     """
-    # Arrange
+    # GIVEN
     from flash_zap.core.card_manager import update_card_mastery
+    session = test_db_session
     card = Card(front="Front", back="Back", mastery_level=3)
-    test_db_session.add(card)
-    test_db_session.commit()
+    session.add(card)
+    session.commit()
 
-    # Act
-    updated_card, success = update_card_mastery(test_db_session, card.id, 4)
-    test_db_session.refresh(card)
+    # WHEN
+    updated_card, success = update_card_mastery(session, card.id, 4)
+    session.refresh(card)
 
-    # Assert
+    # THEN
     assert success is False
     assert updated_card.mastery_level == 3
     assert card.mastery_level == 3 
