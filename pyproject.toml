@@ -16,6 +16,10 @@ dependencies = [
     "pydantic-settings",
     "google-generativeai",
     "python-dotenv",
+    "fastapi",
+    "uvicorn[standard]",
+    "jinja2",
+    "aiofiles",
 ]
 
 [project.scripts]

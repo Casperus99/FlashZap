@@ -6,16 +6,16 @@ Below is a detailed, step-by-step plan to migrate the application's interface fr
 
 In this phase, we will focus on preparing the foundation for the web application and exposing the existing business logic through a REST API.
 
-### [ ] Task 1.1: Update Project Dependencies
+### [x] Task 1.1: Update Project Dependencies
 
 The necessary libraries to run the web application must be added to the project.
 
-1.  [ ] Open a terminal in the project's root directory.
-2.  [ ] Run the following command to install FastAPI, Uvicorn (application server), and Jinja2 (template engine):
+1.  [x] Open a terminal in the project's root directory.
+2.  [x] Run the following command to install FastAPI, Uvicorn (application server), and Jinja2 (template engine):
     ```bash
     pip install fastapi "uvicorn[standard]" jinja2 aiofiles
     ```
-3.  [ ] Update the `pyproject.toml` file (or `requirements.txt`, if it exists) to reflect the new dependencies.
+3.  [x] Update the `pyproject.toml` file (or `requirements.txt`, if it exists) to reflect the new dependencies.
 
 ### [ ] Task 1.2: Create Directory Structure for the Web Application
 
