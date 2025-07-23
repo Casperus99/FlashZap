@@ -27,12 +27,12 @@ File organization is key. We will create a new directory structure dedicated to 
     *   [x] `static`: This is for static files, such as CSS or JavaScript.
 3.  [x] Inside `src/flash_zap/web/`, create an empty `__init__.py` file.
 
-### [ ] Task 1.3: Configure the Basic FastAPI Application
+### [x] Task 1.3: Configure the Basic FastAPI Application
 
 We will create the main application file, which will be responsible for server configuration and startup.
 
-1.  [ ] In the `src/flash_zap/web/` directory, create a file named `app.py`.
-2.  [ ] In the `app.py` file, add the following code, which initializes the FastAPI application and configures the paths to templates and static files:
+1.  [x] In the `src/flash_zap/web/` directory, create a file named `app.py`.
+2.  [x] In the `app.py` file, add the following code, which initializes the FastAPI application and configures the paths to templates and static files:
 
     ```python
     from fastapi import FastAPI
@@ -53,12 +53,12 @@ We will create the main application file, which will be responsible for server c
         return {"message": "Welcome to FlashZap Web UI!"}
     ```
 
-### [ ] Task 1.4: Create a Startup Script
+### [x] Task 1.4: Create a Startup Script
 
 We need a simple way to launch our new web application.
 
-1.  [ ] In the project's root directory (next to `pyproject.toml`), create a new file named `run_web.py`.
-2.  [ ] Fill it with the following content:
+1.  [x] In the project's root directory (next to `pyproject.toml`), create a new file named `run_web.py`.
+2.  [x] Fill it with the following content:
 
     ```python
     import uvicorn
@@ -67,7 +67,7 @@ We need a simple way to launch our new web application.
         uvicorn.run("src.flash_zap.web.app:app", host="0.0.0.0", port=8000, reload=True)
     ```
 
-3.  [ ] **Verification:** Run the application with the command `python run_web.py` and open `http://127.0.0.1:8000` in your browser. You should see the welcome message in JSON format.
+3.  [x] **Verification:** Run the application with the command `python run_web.py` and open `http://127.0.0.1:8000` in your browser. You should see the welcome message in JSON format.
 
 ---
 
