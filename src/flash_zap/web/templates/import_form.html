@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashZap - Import Flashcards</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Import Flashcards from JSON</h1>
+        
+        <p>Select a JSON file containing your flashcards to import.</p>
+        
+        <form method="post" enctype="multipart/form-data" action="/import">
+            <label for="file">JSON File:</label>
+            <input type="file" id="file" name="file" accept=".json" required>
+            <button type="submit">Import Cards</button>
+        </form>
+        
+        <div class="actions">
+            <a href="/">Back to Main Menu</a>
+        </div>
+    </div>
+</body>
+</html> 

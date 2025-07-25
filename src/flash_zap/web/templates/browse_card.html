@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashZap - Browse Card</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Card Details</h1>
+    
+    {% if card %}
+        <div class="card-details">
+            <p><strong>ID:</strong> {{ card.id }}</p>
+            <p><strong>Front:</strong> {{ card.front }}</p>
+            <p><strong>Back:</strong> {{ card.back }}</p>
+            <p><strong>Mastery Level:</strong> {{ card.mastery_level }}</p>
+            <p><strong>Next Review:</strong> {{ card.next_review_date }}</p>
+        </div>
+        
+        <div class="edit-options">
+            <h2>Edit Options</h2>
+            
+            <div id="edit-front-form" style="display: none;">
+                <h3>Edit Front</h3>
+                <form method="post" action="/browse/{{ card.id }}/edit-front">
+                    <label for="new_front">Current front: {{ card.front }}</label><br>
+                    <input type="text" id="new_front" name="new_front" value="{{ card.front }}" required style="width: 100%; margin: 5px 0;">
+                    <button type="submit">Update Front</button>
+                    <button type="button" onclick="hideEditForms()">Cancel</button>
+                </form>
+            </div>
+            
+            <div id="edit-back-form" style="display: none;">
+                <h3>Edit Back</h3>
+                <form method="post" action="/browse/{{ card.id }}/edit-back">
+                    <label for="new_back">Current back: {{ card.back }}</label><br>
+                    <input type="text" id="new_back" name="new_back" value="{{ card.back }}" required style="width: 100%; margin: 5px 0;">
+                    <button type="submit">Update Back</button>
+                    <button type="button" onclick="hideEditForms()">Cancel</button>
+                </form>
+            </div>
+            
+            <div id="edit-mastery-form" style="display: none;">
+                <h3>Lower Mastery Level</h3>
+                <form method="post" action="/browse/{{ card.id }}/edit-mastery">
+                    <label for="new_mastery_level">Current mastery level: {{ card.mastery_level }}</label><br>
+                    <input type="number" id="new_mastery_level" name="new_mastery_level" value="{{ card.mastery_level }}" required style="margin: 5px 0;">
+                    <button type="submit">Update Mastery Level</button>
+                    <button type="button" onclick="hideEditForms()">Cancel</button>
+                </form>
+            </div>
+            
+            <div id="edit-menu">
+                <p><a href="#" onclick="showEditFront()">1. Edit front</a></p>
+                <p><a href="#" onclick="showEditBack()">2. Edit back</a></p>
+                <p><a href="#" onclick="showEditMastery()">3. Lower mastery level</a></p>
+            </div>
+        </div>
+        
+        <script>
+            function showEditFront() {
+                hideEditForms();
+                document.getElementById('edit-front-form').style.display = 'block';
+                document.getElementById('edit-menu').style.display = 'none';
+            }
+            
+            function showEditBack() {
+                hideEditForms();
+                document.getElementById('edit-back-form').style.display = 'block';
+                document.getElementById('edit-menu').style.display = 'none';
+            }
+            
+            function showEditMastery() {
+                hideEditForms();
+                document.getElementById('edit-mastery-form').style.display = 'block';
+                document.getElementById('edit-menu').style.display = 'none';
+            }
+            
+            function hideEditForms() {
+                document.getElementById('edit-front-form').style.display = 'none';
+                document.getElementById('edit-back-form').style.display = 'none';
+                document.getElementById('edit-mastery-form').style.display = 'none';
+                document.getElementById('edit-menu').style.display = 'block';
+            }
+        </script>
+    {% else %}
+        <p>Card not found.</p>
+    {% endif %}
+    
+        <div class="actions">
+            <a href="/browse">Back to Browse</a> | 
+            <a href="/">Back to Main Menu</a>
+        </div>
+    </div>
+</body>
+</html> 

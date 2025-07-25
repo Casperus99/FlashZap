@@ -1,0 +1,331 @@
+/* FlashZap Web Interface Styles */
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+/* Container for centering content */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headers */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: #34495e;
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+
+h3 {
+    color: #5a6c7d;
+    margin-bottom: 10px;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 15px;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #ecf0f1;
+    text-decoration: underline;
+}
+
+/* Navigation links */
+ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+ul li a {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+ul li a:hover {
+    background-color: #2980b9;
+}
+
+/* Forms */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    margin-bottom: 15px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #229954;
+}
+
+button[type="button"] {
+    background-color: #95a5a6;
+}
+
+button[type="button"]:hover {
+    background-color: #7f8c8d;
+}
+
+/* Card details */
+.card-details {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.card-details p {
+    margin-bottom: 10px;
+}
+
+.card-details strong {
+    color: #2c3e50;
+}
+
+/* Card question in review */
+.card-question {
+    background-color: #e8f4f8;
+    padding: 20px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.card-question h2 {
+    margin-bottom: 0;
+    color: #2c3e50;
+}
+
+/* Feedback section */
+.feedback {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.feedback h2 {
+    margin-bottom: 10px;
+}
+
+/* Success feedback */
+.feedback-correct {
+    background-color: #d4edd8; /* Pastel green */
+    border-left-color: #28a745;
+}
+
+.feedback-correct h2 {
+    color: #155724;
+}
+
+/* Error feedback */
+.feedback-incorrect {
+    background-color: #f8d7da; /* Pastel red */
+    border-left-color: #dc3545;
+}
+
+.feedback-incorrect h2 {
+    color: #721c24;
+}
+
+/* User answer display */
+.user-answer {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Mastery level change display */
+.mastery-level-change {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    border-left: 3px solid #007bff;
+}
+
+/* Legacy selectors (keeping for compatibility) */
+.feedback h2:contains("Correct") {
+    color: #27ae60;
+}
+
+.feedback h2:contains("Incorrect") {
+    color: #e74c3c;
+}
+
+/* Error messages */
+.error {
+    background-color: #fadbd8;
+    color: #c0392b;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #e74c3c;
+    margin-bottom: 20px;
+}
+
+/* Success messages */
+.success {
+    background-color: #d5f4e6;
+    color: #27ae60;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #27ae60;
+    margin-bottom: 20px;
+}
+
+/* Edit options */
+.edit-options {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.edit-options h2 {
+    margin-top: 0;
+}
+
+/* Actions section */
+.actions {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #bdc3c7;
+}
+
+.actions a {
+    margin: 0 10px;
+}
+
+/* Progress indicator */
+.progress {
+    background-color: #ecf0f1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Summary section */
+.summary {
+    background-color: #e8f5e8;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid #27ae60;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    ul li a {
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    button,
+    input[type="submit"] {
+        width: 100%;
+        margin-right: 0;
+    }
+} 

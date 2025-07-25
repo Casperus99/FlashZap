@@ -12,6 +12,10 @@ app.mount("/static", StaticFiles(directory="src/flash_zap/web/static"), name="st
 # Configure the Jinja2 template engine
 templates = Jinja2Templates(directory="src/flash_zap/web/templates")
 
+# Import and include routes
+from flash_zap.web.routes import router
+app.include_router(router)
+
 @app.get("/", response_class=HTMLResponse)
 async def main_menu(request: Request):
     return templates.TemplateResponse(request=request, name="main_menu.html") 

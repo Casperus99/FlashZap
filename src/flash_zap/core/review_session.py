@@ -42,7 +42,7 @@ class ReviewSession:
             correct_answer=card.back,
         )
 
-    def grade_and_update_card(self, card: Card, user_answer: str) -> Tuple[str, str, int]:
+    def grade_and_update_card(self, card: Card, user_answer: str) -> Tuple[str, str, int, int]:
         grade, feedback = self.process_answer(card, user_answer)
         logging.info(f"AI graded card id {card.id} as '{grade}'.")
 
@@ -64,4 +64,10 @@ class ReviewSession:
                 self._review_deck.pop(0)
         
         self._db.commit()
-        return grade, feedback, old_mastery_level 
+        # Refresh the card to get the latest state from database
+        self._db.refresh(card)
+        new_mastery_level = card.mastery_level
+        
+
+        
+        return grade, feedback, old_mastery_level, new_mastery_level 

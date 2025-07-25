@@ -84,46 +84,62 @@ We will create a home page that corresponds to the menu from `main_menu.py`.
     *   [x] Create a new `GET /` endpoint that will render the `main_menu.html` template.
     *   [x] Use `Request` from FastAPI and the `templates` object to return a `TemplateResponse`.
 2.  [x] In the `src/flash_zap/web/templates/` directory, create a `main_menu.html` file.
-3.  [x] Fill `main_menu.html` with a basic HTML structure and add two links (for now, they can point to `#`):
-    *   [x] "Browse all flashcards"
-    *   [x] "Start a review session"
+3.  [x] Fill `main_menu.html` with a basic HTML structure and add links to match the terminal menu:
+    *   [x] "Start a review session" → `/review`
+    *   [x] "Import Flashcards from JSON" → `/import`
+    *   [x] "Browse Cards" → `/browse`
 
-### [ ] Task 2.2: Implement the Flashcard Browsing View
+### [x] Task 2.2: Implement the Flashcard Browsing View
 
-We will create a page that displays a list of all flashcards, similar to `browse_view.py`.
+We will create a page that allows viewing and editing a single flashcard by ID, similar to `browse_view.py`.
 
-1.  [ ] **API Endpoint:**
-    *   [ ] In `src/flash_zap/web/`, create a new file `routes.py` next to `app.py` and import it into `app.py` using `app.include_router`.
-    *   [ ] In `routes.py`, create a `GET /cards` endpoint.
-    *   [ ] Inside this endpoint, use `card_manager.get_all_cards()` to fetch the flashcards from the database.
-    *   [ ] Pass the list of flashcards to the `browse_view.html` template and return a `TemplateResponse`.
-2.  [ ] **HTML Template:**
-    *   [ ] In the `src/flash_zap/web/templates/` directory, create a `browse_view.html` file.
-    *   [ ] Use a `for` loop in Jinja2 to iterate over the list of flashcards and display them in a table (or list), showing the `question` and `answer`.
+1.  [x] **API Endpoint:**
+    *   [x] In `src/flash_zap/web/`, create a new file `routes.py` next to `app.py` and import it into `app.py` using `app.include_router`.
+    *   [x] In `routes.py`, create a `GET /browse` endpoint that displays a form to enter a card ID.
+    *   [x] Create a `GET /browse/{card_id}` endpoint that fetches a single card using `card_manager.get_card_by_id()`.
+    *   [x] Create `POST /browse/{card_id}/edit` endpoints to handle editing card front, back, and mastery level using existing `card_manager` functions.
+2.  [x] **HTML Templates:**
+    *   [x] In the `src/flash_zap/web/templates/` directory, create a `browse_form.html` file with a form to enter card ID.
+    *   [x] Create a `browse_card.html` file that displays the card details and edit options, similar to the terminal interface.
 
-### [ ] Task 2.3: Implement the Review Session
+### [x] Task 2.3: Implement the Review Session
 
-This is the most complex part. We will implement the review session logic.
+This is the most complex part. We will implement the review session logic using a session-based approach.
 
-1.  [ ] **Endpoint to Start a Session:**
-    *   [ ] Create a `GET /review` endpoint that:
-        *   [ ] Uses `review_session.start_session()` to get the cards due for review.
-        *   [ ] If there are no cards, it displays an appropriate message.
-        *   [ ] If there are cards, it redirects the user to the first card's page, e.g., `GET /review/card/{card_id}`.
-2.  [ ] **Endpoint to Display a Single Card:**
-    *   [ ] Create a `GET /review/card/{card_id}` endpoint that:
-        *   [ ] Fetches the data for a specific card.
-        *   [ ] Renders the `review_card_view.html` template, passing the card's data to it (only the question!).
-3.  [ ] **Endpoint to Grade a Card:**
-    *   [ ] Create a `POST /review/card/{card_id}` endpoint that will accept the user's answer and grade.
-    *   [ ] Inside the endpoint:
-        *   [ ] Get the user's answer from the form.
-        *   [ ] Call `ai_grader.grade_answer()` (if used) or simply show the correct answer.
-        *   [ ] Call `srs_engine.update_card()` to update the card's review interval.
-        *   [ ] Find the ID of the next card in the session and redirect the user to `GET /review/card/{next_card_id}`. If it's the last card, redirect to a summary page.
-4.  [ ] **HTML Templates:**
-    *   [ ] Create `review_card_view.html`: it should contain a form with a field for the user's answer and grading buttons.
-    *   [ ] Create `review_summary.html`: a page displayed after the session is complete.
+1.  [x] **Session Management:**
+    *   [x] Create a `GET /review` endpoint that:
+        *   [x] Creates a new `ReviewSession` instance and stores it in the web session/memory.
+        *   [x] Gets the first card using `session.get_next_card()`.
+        *   [x] If there are no cards, displays the "no cards due" message.
+        *   [x] If there are cards, renders the `review_card.html` template with the card question.
+2.  [x] **Answer Processing:**
+    *   [x] Create a `POST /review` endpoint that:
+        *   [x] Retrieves the current review session from memory.
+        *   [x] Gets the user's answer from the form.
+        *   [x] Calls `session.grade_and_update_card()` to process the answer and update the card.
+        *   [x] Displays the grade and feedback.
+        *   [x] Gets the next card using `session.get_next_card()`.
+        *   [x] If there are more cards, renders the next card. If finished, redirects to summary.
+3.  [x] **Session Storage:**
+    *   [x] Use FastAPI's session middleware or a simple in-memory store to maintain the ReviewSession instance across requests.
+4.  [x] **HTML Templates:**
+    *   [x] Create `review_card.html`: displays the card question and answer form.
+    *   [x] Create `review_feedback.html`: shows grading results and "continue" button.
+    *   [x] Create `review_summary.html`: displayed when the session is complete.
+
+### [x] Task 2.4: Implement JSON Import
+
+We will create a web interface for importing flashcards from JSON files, matching the terminal functionality.
+
+1.  [x] **API Endpoints:**
+    *   [x] Create a `GET /import` endpoint that displays a file upload form.
+    *   [x] Create a `POST /import` endpoint that:
+        *   [x] Accepts the uploaded JSON file.
+        *   [x] Uses the existing `import_service.import_cards_from_json()` function.
+        *   [x] Displays success/error messages and returns to the main menu.
+2.  [x] **HTML Template:**
+    *   [x] Create `import_form.html`: displays a file upload form with instructions.
+    *   [x] Create `import_result.html`: shows import results (success/error messages) with a "back to menu" button.
 
 ---
 
@@ -131,21 +147,21 @@ This is the most complex part. We will implement the review session logic.
 
 Finally, we will ensure the application is coherent and remove unnecessary code.
 
-### [ ] Task 3.1: Interface Styling
+### [x] Task 3.1: Interface Styling
 
 Let's add a basic stylesheet to make the application look neat.
 
-1.  [ ] In `src/flash_zap/web/static/`, create a `style.css` file.
-2.  [ ] Add simple CSS rules to improve the appearance of tables, buttons, and the overall layout.
-3.  [ ] Make sure the `style.css` file is included in the `<head>` of every HTML template.
+1.  [x] In `src/flash_zap/web/static/`, create a `style.css` file.
+2.  [x] Add simple CSS rules to improve the appearance of tables, buttons, and the overall layout.
+3.  [x] Make sure the `style.css` file is included in the `<head>` of every HTML template.
 
-### [ ] Task 3.2: Refactoring and Removing Old Code
+### [x] Task 3.2: Refactoring and Removing Old Code
 
 Once the web interface is fully functional and tested, we can get rid of the old code.
 
-1.  [ ] Delete the entire `src/flash_zap/tui/` directory.
-2.  [ ] Review the `src/flash_zap/main.py` file and remove the code responsible for running the terminal interface. You can leave the file empty or delete it if it's no longer needed.
-3.  [ ] Remove any no-longer-used dependencies from `pyproject.toml` (if there were any specific to the TUI).
-4.  [ ] Update `README.md` to describe how to run the new web application (`python run_web.py`).
+1.  [x] Delete the entire `src/flash_zap/tui/` directory.
+2.  [x] Review the `src/flash_zap/main.py` file and remove the code responsible for running the terminal interface. You can leave the file empty or delete it if it's no longer needed.
+3.  [x] Remove any no-longer-used dependencies from `pyproject.toml` (if there were any specific to the TUI).
+4.  [x] Update `README.md` to describe how to run the new web application (`python run_web.py`).
 
 After completing these steps, the FlashZap application will have a fully functional, modern web interface. 

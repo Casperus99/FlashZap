@@ -15,5 +15,6 @@ def test_main_menu_renders_correctly(client: TestClient):
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     content = response.text
-    assert "Browse all flashcards" in content
+    assert "Browse Cards" in content
     assert "Start a review session" in content 
+    assert "Import Flashcards from JSON" in content 

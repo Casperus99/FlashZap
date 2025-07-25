@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashZap - Review Session</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Review Session</h1>
+        
+        {% if remaining_count %}
+            <div class="progress">Remaining: {{ remaining_count }}</div>
+        {% endif %}
+    
+    {% if error %}
+        <div class="error">
+            <p style="color: red;">{{ error }}</p>
+        </div>
+    {% endif %}
+    
+    <div class="card-question">
+        <h2>{{ card.front }}</h2>
+    </div>
+    
+    {% if show_feedback %}
+        <!-- Show feedback and continue button -->
+        <div class="feedback {% if grade == 'Correct' %}feedback-correct{% else %}feedback-incorrect{% endif %}">
+            <div class="user-answer">
+                <strong>Your answer:</strong> {{ user_answer }}
+            </div>
+            <h2>{{ grade }}</h2>
+            <p>{{ feedback }}</p>
+            <div class="mastery-level-change">
+                <strong>Mastery level:</strong> {{ old_mastery_level or 0 }} → {{ new_mastery_level or 0 }}
+            </div>
+        </div>
+        
+        <form method="post" action="/review">
+            <input type="hidden" name="action" value="continue">
+            <button type="submit" onkeydown="handleEnterKey(event)">Continue</button>
+        </form>
+    {% else %}
+        <!-- Show answer input -->
+        <form method="post" action="/review">
+            <input type="hidden" name="action" value="submit_answer">
+            <label for="user_answer">Your answer:</label><br>
+            <textarea id="user_answer" name="user_answer" rows="3" cols="50" required placeholder="Type your answer here..." onkeydown="handleEnterKey(event)"></textarea><br><br>
+            <button type="submit">Submit Answer</button>
+        </form>
+    {% endif %}
+    
+    <script>
+        function handleEnterKey(event) {
+            // Submit form when Enter is pressed (but not Shift+Enter for new lines in textarea)
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                event.target.form.submit();
+            }
+        }
+        
+        // Focus on the appropriate element when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.feedback')) {
+                // Focus on continue button when showing feedback
+                document.querySelector('button[type="submit"]').focus();
+            } else {
+                // Focus on textarea for answer input
+                var textarea = document.getElementById('user_answer');
+                if (textarea) {
+                    textarea.focus();
+                }
+            }
+        });
+    </script>
+    
+        <div class="actions">
+            <a href="/">Exit Review Session</a>
+        </div>
+    </div>
+</body>
+</html> 

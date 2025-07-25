@@ -7,7 +7,7 @@ alwaysApply: false
 
 For tests that interact with the database, it is crucial to isolate the tests from the actual database to ensure they are fast, reliable, and do not have side effects.
 
-## Strategy 1: In-Memory SQLite Database for Integration Tests
+## Strategy 1: In-Memory SQLite Database
 
 When you need to test the interaction between your code and a database (e.g., to verify that a commit to a session correctly persists data), you should use the `test_db_session` fixture. This fixture, defined in `tests/conftest.py`, provides a fresh, in-memory SQLite database for each test function.
 
