@@ -223,6 +223,17 @@ button[type="button"]:hover {
     border-radius: 3px;
 }
 
+/* Correct answer display */
+.correct-answer {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    padding: 8px;
+    background-color: rgba(40, 167, 69, 0.1); /* Light green background */
+    border-radius: 3px;
+    border-left: 3px solid #28a745; /* Green accent border */
+}
+
 /* Mastery level change display */
 .mastery-level-change {
     margin-top: 10px;

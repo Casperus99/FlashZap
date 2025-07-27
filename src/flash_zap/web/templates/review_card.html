@@ -30,6 +30,9 @@
             <div class="user-answer">
                 <strong>Your answer:</strong> {{ user_answer }}
             </div>
+            <div class="correct-answer">
+                <strong>Correct answer:</strong> {{ card.back }}
+            </div>
             <h2>{{ grade }}</h2>
             <p>{{ feedback }}</p>
             <div class="mastery-level-change">
@@ -43,11 +46,14 @@
         </form>
     {% else %}
         <!-- Show answer input -->
-        <form method="post" action="/review">
+        <form method="post" action="/review" id="answer-form">
             <input type="hidden" name="action" value="submit_answer">
             <label for="user_answer">Your answer:</label><br>
             <textarea id="user_answer" name="user_answer" rows="3" cols="50" required placeholder="Type your answer here..." onkeydown="handleEnterKey(event)"></textarea><br><br>
-            <button type="submit">Submit Answer</button>
+            <button type="submit" id="submit-btn">
+                <span class="btn-text">Submit Answer</span>
+                <span class="btn-spinner" style="display: none;">⏳ Processing...</span>
+            </button>
         </form>
     {% endif %}
     
@@ -56,23 +62,185 @@
             // Submit form when Enter is pressed (but not Shift+Enter for new lines in textarea)
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
-                event.target.form.submit();
+                
+                // Trigger the same loading state as button click
+                var textarea = document.getElementById('user_answer');
+                
+                if (textarea && textarea.value.trim() !== '') {
+                    showLoadingState();
+                    submitAnswer();
+                }
             }
         }
         
-        // Focus on the appropriate element when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        function showLoadingState() {
+            var submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+                var btnText = submitBtn.querySelector('.btn-text');
+                var btnSpinner = submitBtn.querySelector('.btn-spinner');
+                
+                if (btnText && btnSpinner) {
+                    btnText.style.display = 'none';
+                    btnSpinner.style.display = 'inline';
+                    submitBtn.disabled = true;
+                }
+            }
+        }
+        
+        function submitAnswer() {
+            var textarea = document.getElementById('user_answer');
+            if (!textarea || textarea.value.trim() === '') {
+                return;
+            }
+            
+            // Create form data
+            var formData = new FormData();
+            formData.append('action', 'submit_answer');
+            formData.append('user_answer', textarea.value);
+            
+            // Submit via fetch to avoid browser loading indicator
+            fetch('/review', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'  // Include cookies for session
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Parse the response to extract just the container content
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var newContainer = doc.querySelector('.container');
+                
+                if (newContainer) {
+                    // Replace only the container content
+                    var currentContainer = document.querySelector('.container');
+                    if (currentContainer) {
+                        currentContainer.innerHTML = newContainer.innerHTML;
+                        // Re-run the initialization logic for the new content
+                        initializePage();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to normal form submission if AJAX fails
+                document.getElementById('answer-form').submit();
+            });
+        }
+        
+        function handleContinueEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                submitContinue();
+            }
+        }
+        
+        function submitContinue() {
+            var formData = new FormData();
+            formData.append('action', 'continue');
+            
+            fetch('/review', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'  // Include cookies for session
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Parse the response to extract just the container content
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var newContainer = doc.querySelector('.container');
+                
+                if (newContainer) {
+                    // Replace only the container content
+                    var currentContainer = document.querySelector('.container');
+                    if (currentContainer) {
+                        currentContainer.innerHTML = newContainer.innerHTML;
+                        // Re-run the initialization logic for the new content
+                        initializePage();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to normal form submission if AJAX fails
+                var continueForm = document.querySelector('form[action="/review"]');
+                if (continueForm) {
+                    continueForm.submit();
+                }
+            });
+        }
+        
+        // Store references to event handlers for cleanup
+        var currentFormHandler = null;
+        var currentContinueHandler = null;
+        
+        function cleanupEventListeners() {
+            // Remove existing form handler
+            var answerForm = document.getElementById('answer-form');
+            if (answerForm && currentFormHandler) {
+                answerForm.removeEventListener('submit', currentFormHandler);
+            }
+            
+            // Remove existing continue handler
+            var continueForm = document.querySelector('form[action="/review"]');
+            if (continueForm && currentContinueHandler) {
+                continueForm.removeEventListener('submit', currentContinueHandler);
+            }
+            
+            // Remove global keydown listener
+            document.removeEventListener('keydown', handleContinueEnter);
+        }
+        
+        function initializePage() {
+            // Clean up any existing listeners first
+            cleanupEventListeners();
+            
             if (document.querySelector('.feedback')) {
                 // Focus on continue button when showing feedback
-                document.querySelector('button[type="submit"]').focus();
+                var continueButton = document.querySelector('button[type="submit"]');
+                if (continueButton) {
+                    continueButton.focus();
+                    
+                    // Add AJAX submission to continue form
+                    var continueForm = continueButton.closest('form');
+                    if (continueForm) {
+                        currentContinueHandler = function(event) {
+                            event.preventDefault();
+                            submitContinue();
+                        };
+                        continueForm.addEventListener('submit', currentContinueHandler);
+                    }
+                }
+                
+                // Add Enter key listener for continue action
+                document.addEventListener('keydown', handleContinueEnter);
             } else {
                 // Focus on textarea for answer input
                 var textarea = document.getElementById('user_answer');
                 if (textarea) {
                     textarea.focus();
                 }
+                
+                // Add AJAX submission to answer form
+                var answerForm = document.getElementById('answer-form');
+                if (answerForm) {
+                    currentFormHandler = function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                        var textarea = document.getElementById('user_answer');
+                        
+                        if (textarea && textarea.value.trim() !== '') {
+                            showLoadingState();
+                            submitAnswer();
+                        }
+                    };
+                    answerForm.addEventListener('submit', currentFormHandler);
+                }
             }
-        });
+        }
+        
+        // Initialize page on load
+        document.addEventListener('DOMContentLoaded', initializePage);
     </script>
     
         <div class="actions">
