@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashZap - Add new flashcards</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add new flashcards</h1>
+        
+        {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+        
+        {% if show_imported_form %}
+            <!-- Imported cards editing section -->
+            <div class="imported-cards-section">
+                <h2>Edit imported cards</h2>
+                <p>Review and edit the imported cards before saving:</p>
+                <form id="imported-cards-form" method="post" action="/add-cards">
+                    {% for card in imported_cards %}
+                    <div class="card-pair" id="imported-card-{{ loop.index0 }}">
+                        <div class="form-group">
+                            <label for="front_{{ loop.index0 }}">Front (Question):</label>
+                            <input type="text" name="front_{{ loop.index0 }}" id="front_{{ loop.index0 }}" value="{{ card.front }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="back_{{ loop.index0 }}">Back (Answer):</label>
+                            <textarea name="back_{{ loop.index0 }}" id="back_{{ loop.index0 }}" rows="3" required>{{ card.back }}</textarea>
+                        </div>
+                        <button type="button" class="remove-card-btn" onclick="removeImportedCard({{ loop.index0 }})">Remove</button>
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit">Save All Cards</button>
+                    <a href="/add-cards">Cancel and Start Over</a>
+                </form>
+            </div>
+        {% else %}
+            <!-- Manual card entry section -->
+            <div class="manual-entry-section">
+                <h2>Create cards manually</h2>
+                <form id="manual-cards-form" method="post" action="/add-cards">
+                    <div class="card-pair" id="card-pair-0">
+                        <div class="form-group">
+                            <label for="front_0">Front (Question):</label>
+                            <input type="text" name="front_0" id="front_0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="back_0">Back (Answer):</label>
+                            <textarea name="back_0" id="back_0" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="add-more-cards">+ Add another card</button>
+                    <button type="submit">Create Cards</button>
+                </form>
+            </div>
+            
+            <!-- JSON import section -->
+            <div class="json-import-section">
+                <h2>Import from JSON file</h2>
+                <form method="post" action="/add-cards" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="json_file">Choose JSON file:</label>
+                        <input type="file" name="json_file" id="json_file" accept=".json,application/json">
+                    </div>
+                    <button type="submit">Import and Edit</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="/">Back to Main Menu</a>
+        </div>
+    </div>
+
+    <script>
+        let cardCount = 1;
+
+        function addCardPair() {
+            const cardContainer = document.querySelector('#manual-cards-form');
+            const addButton = document.getElementById('add-more-cards');
+            
+            // Create new card pair div
+            const cardPairDiv = document.createElement('div');
+            cardPairDiv.className = 'card-pair';
+            cardPairDiv.id = `card-pair-${cardCount}`;
+            
+            cardPairDiv.innerHTML = `
+                <div class="form-group">
+                    <label for="front_${cardCount}">Front (Question):</label>
+                    <input type="text" name="front_${cardCount}" id="front_${cardCount}" required>
+                </div>
+                <div class="form-group">
+                    <label for="back_${cardCount}">Back (Answer):</label>
+                    <textarea name="back_${cardCount}" id="back_${cardCount}" rows="3" required></textarea>
+                </div>
+                <button type="button" class="remove-card-btn" onclick="removeCardPair(${cardCount})">Remove</button>
+            `;
+            
+            // Insert before the add button
+            cardContainer.insertBefore(cardPairDiv, addButton);
+            cardCount++;
+            
+            // Focus on the new front input
+            document.getElementById(`front_${cardCount-1}`).focus();
+        }
+        
+        function removeCardPair(cardIndex) {
+            const cardPair = document.getElementById(`card-pair-${cardIndex}`);
+            if (cardPair) {
+                cardPair.remove();
+            }
+        }
+        
+        function removeImportedCard(cardIndex) {
+            const cardPair = document.getElementById(`imported-card-${cardIndex}`);
+            if (cardPair) {
+                cardPair.remove();
+            }
+        }
+        
+        // Attach event listener to the add button
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-more-cards').addEventListener('click', addCardPair);
+        });
+    </script>
+</body>
+</html> 

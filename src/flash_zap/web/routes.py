@@ -187,6 +187,112 @@ async def process_review_answer(request: Request, user_answer: str = Form(None),
             )
 
 
+@router.get("/add-cards", response_class=HTMLResponse)
+async def add_cards_form(request: Request):
+    """Display comprehensive form for adding flashcards."""
+    return templates.TemplateResponse(request=request, name="add_cards.html")
+
+
+@router.post("/add-cards")
+async def process_add_cards(request: Request):
+    """Process card addition (manual or JSON import)."""
+    from flash_zap.models.card import Card
+    
+    db_session = SessionLocal()
+    try:
+        # Get form data and files
+        form = await request.form()
+        
+        # Check if this is a file upload (JSON import)
+        if "json_file" in form and form["json_file"].filename:
+            # Handle JSON import
+            json_file = form["json_file"]
+            
+            try:
+                # Read and parse JSON content
+                content = await json_file.read()
+                import json
+                cards_data = json.loads(content.decode('utf-8'))
+                
+                # Validate JSON structure
+                if not isinstance(cards_data, list):
+                    raise ValueError("JSON must be a list of card objects")
+                
+                for card in cards_data:
+                    if not isinstance(card, dict) or "front" not in card or "back" not in card:
+                        raise ValueError("Each card must have 'front' and 'back' fields")
+                
+                # Return template with imported cards as editable forms
+                return templates.TemplateResponse(
+                    request=request,
+                    name="add_cards.html",
+                    context={
+                        "imported_cards": cards_data,
+                        "show_imported_form": True
+                    }
+                )
+                
+            except json.JSONDecodeError:
+                return templates.TemplateResponse(
+                    request=request,
+                    name="add_cards.html",
+                    context={"error": "Invalid JSON file format"}
+                )
+            except ValueError as e:
+                return templates.TemplateResponse(
+                    request=request,
+                    name="add_cards.html",
+                    context={"error": str(e)}
+                )
+        else:
+            # Handle manual card creation
+            # Extract card pairs from form data
+            cards_to_create = []
+            i = 0
+            while f"front_{i}" in form and f"back_{i}" in form:
+                front = form[f"front_{i}"].strip()
+                back = form[f"back_{i}"].strip()
+                
+                # Skip empty pairs
+                if front and back:
+                    cards_to_create.append({"front": front, "back": back})
+                i += 1
+            
+            # Validate we have at least one card
+            if not cards_to_create:
+                # Return to form with error
+                return templates.TemplateResponse(
+                    request=request,
+                    name="add_cards.html",
+                    context={"error": "Please fill in at least one complete card pair."}
+                )
+            
+            # Create cards in database
+            for card_data in cards_to_create:
+                new_card = Card(
+                    front=card_data["front"],
+                    back=card_data["back"],
+                    mastery_level=0
+                )
+                db_session.add(new_card)
+            
+            db_session.commit()
+            
+            # Redirect to success page
+            return RedirectResponse(url="/", status_code=302)
+    
+    except Exception as e:
+        logging.error(f"Error in process_add_cards: {e}", exc_info=True)
+        db_session.rollback()
+        return templates.TemplateResponse(
+            request=request,
+            name="add_cards.html",
+            context={"error": f"An error occurred: {str(e)}"}
+        )
+    finally:
+        db_session.close()
+
+
 @router.get("/import", response_class=HTMLResponse)
 async def import_form(request: Request):
     """Display form for JSON file upload."""

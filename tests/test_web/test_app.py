@@ -17,4 +17,4 @@ def test_main_menu_renders_correctly(client: TestClient):
     content = response.text
     assert "Browse Cards" in content
     assert "Start a review session" in content 
-    assert "Import Flashcards from JSON" in content 
+    assert "Add new flashcards" in content 

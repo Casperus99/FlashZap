@@ -318,6 +318,78 @@ button[type="button"]:hover {
     border-left: 4px solid #27ae60;
 }
 
+/* Add cards specific styles */
+.manual-entry-section,
+.json-import-section,
+.imported-cards-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+.imported-cards-section {
+    background-color: #e8f5e8;
+    border-left: 4px solid #27ae60;
+}
+
+.imported-cards-section h2 {
+    color: #27ae60;
+    margin-bottom: 10px;
+}
+
+.imported-cards-section p {
+    color: #5a6c7d;
+    margin-bottom: 20px;
+}
+
+.card-pair {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 2px solid #e9ecef;
+    position: relative;
+}
+
+.card-pair .form-group {
+    margin-bottom: 15px;
+}
+
+.remove-card-btn {
+    background-color: #ffb3ba; /* More noticeable pastel red background */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #ff9aa2; /* Red border */
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.remove-card-btn:hover {
+    background-color: #ff9ca3; /* Darker pastel red on hover */
+    border-color: #ff8a93;
+}
+
+#add-more-cards {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+#add-more-cards:hover {
+    background-color: #138496;
+}
+
 /* Responsive design */
 @media (max-width: 600px) {
     body {
