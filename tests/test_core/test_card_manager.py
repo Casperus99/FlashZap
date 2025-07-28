@@ -130,4 +130,45 @@ def test_update_card_mastery_level_fail_on_increase(test_db_session):
     # THEN
     assert success is False
     assert updated_card.mastery_level == 3
-    assert card.mastery_level == 3 
+    assert card.mastery_level == 3
+
+
+def test_delete_card_removes_from_database(test_db_session):
+    """
+    GIVEN: A card exists in the database.
+    WHEN: delete_card is called with the card ID.
+    THEN: The card should be removed from the database.
+    """
+    # GIVEN
+    from flash_zap.core.card_manager import delete_card
+    session = test_db_session
+    card = Card(front="Test Question", back="Test Answer", mastery_level=1)
+    session.add(card)
+    session.commit()
+    card_id = card.id
+
+    # WHEN
+    result = delete_card(session, card_id)
+
+    # THEN
+    assert result is True
+    deleted_card = session.query(Card).filter_by(id=card_id).first()
+    assert deleted_card is None
+
+
+def test_delete_card_nonexistent_returns_false(test_db_session):
+    """
+    GIVEN: A non-existent card ID.
+    WHEN: delete_card is called with the card ID.
+    THEN: The function should return False.
+    """
+    # GIVEN
+    from flash_zap.core.card_manager import delete_card
+    session = test_db_session
+    nonexistent_card_id = 999
+
+    # WHEN
+    result = delete_card(session, nonexistent_card_id)
+
+    # THEN
+    assert result is False 

@@ -56,6 +56,16 @@
                 <p><a href="#" onclick="showEditFront()">1. Edit front</a></p>
                 <p><a href="#" onclick="showEditBack()">2. Edit back</a></p>
                 <p><a href="#" onclick="showEditMastery()">3. Lower mastery level</a></p>
+                <p><a href="#" onclick="showRemoveCard()" style="color: red; font-weight: bold;">4. Remove card</a></p>
+            </div>
+            
+            <div id="remove-card-form" style="display: none;">
+                <h3 style="color: red;">Remove Card</h3>
+                <p><strong>Warning:</strong> This action cannot be undone. Are you sure you want to permanently delete this card?</p>
+                <form method="post" action="/browse/{{ card.id }}/remove">
+                    <button type="submit" name="confirm" value="yes" style="background-color: #e74c3c; margin-right: 10px;">Yes, Delete Card</button>
+                    <button type="button" onclick="hideEditForms()" style="background-color: #95a5a6;">Cancel</button>
+                </form>
             </div>
         </div>
         
@@ -78,10 +88,17 @@
                 document.getElementById('edit-menu').style.display = 'none';
             }
             
+            function showRemoveCard() {
+                hideEditForms();
+                document.getElementById('remove-card-form').style.display = 'block';
+                document.getElementById('edit-menu').style.display = 'none';
+            }
+            
             function hideEditForms() {
                 document.getElementById('edit-front-form').style.display = 'none';
                 document.getElementById('edit-back-form').style.display = 'none';
                 document.getElementById('edit-mastery-form').style.display = 'none';
+                document.getElementById('remove-card-form').style.display = 'none';
                 document.getElementById('edit-menu').style.display = 'block';
             }
         </script>

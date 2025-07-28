@@ -38,4 +38,17 @@ def update_card_mastery(session, card_id, new_mastery_level):
             return card, True
         else:
             return card, False
-    return None, False 
+    return None, False
+
+
+def delete_card(session, card_id):
+    """
+    Deletes a card from the database by its ID.
+    Returns True if the card was successfully deleted, False otherwise.
+    """
+    card = get_card_by_id(session, card_id)
+    if card:
+        session.delete(card)
+        session.commit()
+        return True
+    return False 

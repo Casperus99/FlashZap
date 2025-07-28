@@ -73,6 +73,21 @@ async def edit_card_mastery(card_id: int, new_mastery_level: int = Form(...)):
         db_session.close()
 
 
+@router.post("/browse/{card_id}/remove")
+async def remove_card(card_id: int, confirm: str = Form(None)):
+    """Remove a card after confirmation."""
+    db_session = SessionLocal()
+    try:
+        if confirm == "yes":
+            card_manager.delete_card(db_session, card_id)
+            return RedirectResponse(url="/browse", status_code=302)
+        else:
+            # No confirmation, redirect back to card
+            return RedirectResponse(url=f"/browse/{card_id}", status_code=302)
+    finally:
+        db_session.close()
+
+
 @router.get("/review", response_class=HTMLResponse)
 async def start_review_session(request: Request):
     """Start or continue a review session."""
