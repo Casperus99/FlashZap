@@ -175,6 +175,9 @@ def test_grade_and_update_card_calls_srs_engine(
     mock_srs_engine_instance = mock_srs_engine_cls.return_value
     session = ReviewSession(test_db_session)
     card = Card(front="Q", back="A")
+    # Add card to database session so it can be refreshed
+    test_db_session.add(card)
+    test_db_session.commit()
     user_answer = "A"
     # The card must be in the review deck to be processed
     session._review_deck = [card]
