@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     CLOUD_DB_USER: str
     CLOUD_DB_PASSWORD: str
 
+    # SRS settings
+    SRS_LEARNING_RATE: float = 0.1
+
     # AI settings
     GEMINI_API_KEY: str = "YOUR_API_KEY_HERE"
     AI_GRADER_MODEL_NAME: str = "gemini-2.5-flash-lite-preview-06-17"
