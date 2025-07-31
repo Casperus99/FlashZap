@@ -6,6 +6,14 @@ from fastapi.responses import HTMLResponse
 # Initialize the FastAPI application
 app = FastAPI(title="FlashZap")
 
+# Setup logging on app startup
+@app.on_event("startup")
+async def startup_event():
+    from flash_zap.logger import setup_logging
+    import logging
+    setup_logging()
+    logging.info("FastAPI application started - logging is configured and working!")
+
 # Configure the path to static files (CSS, JS)
 app.mount("/static", StaticFiles(directory="src/flash_zap/web/static"), name="static")
 
@@ -18,4 +26,6 @@ app.include_router(router)
 
 @app.get("/", response_class=HTMLResponse)
 async def main_menu(request: Request):
+    import logging
+    logging.info("Main menu accessed")
     return templates.TemplateResponse(request=request, name="main_menu.html") 

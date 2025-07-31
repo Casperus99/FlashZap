@@ -8,14 +8,20 @@ def setup_logging():
     """
     log_level = settings.logging.log_level.upper()
     log_format = settings.logging.log_format
-    log_file = settings.logging.log_file
+
+    # Create console handler only
+    console_handler = logging.StreamHandler(sys.stdout)
+    
+    # Set format for console handler
+    formatter = logging.Formatter(log_format)
+    console_handler.setFormatter(formatter)
 
     # Basic configuration
     logging.basicConfig(
         level=log_level,
         format=log_format,
         handlers=[
-            logging.FileHandler(log_file, mode='w', encoding='utf-8'),
+            console_handler,
         ]
     )
 
