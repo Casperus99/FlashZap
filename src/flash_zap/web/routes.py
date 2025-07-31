@@ -20,15 +20,50 @@ active_sessions = {}
 
 
 @router.get("/browse", response_class=HTMLResponse)
-async def browse_form(request: Request):
-    """Display form to enter card ID for browsing."""
-    return templates.TemplateResponse(request=request, name="browse_form.html")
+async def browse_redirect(request: Request):
+    """Redirect to the browse list view."""
+    return RedirectResponse(url="/browse/list", status_code=302)
+
+
+@router.get("/browse/list", response_class=HTMLResponse)
+async def browse_list(request: Request, page: int = 1):
+    """Display paginated list of all cards."""
+    logging.info(f"Browsing cards list - page {page}")
+    
+    db_session = SessionLocal()
+    try:
+        cards, total_count, current_page, total_pages = card_manager.get_all_cards_paginated(
+            db_session, page, per_page=30
+        )
+        
+        logging.info(f"Retrieved {len(cards)} cards for page {page} of {total_pages}")
+        
+        # Calculate pagination display
+        page_range = _calculate_page_range(current_page, total_pages)
+        
+        return templates.TemplateResponse(
+            request=request,
+            name="browse_cards_list.html",
+            context={
+                "cards": cards,
+                "total_count": total_count,
+                "current_page": current_page,
+                "total_pages": total_pages,
+                "has_previous": current_page > 1,
+                "has_next": current_page < total_pages,
+                "previous_page": current_page - 1 if current_page > 1 else None,
+                "next_page": current_page + 1 if current_page < total_pages else None,
+                "page_range": page_range,
+            }
+        )
+    finally:
+        db_session.close()
 
 
 @router.get("/browse/{card_id}", response_class=HTMLResponse)
-async def browse_card(request: Request, card_id: int):
+async def browse_card(request: Request, card_id: int, from_page: int = 1):
     """Display a single card by ID with edit options."""
-    logging.info(f"Browsing card ID {card_id}")
+    logging.info(f"Browsing card ID {card_id} (from page {from_page})")
     
     db_session = SessionLocal()
     try:
@@ -40,14 +75,14 @@ async def browse_card(request: Request, card_id: int):
         return templates.TemplateResponse(
             request=request, 
             name="browse_card.html", 
-            context={"card": card}
+            context={"card": card, "from_page": from_page}
         )
     finally:
         db_session.close()
 
 
 @router.post("/browse/{card_id}/edit-front")
-async def edit_card_front(card_id: int, new_front: str = Form(...)):
+async def edit_card_front(card_id: int, new_front: str = Form(...), from_page: int = 1):
     """Update the front of a card."""
     logging.info(f"Updating front text for card ID {card_id}")
     
@@ -55,7 +90,7 @@ async def edit_card_front(card_id: int, new_front: str = Form(...)):
     try:
         card_manager.update_card_front(db_session, card_id, new_front)
         logging.info(f"Successfully updated front text for card ID {card_id}")
-        return RedirectResponse(url=f"/browse/{card_id}", status_code=302)
+        return RedirectResponse(url=f"/browse/{card_id}?from_page={from_page}", status_code=302)
     except Exception as e:
         logging.error(f"Error updating front text for card ID {card_id}: {e}", exc_info=True)
         raise
@@ -64,7 +99,7 @@ async def edit_card_front(card_id: int, new_front: str = Form(...)):
 
 
 @router.post("/browse/{card_id}/edit-back")
-async def edit_card_back(card_id: int, new_back: str = Form(...)):
+async def edit_card_back(card_id: int, new_back: str = Form(...), from_page: int = 1):
     """Update the back of a card."""
     logging.info(f"Updating back text for card ID {card_id}")
     
@@ -72,7 +107,7 @@ async def edit_card_back(card_id: int, new_back: str = Form(...)):
     try:
         card_manager.update_card_back(db_session, card_id, new_back)
         logging.info(f"Successfully updated back text for card ID {card_id}")
-        return RedirectResponse(url=f"/browse/{card_id}", status_code=302)
+        return RedirectResponse(url=f"/browse/{card_id}?from_page={from_page}", status_code=302)
     except Exception as e:
         logging.error(f"Error updating back text for card ID {card_id}: {e}", exc_info=True)
         raise
@@ -81,7 +116,7 @@ async def edit_card_back(card_id: int, new_back: str = Form(...)):
 
 
 @router.post("/browse/{card_id}/edit-mastery")
-async def edit_card_mastery(card_id: int, new_mastery_level: int = Form(...)):
+async def edit_card_mastery(card_id: int, new_mastery_level: int = Form(...), from_page: int = 1):
     """Update the mastery level of a card."""
     logging.info(f"Updating mastery level for card ID {card_id} to level {new_mastery_level}")
     
@@ -89,7 +124,7 @@ async def edit_card_mastery(card_id: int, new_mastery_level: int = Form(...)):
     try:
         card_manager.update_card_mastery(db_session, card_id, new_mastery_level)
         logging.info(f"Successfully updated mastery level for card ID {card_id} to level {new_mastery_level}")
-        return RedirectResponse(url=f"/browse/{card_id}", status_code=302)
+        return RedirectResponse(url=f"/browse/{card_id}?from_page={from_page}", status_code=302)
     except Exception as e:
         logging.error(f"Error updating mastery level for card ID {card_id}: {e}", exc_info=True)
         raise
@@ -98,7 +133,7 @@ async def edit_card_mastery(card_id: int, new_mastery_level: int = Form(...)):
 
 
 @router.post("/browse/{card_id}/remove")
-async def remove_card(card_id: int, confirm: str = Form(None)):
+async def remove_card(card_id: int, confirm: str = Form(None), from_page: int = 1):
     """Remove a card after confirmation."""
     logging.info(f"Card removal requested for card ID {card_id} with confirmation: {confirm}")
     
@@ -107,11 +142,11 @@ async def remove_card(card_id: int, confirm: str = Form(None)):
         if confirm == "yes":
             card_manager.delete_card(db_session, card_id)
             logging.info(f"Successfully deleted card ID {card_id}")
-            return RedirectResponse(url="/browse", status_code=302)
+            return RedirectResponse(url=f"/browse/list?page={from_page}", status_code=302)
         else:
             # No confirmation, redirect back to card
             logging.info(f"Card removal cancelled for card ID {card_id} - no confirmation")
-            return RedirectResponse(url=f"/browse/{card_id}", status_code=302)
+            return RedirectResponse(url=f"/browse/{card_id}?from_page={from_page}", status_code=302)
     except Exception as e:
         logging.error(f"Error deleting card ID {card_id}: {e}", exc_info=True)
         raise
@@ -413,3 +448,56 @@ async def process_import(request: Request, file: UploadFile = File(...)):
                 os.unlink(temp_path)
     finally:
         db_session.close() 
+
+
+def _calculate_page_range(current_page: int, total_pages: int, window_size: int = 2):
+    """
+    Calculate which page numbers to display in pagination.
+    
+    Args:
+        current_page: The current page number
+        total_pages: Total number of pages
+        window_size: Number of pages to show on each side of current page
+        
+    Returns:
+        dict: Contains page ranges and ellipsis information
+    """
+    if total_pages <= 1:
+        return {
+            "show_first": False,
+            "show_first_ellipsis": False,
+            "page_numbers": [],
+            "show_last_ellipsis": False,
+            "show_last": False
+        }
+    
+    # Always show first and last page
+    show_first = current_page > window_size + 2
+    show_last = current_page < total_pages - window_size - 1
+    
+    # Calculate the range around current page
+    start = max(1, current_page - window_size)
+    end = min(total_pages, current_page + window_size)
+    
+    # Adjust if we're near the beginning or end
+    if not show_first:
+        start = 1
+        end = min(total_pages, max(end, window_size * 2 + 1))
+    
+    if not show_last:
+        end = total_pages
+        start = max(1, min(start, total_pages - window_size * 2))
+    
+    page_numbers = list(range(start, end + 1))
+    
+    # Determine if we need ellipsis
+    show_first_ellipsis = show_first and start > 2
+    show_last_ellipsis = show_last and end < total_pages - 1
+    
+    return {
+        "show_first": show_first,
+        "show_first_ellipsis": show_first_ellipsis,
+        "page_numbers": page_numbers,
+        "show_last_ellipsis": show_last_ellipsis,
+        "show_last": show_last
+    } 

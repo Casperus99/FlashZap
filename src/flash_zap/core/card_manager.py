@@ -52,3 +52,30 @@ def delete_card(session, card_id):
         session.commit()
         return True
     return False 
+
+
+def get_all_cards_paginated(session, page=1, per_page=30):
+    """
+    Retrieves cards from the database with pagination.
+    
+    Args:
+        session: Database session
+        page: Page number (1-based)
+        per_page: Number of cards per page
+        
+    Returns:
+        tuple: (cards, total_count, current_page, total_pages)
+    """
+    # Calculate offset
+    offset = (page - 1) * per_page
+    
+    # Get total count
+    total_count = session.query(Card).count()
+    
+    # Calculate total pages
+    total_pages = (total_count + per_page - 1) // per_page  # Ceiling division
+    
+    # Get cards for current page
+    cards = session.query(Card).offset(offset).limit(per_page).all()
+    
+    return cards, total_count, page, total_pages 

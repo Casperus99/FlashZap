@@ -24,7 +24,7 @@
             
             <div id="edit-front-form" style="display: none;">
                 <h3>Edit Front</h3>
-                <form method="post" action="/browse/{{ card.id }}/edit-front">
+                <form method="post" action="/browse/{{ card.id }}/edit-front?from_page={{ from_page }}">
                     <label for="new_front">Current front: {{ card.front }}</label><br>
                     <input type="text" id="new_front" name="new_front" value="{{ card.front }}" required style="width: 100%; margin: 5px 0;">
                     <button type="submit">Update Front</button>
@@ -34,7 +34,7 @@
             
             <div id="edit-back-form" style="display: none;">
                 <h3>Edit Back</h3>
-                <form method="post" action="/browse/{{ card.id }}/edit-back">
+                <form method="post" action="/browse/{{ card.id }}/edit-back?from_page={{ from_page }}">
                     <label for="new_back">Current back: {{ card.back }}</label><br>
                     <input type="text" id="new_back" name="new_back" value="{{ card.back }}" required style="width: 100%; margin: 5px 0;">
                     <button type="submit">Update Back</button>
@@ -44,7 +44,7 @@
             
             <div id="edit-mastery-form" style="display: none;">
                 <h3>Lower Mastery Level</h3>
-                <form method="post" action="/browse/{{ card.id }}/edit-mastery">
+                <form method="post" action="/browse/{{ card.id }}/edit-mastery?from_page={{ from_page }}">
                     <label for="new_mastery_level">Current mastery level: {{ card.mastery_level }}</label><br>
                     <input type="number" id="new_mastery_level" name="new_mastery_level" value="{{ card.mastery_level }}" required style="margin: 5px 0;">
                     <button type="submit">Update Mastery Level</button>
@@ -62,7 +62,7 @@
             <div id="remove-card-form" style="display: none;">
                 <h3 style="color: red;">Remove Card</h3>
                 <p><strong>Warning:</strong> This action cannot be undone. Are you sure you want to permanently delete this card?</p>
-                <form method="post" action="/browse/{{ card.id }}/remove">
+                <form method="post" action="/browse/{{ card.id }}/remove?from_page={{ from_page }}">
                     <button type="submit" name="confirm" value="yes" style="background-color: #e74c3c; margin-right: 10px;">Yes, Delete Card</button>
                     <button type="button" onclick="hideEditForms()" style="background-color: #95a5a6;">Cancel</button>
                 </form>
@@ -107,7 +107,7 @@
     {% endif %}
     
         <div class="actions">
-            <a href="/browse">Back to Browse</a> | 
+            <a href="/browse/list?page={{ from_page }}">Back to Browse List</a> | 
             <a href="/">Back to Main Menu</a>
         </div>
     </div>
